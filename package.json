@@ -22,8 +22,8 @@
   },
   "dependencies": {
     "@astrojs/preact": "^4.1.1",
-    "@astrojs/vercel": "^8.2.11",
-    "@preact/signals": "^2.3.2",
+    "@astrojs/sitemap": "^3.6.0",
+    "@polar-sh/astro": "^0.4.9",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
     "astro": "^5.15.0",
@@ -32,7 +32,8 @@
     "preact": "^10.27.2",
     "rss-to-json": "^2.1.1",
     "schema-dts": "^1.1.5",
-    "valibot": "^1.1.0"
+    "valibot": "^1.1.0",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.5",
