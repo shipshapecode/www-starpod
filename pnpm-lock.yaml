@@ -8,9 +8,15 @@ importers:
 
   .:
     dependencies:
+      '@astrojs/db':
+        specifier: ^0.18.1
+        version: 0.18.1
       '@astrojs/preact':
         specifier: ^4.1.1
         version: 4.1.1(@babel/core@7.28.4)(@types/node@24.9.1)(jiti@2.6.1)(lightningcss@1.30.2)(preact@10.27.2)(yaml@2.8.1)
+      '@astrojs/sitemap':
+        specifier: ^3.6.0
+        version: 3.6.0
       '@astrojs/vercel':
         specifier: ^8.2.11
         version: 8.2.11(astro@5.15.0(@types/node@24.9.1)(@vercel/functions@2.2.13)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.52.5)(typescript@5.9.3)(yaml@2.8.1))(react@19.0.0)(rollup@4.52.5)
@@ -54,12 +60,6 @@ importers:
       '@astrojs/check':
         specifier: ^0.9.5
         version: 0.9.5(prettier-plugin-astro@0.14.1)(prettier@3.6.2)(typescript@5.9.3)
-      '@astrojs/db':
-        specifier: ^0.18.1
-        version: 0.18.1
-      '@astrojs/sitemap':
-        specifier: ^3.6.0
-        version: 3.6.0
       '@eslint/js':
         specifier: ^9.38.0
         version: 9.38.0
