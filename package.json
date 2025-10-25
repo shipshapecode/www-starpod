@@ -21,7 +21,9 @@
     "test:unit": "vitest"
   },
   "dependencies": {
+    "@astrojs/db": "^0.18.1",
     "@astrojs/preact": "^4.1.1",
+    "@astrojs/sitemap": "^3.6.0",
     "@astrojs/vercel": "^8.2.11",
     "@polar-sh/astro": "^0.4.9",
     "@preact/signals": "^2.3.2",
@@ -38,8 +40,6 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.5",
-    "@astrojs/db": "^0.18.1",
-    "@astrojs/sitemap": "^3.6.0",
     "@eslint/js": "^9.38.0",
     "@playwright/test": "^1.56.1",
     "@tailwindcss/forms": "^0.5.10",
