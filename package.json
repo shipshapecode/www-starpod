@@ -23,6 +23,7 @@
   "dependencies": {
     "@astrojs/preact": "^4.1.3",
     "@astrojs/vercel": "^9.0.3",
+    "@polar-sh/astro": "^0.4.9",
     "@preact/signals": "^2.3.2",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
@@ -32,7 +33,8 @@
     "preact": "^10.27.2",
     "rss-to-json": "^2.1.1",
     "schema-dts": "^1.1.5",
-    "valibot": "^1.1.0"
+    "valibot": "^1.1.0",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.6",
