@@ -78,14 +78,17 @@ const countries = [
       </figure>
     </div>
 
-    <script>
+    <script lang="ts">
       const animationDuration = 2000;
+      /** @param {number} x */
       const easeOutQuart = (x) => 1 - Math.pow(1 - x, 4);
 
+      /** @param {HTMLElement} el */
       const animate = (el) => {
         const target = parseInt(el.getAttribute('data-count-up-target') || '0', 10);
         const startTime = performance.now();
 
+        /** @param {number} currentTime */
         const update = (currentTime) => {
           const elapsed = currentTime - startTime;
           const progress = Math.min(elapsed / animationDuration, 1);
@@ -187,6 +190,7 @@ const countries = [
         ]}
         heading="The Distiller's Cut"
         price="$700-1k"
+        productId=""
       />
       <AdPackageCard
         bullets={[
@@ -195,6 +199,7 @@ const countries = [
         ]}
         heading="The Product/Bottle Drop"
         price="$250"
+        productId=""
       />
       <AdPackageCard
         bullets={[
@@ -204,6 +209,7 @@ const countries = [
         ]}
         heading="The Label"
         price="$250"
+        productId=""
       />
       <AdPackageCard
         bullets={[
@@ -213,6 +219,7 @@ const countries = [
         ]}
         heading="The Crate (full month)"
         price="$2.4k"
+        productId=""
       />
       <AdPackageCard
         bullets={[
@@ -224,6 +231,7 @@ const countries = [
         ]}
         heading="The Full Barrel"
         price="$4k"
+        productId=""
       />
     </div>
 
