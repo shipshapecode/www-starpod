@@ -4,9 +4,9 @@ import { Image } from 'astro:assets';
 
 import Layout from '../layouts/Layout.astro';
 import AdPackageCard from '../components/AdPackageCard.astro';
-import { getShowInfo } from '../lib/rss';
-const show = await getShowInfo();
-const title = `${show.title}`;
+// import { getShowInfo } from '../lib/rss';
+// const show = await getShowInfo();
+// const title = `${show.title}`;
 
 const countryFlags = import.meta.glob<{ default: ImageMetadata }>(
   '/src/img/countries/*.{jpeg,jpg,png}'
@@ -22,73 +22,114 @@ const countries = [
 ---
 
 <Layout title="Sponsor">
-  <div class="relative z-10 px-8 lg:px-18">
+  <div class="relative z-10 mb-2 px-8 pb-8 lg:px-18 lg:pb-16">
     <h1
-      class="mb-4 text-2xl font-bold text-light-text-heading lg:mb-6 lg:text-5xl dark:text-white"
+      class="text-light-text-heading mb-4 text-2xl font-bold lg:mb-6 lg:text-5xl dark:text-white"
     >
-      Sponsor {title}
+      Whiskey.fm is a <a
+        href="https://www.buzzsprout.com/stats#:~:text=Top%2010%25,441"
+        class="text-black underline dark:text-white">top 10% podcast</a
+      >
     </h1>
 
-    <p class="mb-5">
-      Want to dazzle a crowd of tech nerds and whiskey connoisseurs? Throw your
-      brand into the mix! Our listeners love innovation, good banter, and a
-      stiff drink—so get in on the fun and make some magic happen. Stay classy,
-      sponsor.
+    <p class="mb-5 text-xl font-semibold lg:text-2xl text-balance">
+      Sponsorships provide multi-channel exposure across Audio, Video, and Social Media.
     </p>
 
-    <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-      <AdPackageCard
-        bullets={['Host read ad', '10% off for 3+', '20% off for 6+']}
-        heading="30 second ad"
-        price="$500"
-        productId={import.meta.env.POLAR_30SEC_PRODUCT_ID || 'YOUR_30SEC_PRODUCT_ID'}
-      />
-      <AdPackageCard
-        bullets={['Host read ad', '10% off for 3+', '20% off for 6+']}
-        heading="60 second ad"
-        price="$1,000"
-        productId={import.meta.env.POLAR_60SEC_PRODUCT_ID || 'YOUR_60SEC_PRODUCT_ID'}
-      />
-    </div>
+    <p class="mb-5 text-pretty">
+      We blend technical depth with premium lifestyle content, covering web
+      development, software architecture, and fine whiskey. Our audience is a bunch of tech nerds; <strong>Engineering Managers, Software Architects, Web Developers, and Backend Engineers</strong>.
+    </p>
+
+    <p class="mb-5">
+      We're offering shared access to a 2025 tech audience through all the most
+      popular channels.
+    </p>
 
     <h2
-      class="mb-4 mt-16 text-2xl font-bold text-light-text-heading lg:mb-6 lg:mt-20 lg:text-5xl dark:text-white"
+      class="text-light-text-heading mt-16 mb-4 text-2xl font-bold lg:mt-20 lg:mb-6 lg:text-5xl dark:text-white"
     >
-      Your overall ad reach
+      Reach
     </h2>
 
-    <h3 class="section-heading mb-8 mt-8 lg:mt-12">Listener Metrics</h3>
-
-    <div class="grid grid-cols-1 lg:grid-cols-2">
+    <div class="mt-10 grid grid-cols-1 lg:grid-cols-2">
       <figure>
         <span
-          class="text-6xl font-bold tabular-nums text-light-text-heading dark:text-white"
+          class="text-light-text-heading text-6xl font-bold tabular-nums dark:text-white"
         >
-          1,000
+          <span data-count-up-target="75">0</span>K+
         </span>
 
-        <figcaption class="mt-2 font-bold">listeners per episode</figcaption>
+        <figcaption class="mt-2 font-bold">Monthly Impressions</figcaption>
       </figure>
 
       <figure>
         <span
-          class="text-6xl font-bold tabular-nums text-light-text-heading dark:text-white"
+          class="text-light-text-heading text-6xl font-bold tabular-nums dark:text-white"
         >
-          15,000
+          <span data-count-up-target="3">0</span>-<span data-count-up-target="10"
+            >0</span
+          >K
         </span>
 
-        <figcaption class="mt-2 font-bold">listeners per 90 days</figcaption>
+        <figcaption class="mt-2 font-bold">
+          Monthly Downloads Per Episode
+        </figcaption>
       </figure>
     </div>
 
-    <h3 class="section-heading mb-8 mt-8 lg:mt-12">
-      Top Listeners By Location
-    </h3>
+    <script lang="ts">
+      const animationDuration = 2000;
+      const easeOutExpo = (x: number) => (x === 1 ? 1 : 1 - Math.pow(2, -10 * x));
 
-    <div class="grid grid-cols-[minmax(0,max-content)_1fr_minmax(0,max-content)] gap-x-4 gap-y-12 border-b py-6 text-light-text-heading dark:border-dark-border dark:text-white">
-    {
-      countries.map((country) => {
-        return (
+      const animate = (el: HTMLElement) => {
+        const target = parseInt(el.getAttribute('data-count-up-target') || '0', 10);
+        const startTime = performance.now();
+
+        const update = (currentTime: number) => {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / animationDuration, 1);
+          const easedProgress = easeOutExpo(progress);
+
+          const current = Math.floor(easedProgress * target);
+          el.textContent = current.toString();
+
+          if (progress < 1) {
+            requestAnimationFrame(update);
+          } else {
+            el.textContent = target.toString();
+          }
+        };
+
+        requestAnimationFrame(update);
+      };
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const el = entry.target as HTMLElement;
+              animate(el);
+              observer.unobserve(el);
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
+
+      document.querySelectorAll('[data-count-up-target]').forEach((el) => {
+        observer.observe(el);
+      });
+    </script>
+
+    <h3 class="section-heading mt-8 lg:mt-18">Top Listeners By Location</h3>
+
+    <div
+      class="text-light-text-heading dark:border-dark-border mb-8 grid grid-cols-[minmax(0,max-content)_1fr_minmax(0,max-content)] gap-x-4 gap-y-12 border-b py-6 dark:text-white"
+    >
+      {
+        countries.map((country) => (
+          <>
             <div class="flex items-center">
               <Image
                 class="mr-4 h-6 w-6 rounded-xs"
@@ -111,9 +152,100 @@ const countries = [
             <div class="flex items-center justify-end">
               {country.percentage}%
             </div>
-        );
-      })
-    }
+          </>
+        ))
+      }
+    </div>
+
+    <div
+      class="relative my-15 overflow-hidden rounded-2xl border border-gray-200 p-8 lg:my-25 lg:p-12 dark:border-gray-800 dark:from-purple-950/20 dark:to-blue-950/20"
+    >
+      <div class="relative z-10">
+        <p
+          class="mb-4 text-2xl leading-tight font-bold text-balance text-gray-900 lg:text-3xl dark:text-white"
+        >
+          A 3-month partnership delivers{' '}
+          <span
+            class="bg-gradient-to-r from-[#8A63FF] to-[#3707ac] bg-clip-text text-transparent dark:from-[#42C8F3] dark:to-[#B6EDFF]"
+          >
+            200,000+ targeted impressions.
+          </span>
+        </p>
+        <p class="mb-6 text-lg text-gray-700 lg:text-xl dark:text-gray-300">
+          Unlike ephemeral ads, our host-read sponsorships are baked into the
+          content—providing <strong>evergreen value</strong> that continues to drive
+          awareness and conversions long after the episode airs.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <AdPackageCard
+        bullets={[
+          'A baked in, high-trust host read pre-roll ad',
+          '$700 for 30-seconds or $1,000 for 60-seconds'
+        ]}
+        heading="The Distiller's Cut"
+        price="$700-1k"
+      />
+      <AdPackageCard
+        bullets={[
+          'Have a bottle of whiskey or software product reviewed',
+          'Honest, positive mention during Whiskey and/or Whatnot segments'
+        ]}
+        heading="The Product/Bottle Drop"
+        price="$250"
+      />
+      <AdPackageCard
+        bullets={[
+          'Ad on our website or in the show notes',
+          'Placed prominently on main page and show notes',
+          'Consistent exposure outside of the audio feed'
+        ]}
+        heading="The Label"
+        price="$250"
+      />
+      <AdPackageCard
+        bullets={[
+          '4x 30-second host-read ads',
+          '4x website & show notes placements',
+          'Perfect for consistent monthly presence'
+        ]}
+        heading="The Crate (full month)"
+        price="$2.4k"
+      />
+      <AdPackageCard
+        bullets={[
+          'Our flagship monthly sponsorship',
+          '4x 60-second host-read ads',
+          '4x website & show notes placements',
+          '"Presented By [Your Company]" in episode titles',
+          'Social media mentions for each episode'
+        ]}
+        heading="The Full Barrel"
+        price="$4k"
+      />
+    </div>
+
+    <div class="mt-20 mb-8 mb-12 lg:mt-32">
+      <p class="text-2xl text-gray-600 lg:text-3xl dark:text-gray-400">
+        Or… maybe you have an idea?
+      </p>
+
+      <p
+        class="mb-12 text-lg leading-relaxed text-balance lg:text-xl dark:text-gray-100"
+      >
+        We're down to chat about it.
+      </p>
+
+      <p class="text-light-text-heading text-md font-semibold dark:text-white">
+        Whiskey Web and Whatnot,
+      </p>
+      <p
+        class="bg-gradient-to-r from-[var(--color-light-text-heading)] to-[var(--color-light-icon)] bg-clip-text text-lg font-medium text-transparent dark:from-[var(--color-dark-text-body)] dark:to-[var(--color-dark-icon)]"
+      >
+        Chuck, Robbie, & Adam
+      </p>
     </div>
   </div>
 </Layout>
