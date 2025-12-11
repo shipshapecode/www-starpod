@@ -78,20 +78,20 @@ const countries = [
       </figure>
     </div>
 
-    <script lang="ts">
+    <script>
       const animationDuration = 2000;
-      const easeOutExpo = (x: number) => (x === 1 ? 1 : 1 - Math.pow(2, -10 * x));
+      const easeOutQuart = (x) => 1 - Math.pow(1 - x, 4);
 
-      const animate = (el: HTMLElement) => {
+      const animate = (el) => {
         const target = parseInt(el.getAttribute('data-count-up-target') || '0', 10);
         const startTime = performance.now();
 
-        const update = (currentTime: number) => {
+        const update = (currentTime) => {
           const elapsed = currentTime - startTime;
           const progress = Math.min(elapsed / animationDuration, 1);
-          const easedProgress = easeOutExpo(progress);
+          const easedProgress = easeOutQuart(progress);
 
-          const current = Math.floor(easedProgress * target);
+          const current = Math.round(easedProgress * target);
           el.textContent = current.toString();
 
           if (progress < 1) {
@@ -108,7 +108,7 @@ const countries = [
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              const el = entry.target as HTMLElement;
+              const el = entry.target;
               animate(el);
               observer.unobserve(el);
             }
