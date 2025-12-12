@@ -118,13 +118,15 @@ const currentYear = new Date().getFullYear();
     </div>
 
     <div
-      id="spotlight-card"
-      class="group relative my-15 overflow-hidden rounded-2xl border border-gray-200 bg-gray-50 p-8 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl lg:my-25 lg:p-12 dark:border-gray-800 dark:bg-[#050505]"
+      class="group relative my-15 overflow-hidden rounded-2xl border border-gray-200 bg-white/40 p-8 backdrop-blur-sm transition-all duration-700 hover:border-purple-500/30 hover:shadow-[0_0_40px_-10px_rgba(168,85,247,0.15)] lg:my-25 lg:p-12 dark:border-gray-800 dark:bg-gray-950/40"
     >
-      <!-- Spotlight Overlay -->
+      <!-- Aurora Orbs -->
       <div
-        class="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        style="background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(139, 92, 246, 0.15), transparent 40%);"
+        class="absolute -top-[20%] -right-[10%] h-[150%] w-[80%] origin-center rotate-12 rounded-full bg-gradient-to-b from-purple-200/20 to-transparent blur-3xl transition-all duration-1000 ease-in-out group-hover:rotate-45 group-hover:scale-110 group-hover:opacity-100 dark:from-purple-900/20"
+      >
+      </div>
+      <div
+        class="absolute -bottom-[20%] -left-[10%] h-[150%] w-[80%] origin-center -rotate-12 rounded-full bg-gradient-to-t from-blue-200/20 to-transparent blur-3xl transition-all duration-1000 ease-in-out group-hover:-rotate-45 group-hover:scale-110 group-hover:opacity-100 dark:from-blue-900/20"
       >
       </div>
 
@@ -214,25 +216,10 @@ const currentYear = new Date().getFullYear();
       <p class="text-light-text-heading text-md font-semibold dark:text-white">
         Whiskey Web and Whatnot,
       </p>
-      <p class="group text-lg font-medium text-gray-400 dark:text-gray-500">
-        <span
-          class="inline-block cursor-pointer bg-gradient-to-r from-[var(--color-light-text-heading)] to-[var(--color-light-icon)] bg-clip-text text-transparent transition-all duration-300 group-hover:blur-[2px] group-hover:opacity-30 hover:!blur-none hover:!opacity-100 hover:scale-110 dark:from-[var(--color-dark-text-body)] dark:to-[var(--color-dark-icon)]"
-          >Chuck</span
-        ><span
-          class="transition-all duration-300 group-hover:blur-[2px] group-hover:opacity-30"
-          >,</span
-        >
-        <span
-          class="inline-block cursor-pointer bg-gradient-to-r from-[var(--color-light-text-heading)] to-[var(--color-light-icon)] bg-clip-text text-transparent transition-all duration-300 group-hover:blur-[2px] group-hover:opacity-30 hover:!blur-none hover:!opacity-100 hover:scale-110 dark:from-[var(--color-dark-text-body)] dark:to-[var(--color-dark-icon)]"
-          >Robbie</span
-        ><span
-          class="transition-all duration-300 group-hover:blur-[2px] group-hover:opacity-30"
-          >, &</span
-        >
-        <span
-          class="inline-block cursor-pointer bg-gradient-to-r from-[var(--color-light-text-heading)] to-[var(--color-light-icon)] bg-clip-text text-transparent transition-all duration-300 group-hover:blur-[2px] group-hover:opacity-30 hover:!blur-none hover:!opacity-100 hover:scale-110 dark:from-[var(--color-dark-text-body)] dark:to-[var(--color-dark-icon)]"
-          >Adam</span
-        >
+      <p
+        class="bg-gradient-to-r from-[var(--color-light-text-heading)] to-[var(--color-light-icon)] bg-clip-text text-lg font-medium text-transparent dark:from-[var(--color-dark-text-body)] dark:to-[var(--color-dark-icon)]"
+      >
+        Chuck, Robbie, & Adam
       </p>
     </div>
   </div>
@@ -240,12 +227,15 @@ const currentYear = new Date().getFullYear();
 
 <script lang="ts">
   const animationDuration = 2000;
+  /** @param {number} x */
   const easeOutQuart = (x) => 1 - Math.pow(1 - x, 4);
 
+  /** @param {HTMLElement} el */
   const animate = (el) => {
     const target = parseInt(el.getAttribute('data-count-up-target') || '0', 10);
     const startTime = performance.now();
 
+    /** @param {number} currentTime */
     const update = (currentTime) => {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / animationDuration, 1);
@@ -300,15 +290,4 @@ const currentYear = new Date().getFullYear();
   document.querySelectorAll('[data-progress-bar]').forEach((el) => {
     progressBarObserver.observe(el);
   });
-
-  const card = document.getElementById('spotlight-card');
-  if (card) {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      card.style.setProperty('--mouse-x', `${x}px`);
-      card.style.setProperty('--mouse-y', `${y}px`);
-    });
-  }
 </script>
