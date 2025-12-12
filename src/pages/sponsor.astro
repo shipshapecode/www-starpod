@@ -19,6 +19,8 @@ const countries = [
   { name: 'Germany', flag: 'Germany.png', percentage: 4 },
   { name: 'Australia', flag: 'Australia.png', percentage: 4 }
 ];
+
+const currentYear = new Date().getFullYear();
 ---
 
 <Layout title="Sponsor">
@@ -42,7 +44,7 @@ const countries = [
     </p>
 
     <p class="mb-5">
-      We're offering shared access to a 2025 tech audience through all the most
+      We're offering shared access to a {currentYear} tech audience through all the most
       popular channels.
     </p>
 
