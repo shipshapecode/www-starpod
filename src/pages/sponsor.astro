@@ -153,7 +153,7 @@ const currentYear = new Date().getFullYear();
           'Have a bottle of whiskey or software product reviewed',
           'Honest, positive mention during Whiskey and/or Whatnot segments'
         ]}
-        heading="The Product/Bottle Drop"
+        heading="The Drop"
         price="$250"
         productId=`${import.meta.env.POLAR_BOTTLEDROP_PRODUCT_ID || 'YOUR_BOTTLEDROP_PRODUCT_ID'}`
       />
@@ -191,8 +191,9 @@ const currentYear = new Date().getFullYear();
           '4x website & show notes placements',
           'Perfect for consistent monthly presence'
         ]}
-        heading="The Crate (full month)"
+        heading="The Crate"
         price="$2.4k"
+        period="per month"
         productId=`${import.meta.env.POLAR_CRATE_PRODUCT_ID || 'YOUR_CRATE_PRODUCT_ID'}`
       />
       <AdPackageCard
@@ -205,6 +206,7 @@ const currentYear = new Date().getFullYear();
         ]}
         heading="The Full Barrel"
         price="$4k"
+        period="per month"
         productId=`${import.meta.env.POLAR_FULLBARREL_PRODUCT_ID || 'YOUR_FULLBARREL_PRODUCT_ID'}`
       />
     </div>
@@ -217,7 +219,7 @@ const currentYear = new Date().getFullYear();
       <p
         class="mb-12 text-lg leading-relaxed text-balance lg:text-xl dark:text-gray-100"
       >
-        We're down to chat about it.
+        We're down to <a href="/contact">chat</a> about it.
       </p>
 
       <p class="text-light-text-heading text-md font-semibold dark:text-white">

@@ -4,13 +4,14 @@ export interface Props {
   heading: string;
   price: string;
   productId: string;
+  period?: string;
 }
 
-const { bullets, heading, price, productId } = Astro.props;
+const { bullets, heading, price, productId, period = 'per episode' } = Astro.props;
 ---
 
 <div
-  class="dark:bg-dark-background flex flex-col content-between relative z-10 mb-6 grid rounded-lg bg-white p-1"
+  class="dark:bg-dark-background relative z-10 mb-6 grid grid-rows-[auto_1fr] rounded-lg bg-white p-1"
 >
   <h2
     class="bg-light-card text-light-text-heading dark:bg-dark-card px-5 py-4 text-xl font-bold lg:py-6 dark:text-white"
@@ -39,7 +40,7 @@ const { bullets, heading, price, productId } = Astro.props;
         /
       </span>
       <span class="text-light-text-body dark:text-dark-text-body text-lg">
-        per episode
+        {period}
       </span>
     </h3>
 
