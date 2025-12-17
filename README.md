@@ -129,10 +129,10 @@ This site uses Polar.sh for sponsor checkout. To set it up:
    POLAR_ACCESS_TOKEN=your_polar_access_token_here
    POLAR_30SEC_PRODUCT_ID=your_30sec_product_id_here
    POLAR_60SEC_PRODUCT_ID=your_60sec_product_id_here
-   POLAR_BOTTLEDROP_PRODUCT_ID=c0735cc1-0af4-4fe7-b78e-ab9e1e6d8fe2
-   POLAR_CRATE=2f41edc0-c185-4535-b20e-742e226fb687
-   POLAR_FULLBARREL=ab4cecac-7d8e-487f-a6ed-8313caa4773b
-   POLAR_LABEL=83ee5a60-311b-409a-9c27-3431a3dd2072
+   POLAR_BOTTLEDROP_PRODUCT_ID=your_bottledrop_product_id_here
+   POLAR_CRATE_PRODUCT_ID=your_crate_product_id_here
+   POLAR_FULLBARREL_PRODUCT_ID=your_fullbarrel_product_id_here
+   POLAR_LABEL_PRODUCT_ID=your_label_product_id_here
    POLAR_SUCCESS_URL=https://whiskey.fm/sponsor/success
    ```
 
