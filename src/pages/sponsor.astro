@@ -4,9 +4,9 @@ import { Image } from 'astro:assets';
 
 import Layout from '../layouts/Layout.astro';
 import AdPackageCard from '../components/AdPackageCard.astro';
-// import { getShowInfo } from '../lib/rss';
-// const show = await getShowInfo();
-// const title = `${show.title}`;
+import { getShowInfo } from '../lib/rss';
+const show = await getShowInfo();
+const title = `${show.title}`;
 
 const countryFlags = import.meta.glob<{ default: ImageMetadata }>(
   '/src/img/countries/*.{jpeg,jpg,png}'
@@ -28,7 +28,7 @@ const currentYear = new Date().getFullYear();
     <h1
       class="text-light-text-heading mb-4 text-2xl font-bold lg:mb-6 lg:text-5xl dark:text-white"
     >
-      Whiskey.fm is a <a
+      {title} is a <a
         href="https://www.buzzsprout.com/stats#:~:text=Top%2010%25,441"
         class="text-black underline dark:text-white">top 10% podcast</a
       >
