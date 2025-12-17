@@ -155,7 +155,7 @@ const currentYear = new Date().getFullYear();
         ]}
         heading="The Product/Bottle Drop"
         price="$250"
-        productId=""
+        productId=`${import.meta.env.POLAR_BOTTLEDROP_PRODUCT_ID || 'YOUR_BOTTLEDROP_PRODUCT_ID'}`
       />
       <AdPackageCard
         bullets={[
@@ -165,7 +165,7 @@ const currentYear = new Date().getFullYear();
         ]}
         heading="The Label"
         price="$250"
-        productId=""
+        productId=`${import.meta.env.POLAR_LABEL_PRODUCT_ID || 'YOUR_LABEL_PRODUCT_ID'}`
       />
       <AdPackageCard
         bullets={[
@@ -193,7 +193,7 @@ const currentYear = new Date().getFullYear();
         ]}
         heading="The Crate (full month)"
         price="$2.4k"
-        productId=""
+        productId=`${import.meta.env.POLAR_CRATE_PRODUCT_ID || 'YOUR_CRATE_PRODUCT_ID'}`
       />
       <AdPackageCard
         bullets={[
@@ -205,7 +205,7 @@ const currentYear = new Date().getFullYear();
         ]}
         heading="The Full Barrel"
         price="$4k"
-        productId=""
+        productId=`${import.meta.env.POLAR_FULLBARREL_PRODUCT_ID || 'YOUR_FULLBARREL_PRODUCT_ID'}`
       />
     </div>
 
