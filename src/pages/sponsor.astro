@@ -150,15 +150,6 @@ const currentYear = new Date().getFullYear();
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
       <AdPackageCard
         bullets={[
-          'A baked in, high-trust host read pre-roll ad',
-          '$700 for 30-seconds or $1,000 for 60-seconds'
-        ]}
-        heading="The Distiller's Cut"
-        price="$700-1k"
-        productId=""
-      />
-      <AdPackageCard
-        bullets={[
           'Have a bottle of whiskey or software product reviewed',
           'Honest, positive mention during Whiskey and/or Whatnot segments'
         ]}
@@ -175,6 +166,24 @@ const currentYear = new Date().getFullYear();
         heading="The Label"
         price="$250"
         productId=""
+      />
+      <AdPackageCard
+        bullets={[
+          'A baked in, high-trust host read pre-roll ad',
+          '30-seconds'
+        ]}
+        heading="The Distiller's Cut"
+        price="$500"
+        productId=`${import.meta.env.POLAR_30SEC_PRODUCT_ID || 'YOUR_30SEC_PRODUCT_ID'}`
+      />
+      <AdPackageCard
+        bullets={[
+          'A baked in, high-trust host read pre-roll ad',
+          '60-seconds'
+        ]}
+        heading="The Spirit Maker's Cut"
+        price="$1k"
+        productId=`${import.meta.env.POLAR_60SEC_PRODUCT_ID || 'YOUR_60SEC_PRODUCT_ID'}`
       />
       <AdPackageCard
         bullets={[
