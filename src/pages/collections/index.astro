@@ -52,7 +52,7 @@ const collectionsWithEpisodes = collections.map((collection) => {
           <div class="aspect-1 w-full overflow-hidden bg-gray-200 dark:bg-gray-800">
             {collection.latestEpisodes.length > 0 ? (
               <div class="grid h-full w-full grid-cols-2">
-                {collection.latestEpisodes.map((episode, index) => (
+                {collection.latestEpisodes.map((episode) => (
                   <img
                     src={episode.episodeThumbnail ?? show.image}
                     alt={`${episode.title} - episode art`}
