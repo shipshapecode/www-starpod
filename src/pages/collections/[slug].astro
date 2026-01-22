@@ -2,12 +2,13 @@
 import Layout from '../../layouts/Layout.astro';
 import { Schema } from 'astro-seo-schema';
 import EpisodeList from '../../components/EpisodeList.astro';
-import { collections } from '../../data/collections';
+import { getComputedCollections } from '../../lib/collections';
 import { getAllEpisodes, getShowInfo } from '../../lib/rss';
 
 const show = await getShowInfo();
 
 export async function getStaticPaths() {
+  const collections = await getComputedCollections();
   return collections.map((collection) => ({
     params: { slug: collection.slug },
     props: { collection }
@@ -23,9 +24,10 @@ const collectionEpisodes = allEpisodes
   .sort((a, b) => b.published - a.published);
 
 // Find current collection index for pagination
-const currentIndex = collections.findIndex((c) => c.slug === collection.slug);
-const prevCollection = currentIndex > 0 ? collections[currentIndex - 1] : null;
-const nextCollection = currentIndex < collections.length - 1 ? collections[currentIndex + 1] : null;
+const computedCollections = await getComputedCollections();
+const currentIndex = computedCollections.findIndex((c) => c.slug === collection.slug);
+const prevCollection = currentIndex > 0 ? computedCollections[currentIndex - 1] : null;
+const nextCollection = currentIndex < computedCollections.length - 1 ? computedCollections[currentIndex + 1] : null;
 
 const title = `${collection.title} - ${show.title}`;
 const canonicalURL = new URL(`/collections/${collection.slug}`, Astro.url);

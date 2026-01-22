@@ -1,11 +1,12 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { Schema } from 'astro-seo-schema';
-import { collections } from '../../data/collections';
+import { getComputedCollections } from '../../lib/collections';
 import { getAllEpisodes, getShowInfo } from '../../lib/rss';
 
 const show = await getShowInfo();
 const allEpisodes = await getAllEpisodes();
+const collections = await getComputedCollections();
 const title = `Collections - ${show.title}`;
 const canonicalURL = new URL('/collections', Astro.url);
 
