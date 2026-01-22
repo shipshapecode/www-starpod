@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { Schema } from 'astro-seo-schema';
 import EpisodeList from '../../components/EpisodeList.astro';
 import { collections } from '../../data/collections';
 import { getAllEpisodes, getShowInfo } from '../../lib/rss';
@@ -28,9 +29,149 @@ const nextCollection = currentIndex < collections.length - 1 ? collections[curre
 
 const title = `${collection.title} - ${show.title}`;
 const canonicalURL = new URL(`/collections/${collection.slug}`, Astro.url);
+
+// Generate SEO-optimized description
+const episodeCount = collectionEpisodes.length;
+const description = collection.subtitle
+  ? `${collection.subtitle}. ${collection.description || ''} Explore ${episodeCount} curated ${episodeCount === 1 ? 'episode' : 'episodes'} from ${show.title} covering ${collection.title.toLowerCase()}.`.trim()
+  : `${collection.description || ''} Discover ${episodeCount} ${episodeCount === 1 ? 'episode' : 'episodes'} about ${collection.title.toLowerCase()} from ${show.title}.`.trim();
+
+// Extract keywords from collection title
+const keywords = [
+  collection.title.toLowerCase(),
+  show.title.toLowerCase(),
+  'podcast',
+  'episodes',
+  ...collection.title.toLowerCase().split(' ')
+].join(', ');
+
+// Calculate date range
+const dateRange =
+  collectionEpisodes.length > 0
+    ? {
+        oldest: new Date(
+          Math.min(...collectionEpisodes.map((e) => e.published))
+        ),
+        newest: new Date(
+          Math.max(...collectionEpisodes.map((e) => e.published))
+        )
+      }
+    : null;
 ---
 
-<Layout title={title} canonicalURL={canonicalURL}>
+<Layout title={title} canonicalURL={canonicalURL} description={description}>
+  <!-- Enhanced Meta Tags -->
+  <meta slot="head" name="keywords" content={keywords} />
+  <meta slot="head" property="og:type" content="article" />
+  <meta slot="head" property="article:section" content={collection.title} />
+  <meta slot="head" property="article:tag" content={collection.title} />
+  {
+    collection.title.split(/[&,]/).map((topic) => (
+      <meta slot="head" property="article:tag" content={topic.trim()} />
+    ))
+  }
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+  {
+    dateRange && (
+      <meta
+        slot="head"
+        property="article:published_time"
+        content={dateRange.oldest.toISOString()}
+      />
+    )
+  }
+  {
+    dateRange && (
+      <meta
+        slot="head"
+        property="article:modified_time"
+        content={dateRange.newest.toISOString()}
+      />
+    )
+  }
+
+  <!-- Structured Data: Article -->
+  <Schema
+    slot="head"
+    item={{
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: collection.title,
+      description: description,
+      url: canonicalURL.toString(),
+      datePublished: dateRange?.oldest.toISOString(),
+      dateModified: dateRange?.newest.toISOString(),
+      keywords: keywords,
+      about: {
+        '@type': 'Thing',
+        name: collection.title,
+        description: collection.description
+      },
+      isPartOf: {
+        '@type': 'PodcastSeries',
+        name: show.title,
+        url: Astro.site?.toString()
+      },
+      author: {
+        '@type': 'Organization',
+        name: show.title,
+        url: Astro.site?.toString()
+      }
+    }}
+  />
+
+  <!-- Structured Data: ItemList of Episodes -->
+  <Schema
+    slot="head"
+    item={{
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: `${collection.title} Episodes`,
+      description: `Episodes from the ${collection.title} collection`,
+      numberOfItems: collectionEpisodes.length,
+      itemListElement: collectionEpisodes.map((episode, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        item: {
+          '@type': 'PodcastEpisode',
+          name: episode.title,
+          description: episode.description,
+          url: new URL(`/${episode.episodeSlug}`, Astro.url).toString(),
+          datePublished: new Date(episode.published).toISOString(),
+          image: episode.episodeThumbnail || show.image
+        }
+      }))
+    }}
+  />
+
+  <!-- Structured Data: BreadcrumbList -->
+  <Schema
+    slot="head"
+    item={{
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: Astro.site?.toString()
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Collections',
+          item: new URL('/collections', Astro.url).toString()
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: collection.title,
+          item: canonicalURL.toString()
+        }
+      ]
+    }}
+  />
   <div class="relative z-10 px-8 lg:px-18">
     <h1 class="text-light-text-heading text-4xl font-bold dark:text-white">
       {collection.title}
@@ -46,10 +187,33 @@ const canonicalURL = new URL(`/collections/${collection.slug}`, Astro.url);
       <p class="mt-4 text-lg">{collection.description}</p>
     )}
 
+    <div class="mt-6 flex flex-wrap items-center gap-4 text-sm">
+      <p class="font-medium text-cyan-600 dark:text-cyan-400">
+        {collectionEpisodes.length}{' '}
+        {collectionEpisodes.length === 1 ? 'Episode' : 'Episodes'}
+      </p>
+      {dateRange && (
+        <p class="text-light-text-body dark:text-dark-text-body">
+          {dateRange.oldest.toLocaleDateString('en-US', {
+            month: 'short',
+            year: 'numeric'
+          })}{' '}
+          —{' '}
+          {dateRange.newest.toLocaleDateString('en-US', {
+            month: 'short',
+            year: 'numeric'
+          })}
+        </p>
+      )}
+    </div>
+
     {collectionEpisodes.length > 0 ? (
-      <div class="mt-12">
+      <>
+        <h2 class="text-light-text-heading mt-12 mb-8 text-2xl font-bold dark:text-white">
+          Episodes in This Collection
+        </h2>
         <EpisodeList episodes={collectionEpisodes} show={show} />
-      </div>
+      </>
     ) : (
       <div class="mt-12">
         <p class="text-lg">
@@ -66,6 +230,7 @@ const canonicalURL = new URL(`/collections/${collection.slug}`, Astro.url);
           <a
             href={`/collections/${prevCollection.slug}`}
             class="group relative grid overflow-hidden rounded-lg bg-light-card dark:bg-dark-card transition-transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 dark:focus:ring-offset-dark-background"
+            aria-label={`Previous collection: ${prevCollection.title}`}
           >
             <div
               class="pointer-events-none absolute inset-0 rounded-lg opacity-30 dark:opacity-20"
@@ -92,6 +257,7 @@ const canonicalURL = new URL(`/collections/${collection.slug}`, Astro.url);
           <a
             href={`/collections/${nextCollection.slug}`}
             class="group relative grid overflow-hidden rounded-lg bg-light-card dark:bg-dark-card transition-transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 dark:focus:ring-offset-dark-background"
+            aria-label={`Next collection: ${nextCollection.title}`}
           >
             <div
               class="pointer-events-none absolute inset-0 rounded-lg opacity-30 dark:opacity-20"
