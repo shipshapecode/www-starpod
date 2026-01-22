@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { Schema } from 'astro-seo-schema';
 import { collections } from '../../data/collections';
 import { getAllEpisodes, getShowInfo } from '../../lib/rss';
 
@@ -20,24 +21,112 @@ const collectionsWithEpisodes = collections.map((collection) => {
     latestEpisodes: collectionEpisodes
   };
 });
+
+// Calculate total episode count
+const totalEpisodeCount = collections.reduce(
+  (sum, collection) => sum + collection.episodeSlugs.length,
+  0
+);
+
+// Generate SEO-optimized description
+const collectionTopics = collections.map((c) => c.title).join(', ');
+const description = `Explore curated podcast collections covering ${collectionTopics}. Browse ${collections.length} topic-based collections featuring ${totalEpisodeCount} episodes from ${show.title}.`;
+
+// Generate keywords from collection titles
+const keywords = collections
+  .map((c) => c.title.toLowerCase())
+  .concat(['podcast collections', 'curated episodes', show.title.toLowerCase()])
+  .join(', ');
 ---
 
-<Layout title={title} canonicalURL={canonicalURL}>
+<Layout title={title} canonicalURL={canonicalURL} description={description}>
+  <!-- Enhanced Meta Tags -->
+  <meta slot="head" name="keywords" content={keywords} />
+  <meta slot="head" property="og:type" content="website" />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <!-- Structured Data: CollectionPage -->
+  <Schema
+    slot="head"
+    item={{
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: title,
+      description: description,
+      url: canonicalURL.toString(),
+      about: {
+        '@type': 'PodcastSeries',
+        name: show.title,
+        url: Astro.site?.toString()
+      },
+      isPartOf: {
+        '@type': 'WebSite',
+        name: show.title,
+        url: Astro.site?.toString()
+      }
+    }}
+  />
+
+  <!-- Structured Data: ItemList of Collections -->
+  <Schema
+    slot="head"
+    item={{
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: 'Podcast Collections',
+      numberOfItems: collections.length,
+      itemListElement: collections.map((collection, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: collection.title,
+        description: collection.description,
+        url: new URL(`/collections/${collection.slug}`, Astro.url).toString()
+      }))
+    }}
+  />
+
+  <!-- Structured Data: BreadcrumbList -->
+  <Schema
+    slot="head"
+    item={{
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: Astro.site?.toString()
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Collections',
+          item: canonicalURL.toString()
+        }
+      ]
+    }}
+  />
   <div class="relative z-10 px-8 lg:px-18">
     <h1 class="text-light-text-heading text-4xl font-bold dark:text-white">
-      Collections
+      Podcast Collections
     </h1>
 
     <p class="mt-4 text-lg">
-      Curated collections of episodes organized by topic.
+      Explore {collections.length} curated collections featuring {totalEpisodeCount} episodes from {show.title}. Browse episodes organized by topic including {collections.slice(0, 3).map(c => c.title).join(', ')}, and more.
     </p>
 
-    <div class="collections-grid mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+    <h2 class="text-light-text-heading mt-12 mb-8 text-2xl font-bold dark:text-white">
+      Browse by Topic
+    </h2>
+
+    <div class="collections-grid grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
       {collectionsWithEpisodes.map((collection) => (
         <a
           href={`/collections/${collection.slug}`}
           class="group relative grid overflow-hidden rounded-lg bg-light-card dark:bg-dark-card transition-transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 dark:focus:ring-offset-dark-background"
           style="grid-template-rows: subgrid; grid-row: auto / span 3;"
+          aria-label={`View ${collection.title} collection with ${collection.episodeSlugs.length} episodes`}
         >
           <div
             class="pointer-events-none absolute inset-0 rounded-lg opacity-30 dark:opacity-20"
@@ -55,9 +144,11 @@ const collectionsWithEpisodes = collections.map((collection) => {
                 {collection.latestEpisodes.map((episode) => (
                   <img
                     src={episode.episodeThumbnail ?? show.image}
-                    alt={`${episode.title} - episode art`}
+                    alt={`${episode.title} - ${show.title} episode`}
                     class="h-full w-full object-cover transition-transform group-hover:scale-105"
                     loading="lazy"
+                    width="200"
+                    height="200"
                   />
                 ))}
               </div>
