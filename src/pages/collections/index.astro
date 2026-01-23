@@ -57,6 +57,9 @@ const keywords = collections
   .map((c) => c.title.toLowerCase())
   .concat(['podcast collections', 'curated episodes', show.title.toLowerCase()])
   .join(', ');
+
+// Generate collection URLs for speculation rules
+const collectionUrls = collections.map((c) => `/collections/${c.slug}`);
 ---
 
 <Layout title={title} canonicalURL={canonicalURL} description={description}>
@@ -127,6 +130,16 @@ const keywords = collections
       ]
     }}
   />
+
+  <!-- Speculation Rules: Prefetch collection pages -->
+  <script type="speculationrules" slot="head" set:html={JSON.stringify({
+    prefetch: [
+      {
+        source: "list",
+        urls: collectionUrls
+      }
+    ]
+  })} />
   <div class="relative z-10 px-8 lg:px-18">
     <h1 class="text-light-text-heading text-4xl font-bold dark:text-white">
       Podcast Collections
