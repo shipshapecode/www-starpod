@@ -27,18 +27,3 @@ test-results/
 
 # macOS-specific files
 .DS_Store
-
-# AI settings
-AGENTS.md
-
-# generated collections
-src/data/collections.generated.ts
-
-# Auto Claude generated files
-.auto-claude/
-.auto-claude-security.json
-.auto-claude-status
-.claude_settings.json
-.worktrees/
-.security-key
-logs/security/
