@@ -72,7 +72,11 @@ export function scoreTopicRelevance(text: string, keywords: string[]): number {
   const lowerText = text.toLowerCase();
   let score = 0;
   for (const keyword of keywords) {
-    const regex = new RegExp(keyword.toLowerCase(), 'gi');
+    const lowerKeyword = keyword.toLowerCase();
+    const escaped = lowerKeyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const isShortAlphaNum = /^[a-z0-9]+$/i.test(lowerKeyword) && lowerKeyword.length <= 4;
+    const pattern = isShortAlphaNum ? `\\b${escaped}\\b` : escaped;
+    const regex = new RegExp(pattern, 'gi');
     const matches = lowerText.match(regex);
     if (matches) {
       score += matches.length * 2;

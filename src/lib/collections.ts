@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from 'fs';
+import { existsSync, readdirSync, readFileSync } from 'fs';
 import { join } from 'path';
 import { collections as staticCollections } from '../data/collections';
 import { getAllEpisodes } from './rss';
@@ -40,15 +40,19 @@ export async function getComputedCollections() {
 
   // Load transcripts
   const transcriptsDir = join(process.cwd(), 'src/content/transcripts');
-  const transcriptFiles = readdirSync(transcriptsDir).filter((f) => f.endsWith('.md'));
+  const transcriptFiles = existsSync(transcriptsDir)
+    ? readdirSync(transcriptsDir).filter((f) => f.endsWith('.md'))
+    : [];
 
   const transcriptTextBySlug = new Map<string, string>();
   for (const file of transcriptFiles) {
     const epNum = file.replace('.md', '');
     const ep = epByNumber.get(epNum);
     if (!ep) continue;
+    const filePath = join(transcriptsDir, file);
+    if (!existsSync(filePath)) continue;
     try {
-      const text = readFileSync(join(transcriptsDir, file), 'utf-8');
+      const text = readFileSync(filePath, 'utf-8');
       transcriptTextBySlug.set(ep.slug, text);
     } catch {
       // ignore read errors; just skip
