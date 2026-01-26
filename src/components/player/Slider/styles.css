@@ -21,6 +21,7 @@
     background-position: center center;
     box-shadow: none;
     background-color: #0000;
+    pointer-events: none;
   }
   &::-moz-range-track {
     @apply h-1.5 w-full cursor-pointer border-none bg-gray-200 outline-none dark:bg-gray-700;
@@ -35,6 +36,7 @@
     @apply h-4 w-4 cursor-pointer appearance-none border-0 bg-transparent bg-contain bg-no-repeat transition-opacity duration-300 outline-none lg:opacity-0;
     background-image: url('/images/rocket-dark.svg');
     background-position: center center;
+    pointer-events: none;
   }
 
   @media (prefers-color-scheme: light) {
