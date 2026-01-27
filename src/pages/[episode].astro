@@ -155,9 +155,20 @@ const title = `${episode.title} - ${show.title} - Episode ${episode.episodeNumbe
           {episode.episodeNumber}: {episode.title}
         </h1>
 
-        <p class="mb-8 lg:mb-12">
-          {episode.description}
-        </p>
+        <div class="flex gap-6">
+          <p class="mb-8 flex-1 lg:mb-12">
+            {episode.description}
+          </p>
+
+          <img
+            alt={`${episode.title} - episode art`}
+            class="h-24 w-24 shrink-0 rounded-lg shadow-lg lg:h-32 lg:w-32"
+            height={128}
+            loading="eager"
+            src={episode.episodeImage ?? show.image}
+            width={128}
+          />
+        </div>
 
         <div class="mb-8 block lg:hidden">
           <FullPlayButton
