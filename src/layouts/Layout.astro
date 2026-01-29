@@ -7,6 +7,8 @@ import SpeedInsights from '@vercel/speed-insights/astro';
 
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Dots from '../components/Dots.astro';
+import CreatorsAndGuests from '../components/episode/CreatorsAndGuests.astro';
+import FormattedDate from '../components/FormattedDate';
 import Hosts from '../components/Hosts.astro';
 import InfoCard from '../components/InfoCard.astro';
 import Platforms from '../components/Platforms.astro';
@@ -15,10 +17,27 @@ import ShowArtwork from '../components/ShowArtwork.astro';
 
 import { getShowInfo } from '../lib/rss';
 import starpodConfig from 'starpod.config';
+import { dasherize } from '../utils/dasherize';
 
 import '../styles/global.css';
 
 const show = await getShowInfo();
+
+export interface HostOrGuestData {
+  id: number;
+  img: string | null;
+  isHost: boolean;
+  name: string;
+}
+
+export interface EpisodeData {
+  description: string;
+  episodeNumber: string | number;
+  hostsAndGuests?: HostOrGuestData[];
+  image: string;
+  published: Date;
+  title: string;
+}
 
 export interface Props {
   /**
@@ -26,11 +45,15 @@ export interface Props {
    */
   canonicalURL?: URL;
   description?: string;
+  /**
+   * If defined, episode details will be shown in the sidebar instead of show details.
+   */
+  episode?: EpisodeData;
   imageUrl?: string;
   title: string;
 }
 
-const { imageUrl, title } = Astro.props;
+const { episode, imageUrl, title } = Astro.props;
 
 const canonicalURL =
   Astro.props.canonicalURL ?? new URL(Astro.url.pathname, Astro.site);
@@ -129,32 +152,80 @@ const description = Astro.props.description ?? starpodConfig.description;
   >
     <header
       class="custom-scrollbar lg:fixed lg:inset-y-0 lg:left-0 lg:flex lg:w-112 lg:items-start lg:overflow-y-auto xl:w-120"
-      transition:persist="sidenav"
     >
       <div class="relative z-10 mx-auto lg:min-h-full lg:flex-auto">
         <div
           class="bg-light-card dark:bg-dark-card m-2 rounded-lg pt-10 pb-4 lg:pt-16 lg:pb-12"
         >
-          <ShowArtwork image={show.image} />
+          {
+            episode ? (
+              <>
+                <div class="px-4 sm:px-6 md:px-4 lg:px-16">
+                  <div
+                    class="relative mx-auto block w-48 overflow-hidden rounded-lg sm:w-64 sm:rounded-xl lg:w-auto lg:rounded-2xl"
+                    style={`view-transition-name: vt-image-${dasherize(episode.title)}`}
+                  >
+                    <img
+                      class="w-full"
+                      src={episode.image}
+                      alt={`${episode.title} - episode art`}
+                      height="321"
+                      width="321"
+                      loading="eager"
+                      fetchpriority="high"
+                    />
+                  </div>
+                </div>
 
-          <div class="px-4 sm:px-6 md:px-4 lg:px-16">
-            <p
-              class="text-light-text-heading mt-8 text-center text-2xl font-bold lg:text-left dark:text-white"
-            >
-              {show.title}
-            </p>
+                <div class="px-4 sm:px-6 md:px-4 lg:px-16">
+                  <div
+                    class="mt-6 text-center lg:text-left"
+                    style={`view-transition-name: vt-date-${dasherize(episode.title)}`}
+                  >
+                    <FormattedDate date={episode.published} />
+                  </div>
 
-            <p class="mt-2 text-center text-lg lg:text-left">
-              {starpodConfig.blurb}
-            </p>
-          </div>
+                  <p
+                    class="text-light-text-heading mt-4 text-center text-2xl font-bold lg:text-left dark:text-white"
+                    style={`view-transition-name: vt-${dasherize(episode.title)}`}
+                  >
+                    {episode.episodeNumber}: {episode.title}
+                  </p>
 
-          <div class="px-4 sm:px-6 md:px-4 lg:px-16">
-            <Platforms />
-          </div>
-          <div class="hidden lg:block">
-            <Hosts />
-          </div>
+                  <p class="mt-2 text-center text-base lg:text-left">
+                    {episode.description}
+                  </p>
+                </div>
+
+                {episode.hostsAndGuests?.length ? (
+                  <div class="px-4 pt-12 sm:px-6 md:px-4 lg:px-16">
+                    <CreatorsAndGuests hostsAndGuests={episode.hostsAndGuests} singleColumn />
+                  </div>
+                ) : null}
+              </>
+            ) : (
+              <>
+                <ShowArtwork image={show.image} />
+
+                <div class="px-4 sm:px-6 md:px-4 lg:px-16">
+                  <p class="text-light-text-heading mt-8 text-center text-2xl font-bold lg:text-left dark:text-white">
+                    {show.title}
+                  </p>
+
+                  <p class="mt-2 text-center text-lg lg:text-left">
+                    {starpodConfig.blurb}
+                  </p>
+                </div>
+
+                <div class="px-4 sm:px-6 md:px-4 lg:px-16">
+                  <Platforms />
+                </div>
+                <div class="hidden lg:block">
+                  <Hosts />
+                </div>
+              </>
+            )
+          }
         </div>
 
         <div class="hidden lg:block">

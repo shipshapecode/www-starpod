@@ -9,9 +9,10 @@ export interface Props {
     isHost: boolean;
     name: string;
   }>;
+  singleColumn?: boolean;
 }
 
-const { hostsAndGuests } = Astro.props;
+const { hostsAndGuests, singleColumn = false } = Astro.props;
 const images = import.meta.glob<{ default: ImageMetadata }>(
   '/src/img/people/*.{jpeg,jpg,png}'
 );
@@ -20,7 +21,7 @@ const priorityNames = ['RobbieTheWagner', 'Charles William Carpenter III', 'Adam
 
 <h3 class="section-heading pb-6">Creators and Guests</h3>
 
-<div class="mb-12 grid grid-cols-1 gap-4 lg:mb-20 lg:grid-cols-2">
+<div class:list={["mb-12 grid grid-cols-1 gap-4", !singleColumn && "lg:mb-20 lg:grid-cols-2"]}>
   {
     hostsAndGuests.sort((a, b) => {
     // Check if `a` or `b` are in the priority list

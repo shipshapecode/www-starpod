@@ -25,20 +25,20 @@ const { episodes, show } = Astro.props;
               height={80}
               loading="lazy"
               src={episode.episodeThumbnail ?? show.image}
+              style={`view-transition-name: vt-image-${dasherize(episode.title)}`}
               width={80}
             />
 
             <div class="flex flex-col">
-              <FormattedDate date={new Date(episode.published)} />
+              <div style={`view-transition-name: vt-date-${dasherize(episode.title)}`}>
+                <FormattedDate date={new Date(episode.published)} />
+              </div>
 
-              <h2 class="text-light-text-heading my-2 text-lg font-bold dark:text-white">
-                <a
-                  href={`/${episode.episodeSlug}`}
-                  style={
-                    'view-transition-name: var(--should-vt); --vt-name: vt-' +
-                    dasherize(episode.title)
-                  }
-                >
+              <h2
+                class="text-light-text-heading my-2 text-lg font-bold dark:text-white"
+                style={`view-transition-name: vt-${dasherize(episode.title)}`}
+              >
+                <a href={`/${episode.episodeSlug}`}>
                   {episode.episodeNumber}: {episode.title}
                 </a>
               </h2>

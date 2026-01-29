@@ -12,15 +12,12 @@ import {
 
 import { Schema } from 'astro-seo-schema';
 
-import FormattedDate from '../components/FormattedDate';
-import CreatorsAndGuests from '../components/episode/CreatorsAndGuests.astro';
 import Sponsors from '../components/episode/Sponsors.astro';
 import PlayButton from '../components/player/PlayButton';
 import FullPlayButton from '../components/FullPlayButton';
 import UFOIllustration from '../components/illustrations/UFOIllustration.astro';
 import Layout from '../layouts/Layout.astro';
 import { getAllEpisodes, getShowInfo } from '../lib/rss';
-import { dasherize } from '../utils/dasherize';
 
 const show = await getShowInfo();
 
@@ -88,6 +85,14 @@ const title = `${episode.title} - ${show.title} - Episode ${episode.episodeNumbe
 <Layout
   canonicalURL={canonicalURL}
   description={episode.description}
+  episode={{
+    description: episode.description,
+    episodeNumber: episode.episodeNumber,
+    hostsAndGuests,
+    image: episode.episodeImage ?? show.image,
+    published: new Date(episode.published),
+    title: episode.title
+  }}
   imageUrl={episode.episodeImage}
   title={title}
 >
@@ -146,19 +151,6 @@ const title = `${episode.title} - ${show.title} - Episode ${episode.episodeNumbe
       </div>
 
       <div class="overflow-hidden break-words">
-        <FormattedDate date={new Date(episode.published)} />
-
-        <h1
-          class="text-light-text-heading mb-4 text-2xl font-bold lg:mb-6 lg:text-5xl dark:text-white"
-          style={'view-transition-name: vt-' + dasherize(episode.title)}
-        >
-          {episode.episodeNumber}: {episode.title}
-        </h1>
-
-        <p class="mb-8 lg:mb-12">
-          {episode.description}
-        </p>
-
         <div class="mb-8 block lg:hidden">
           <FullPlayButton
             client:only="preact"
@@ -170,12 +162,6 @@ const title = `${episode.title} - ${show.title} - Episode ${episode.episodeNumbe
             }}
           />
         </div>
-
-        {
-          hostsAndGuests?.length ? (
-            <CreatorsAndGuests hostsAndGuests={hostsAndGuests} />
-          ) : undefined
-        }
 
         {sponsors?.length ? <Sponsors sponsors={sponsors} /> : undefined}
 
