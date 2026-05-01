@@ -3,6 +3,24 @@ import people from './people';
 type PersonId = (typeof people)[number]['id'];
 
 export default {
+  // 241
+  // 240
+  'ai-cowgorithm-disrupts-the-herd-presented-by-warp': [
+    { id: 'robbiethewagner' },
+    { id: 'argyleink' }
+  ],
+  // 239
+  'flogging-margins-with-the-dropcap-murphys': [
+    { id: 'robbiethewagner' },
+    { id: 'argyleink' },
+    { id: 'chriscoyier' },
+    { id: 'davatron5000' }
+  ],
+  // 238
+  'nextjs-is-dead-long-live-nextjs-presented-by-warp': [
+    { id: 'robbiethewagner' },
+    { id: 'argyleink' }
+  ],
   // 237
   'the-transactional-trap-how-97-of-developers-are-using-ai-wrong-w-leon-noel-danny-thompson':
     [
@@ -123,6 +141,37 @@ export default {
     { id: 'robbiethewagner' },
     { id: 'jlengstorf', host: true },
     { id: 'shrutikapoor08' }
+  ],
+  // 215
+  // TODO
+  // 214
+  'npm-worms-rubygems-coups-trust-issues-in-open-source': [
+    { id: 'robbiethewagner' },
+    { id: 'chuckcarpenter' },
+    { id: 'argyleink' }
+  ],
+  // 213
+  'is-css-a-programming-language-w-kevin-powell': [
+    { id: 'robbiethewagner' },
+    { id: 'argyleink' },
+    { id: 'kevinjpowell' }
+  ],
+  // 212
+  'talkshop-show-w-macho-man-randy-standards': [
+    { id: 'robbiethewagner' },
+    { id: 'argyleink' },
+    { id: 'davatron5000' }
+  ],
+  // 211
+  'agents-of-chaos-whiskey-experiments-and-the-future-of-ides': [
+    { id: 'chuckcarpenter' },
+    { id: 'argyleink' }
+  ],
+  // 210
+  'devrel-linux-and-the-shrinking-path-for-junior-developers-w-ali-diamond': [
+    { id: 'robbiethewagner' },
+    { id: 'chuckcarpenter' },
+    { id: 'endingwithali' }
   ],
   // 209
   'is-cracker-barrel-a-js-framework': [

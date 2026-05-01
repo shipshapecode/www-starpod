@@ -47,6 +47,11 @@ export const people = [
     img: 'dantelex.jpg'
   },
   {
+    id: 'davatron5000',
+    name: 'Dave Rupert',
+    img: 'davatron5000.jpg'
+  },
+  {
     id: 'davideast',
     name: 'David East',
     img: 'davideast.jpg'
@@ -75,6 +80,11 @@ export const people = [
     id: 'dthompsondev',
     name: 'Danny Thompson',
     img: 'dthompsondev.jpg'
+  },
+  {
+    id: 'endingwithali',
+    name: 'Ali Diamond',
+    img: 'endingwithali.jpg'
   },
   {
     id: 'engineering_bae',
@@ -145,6 +155,11 @@ export const people = [
     id: 'kendallmiller',
     name: 'Kendall Miller',
     img: 'kendallmiller.jpg'
+  },
+  {
+    id: 'kevinjpowell',
+    name: 'Kevin Powell',
+    img: 'kevinjpowell.jpg'
   },
   {
     id: 'kevinwhinnery',
