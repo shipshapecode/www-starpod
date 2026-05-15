@@ -26,7 +26,7 @@ const currentYear = new Date().getFullYear();
 <Layout title="Sponsor">
   <div class="relative z-10 mb-2 px-8 pb-8 lg:px-18 lg:pb-16">
     <h1
-      class="text-light-text-heading text-balance mb-4 text-2xl font-bold lg:mb-6 lg:text-5xl dark:text-white"
+      class="text-light-text-heading mb-4 text-2xl font-bold text-balance lg:mb-6 lg:text-5xl dark:text-white"
     >
       {title} is a <a
         href="https://www.buzzsprout.com/stats#:~:text=Top%2010%25,441"
@@ -34,18 +34,23 @@ const currentYear = new Date().getFullYear();
       >
     </h1>
 
-    <p class="mb-5 text-xl font-semibold lg:text-2xl text-balance">
-      Sponsorships provide multi-channel exposure across Audio, Video, and Social Media.
+    <p class="mb-5 text-xl font-semibold text-balance lg:text-2xl">
+      Sponsorships provide multi-channel exposure across Audio, Video, and
+      Social Media.
     </p>
 
     <p class="mb-5 text-pretty">
       We blend technical depth with premium lifestyle content, covering web
-      development, software architecture, and fine whiskey. Our audience is a bunch of tech nerds; <strong>Engineering Managers, Software Architects, Web Developers, and Backend Engineers</strong>.
+      development, software architecture, and fine whiskey. Our audience is a
+      bunch of tech nerds; <strong
+        >Engineering Managers, Software Architects, Web Developers, and Backend
+        Engineers</strong
+      >.
     </p>
 
     <p class="mb-5">
-      We're offering shared access to a {currentYear} tech audience through all the most
-      popular channels.
+      We're offering shared access to a {currentYear} tech audience through all the
+      most popular channels.
     </p>
 
     <h2
@@ -69,8 +74,8 @@ const currentYear = new Date().getFullYear();
         <span
           class="text-light-text-heading text-6xl font-bold tabular-nums dark:text-white"
         >
-          <span data-count-up-target="3">0</span>-<span data-count-up-target="10"
-            >0</span
+          <span data-count-up-target="3">0</span>-<span
+            data-count-up-target="10">0</span
           >K
         </span>
 
@@ -157,9 +162,10 @@ const currentYear = new Date().getFullYear();
       </h2>
 
       <p
-        class="mb-8 max-w-2xl text-pretty text-lg text-gray-600 lg:mb-10 dark:text-gray-400"
+        class="mb-8 max-w-2xl text-lg text-pretty text-gray-600 lg:mb-10 dark:text-gray-400"
       >
-        A host-read campaign, baked into the feed, surfaced across audio, video, and social.
+        A host-read campaign, baked into the feed, surfaced across audio, video,
+        and social.
       </p>
 
       <figure
@@ -179,15 +185,15 @@ const currentYear = new Date().getFullYear();
           muted
           playsinline
           preload="metadata"
-          poster="/sponsors/warp-poster.jpg"
+          poster="/video/warp-sponsor-example.jpg"
         >
-          <source src="/sponsors/warp-hype.mp4" type="video/mp4" />
+          <source src="/video/warp-sponsor-example.mp4" type="video/mp4" />
         </video>
       </figure>
 
       <a
         href="https://warp.dev"
-        class="group mt-6 inline-flex items-center gap-3 text-lg font-semibold text-light-text-heading lg:mt-8 lg:text-xl dark:text-white"
+        class="group text-light-text-heading mt-6 inline-flex items-center gap-3 text-lg font-semibold lg:mt-8 lg:text-xl dark:text-white"
       >
         See Warp's 90-day results
         <span
@@ -210,6 +216,27 @@ const currentYear = new Date().getFullYear();
       </a>
     </section>
 
+    <div class="mb-8 flex flex-col items-start gap-4 lg:mb-12 lg:gap-5">
+      <p
+        class="text-light-text-heading text-5xl leading-[0.95] font-bold tracking-tight text-balance lg:text-7xl dark:text-white"
+      >
+        Pick your pour.
+      </p>
+      <p
+        class="max-w-2xl text-lg text-pretty text-gray-500 lg:text-xl dark:text-gray-400"
+      >
+        Six tiers. Host-read. Baked in. Evergreen.
+      </p>
+      <div
+        class="case-study-cue relative mt-2 h-14 w-px overflow-hidden bg-gray-200 dark:bg-gray-800"
+        aria-hidden="true"
+      >
+        <span
+          class="case-study-cue-spark bg-light-text-heading absolute top-0 left-0 h-4 w-px dark:bg-white"
+        ></span>
+      </div>
+    </div>
+
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
       <AdPackageCard
         bullets={[
@@ -231,19 +258,13 @@ const currentYear = new Date().getFullYear();
         productId=`${import.meta.env.POLAR_LABEL_PRODUCT_ID || 'YOUR_LABEL_PRODUCT_ID'}`
       />
       <AdPackageCard
-        bullets={[
-          'A baked in, high-trust host read pre-roll ad',
-          '30-seconds'
-        ]}
+        bullets={['A baked in, high-trust host read pre-roll ad', '30-seconds']}
         heading="The Distiller's Cut"
         price="$500"
         productId=`${import.meta.env.POLAR_30SEC_PRODUCT_ID || 'YOUR_30SEC_PRODUCT_ID'}`
       />
       <AdPackageCard
-        bullets={[
-          'A baked in, high-trust host read pre-roll ad',
-          '60-seconds'
-        ]}
+        bullets={['A baked in, high-trust host read pre-roll ad', '60-seconds']}
         heading="The Spirit Maker's Cut"
         price="$1k"
         productId=`${import.meta.env.POLAR_60SEC_PRODUCT_ID || 'YOUR_60SEC_PRODUCT_ID'}`
@@ -290,21 +311,21 @@ const currentYear = new Date().getFullYear();
       </p>
       <p class="group text-lg font-medium text-gray-400 dark:text-gray-500">
         <span
-          class="inline-block cursor-pointer bg-gradient-to-r from-[var(--color-light-text-heading)] to-[var(--color-light-icon)] bg-clip-text text-transparent transition-all duration-300 group-hover:blur-[2px] group-hover:opacity-30 hover:!blur-none hover:!opacity-100 hover:scale-110 dark:from-[var(--color-dark-text-body)] dark:to-[var(--color-dark-icon)]"
+          class="inline-block cursor-pointer bg-gradient-to-r from-[var(--color-light-text-heading)] to-[var(--color-light-icon)] bg-clip-text text-transparent transition-all duration-300 group-hover:opacity-30 group-hover:blur-[2px] hover:scale-110 hover:!opacity-100 hover:!blur-none dark:from-[var(--color-dark-text-body)] dark:to-[var(--color-dark-icon)]"
           >Chuck</span
         ><span
-          class="transition-all duration-300 group-hover:blur-[2px] group-hover:opacity-30"
+          class="transition-all duration-300 group-hover:opacity-30 group-hover:blur-[2px]"
           >,</span
         >
         <span
-          class="inline-block cursor-pointer bg-gradient-to-r from-[var(--color-light-text-heading)] to-[var(--color-light-icon)] bg-clip-text text-transparent transition-all duration-300 group-hover:blur-[2px] group-hover:opacity-30 hover:!blur-none hover:!opacity-100 hover:scale-110 dark:from-[var(--color-dark-text-body)] dark:to-[var(--color-dark-icon)]"
+          class="inline-block cursor-pointer bg-gradient-to-r from-[var(--color-light-text-heading)] to-[var(--color-light-icon)] bg-clip-text text-transparent transition-all duration-300 group-hover:opacity-30 group-hover:blur-[2px] hover:scale-110 hover:!opacity-100 hover:!blur-none dark:from-[var(--color-dark-text-body)] dark:to-[var(--color-dark-icon)]"
           >Robbie</span
         ><span
-          class="transition-all duration-300 group-hover:blur-[2px] group-hover:opacity-30"
+          class="transition-all duration-300 group-hover:opacity-30 group-hover:blur-[2px]"
           >, &</span
         >
         <span
-          class="inline-block cursor-pointer bg-gradient-to-r from-[var(--color-light-text-heading)] to-[var(--color-light-icon)] bg-clip-text text-transparent transition-all duration-300 group-hover:blur-[2px] group-hover:opacity-30 hover:!blur-none hover:!opacity-100 hover:scale-110 dark:from-[var(--color-dark-text-body)] dark:to-[var(--color-dark-icon)]"
+          class="inline-block cursor-pointer bg-gradient-to-r from-[var(--color-light-text-heading)] to-[var(--color-light-icon)] bg-clip-text text-transparent transition-all duration-300 group-hover:opacity-30 group-hover:blur-[2px] hover:scale-110 hover:!opacity-100 hover:!blur-none dark:from-[var(--color-dark-text-body)] dark:to-[var(--color-dark-icon)]"
           >Adam</span
         >
       </p>
@@ -386,3 +407,34 @@ const currentYear = new Date().getFullYear();
     });
   }
 </script>
+
+<style>
+  .case-study-cue-spark {
+    animation: case-study-cue-fall 1.8s cubic-bezier(0.4, 0, 0.8, 1) infinite;
+    will-change: transform, opacity;
+  }
+
+  @keyframes case-study-cue-fall {
+    0% {
+      transform: translateY(-1rem);
+      opacity: 0;
+    }
+    15% {
+      opacity: 1;
+    }
+    85% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(3.5rem);
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .case-study-cue-spark {
+      animation: none;
+      opacity: 0.5;
+    }
+  }
+</style>
