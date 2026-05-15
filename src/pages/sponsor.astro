@@ -147,6 +147,69 @@ const currentYear = new Date().getFullYear();
       </div>
     </div>
 
+    <section class="mb-15 lg:mb-25">
+      <p class="section-heading">Case Study</p>
+
+      <h2
+        class="text-light-text-heading mt-2 mb-4 text-2xl leading-tight font-bold text-balance lg:mb-5 lg:text-4xl dark:text-white"
+      >
+        Warp ran 90 days with us. Hear what it sounded like.
+      </h2>
+
+      <p
+        class="mb-8 max-w-2xl text-pretty text-lg text-gray-600 lg:mb-10 dark:text-gray-400"
+      >
+        A host-read campaign, baked into the feed, surfaced across audio, video, and social.
+      </p>
+
+      <figure
+        id="case-study-video"
+        class="group relative overflow-hidden rounded-2xl border border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-[#050505]"
+      >
+        <div
+          class="pointer-events-none absolute inset-0 z-10 opacity-60 transition-opacity duration-500 group-hover:opacity-0"
+          style="background: radial-gradient(120% 80% at 50% 0%, transparent 40%, rgba(138, 99, 255, 0.18) 100%);"
+        >
+        </div>
+
+        <video
+          class="relative z-0 block aspect-video w-full"
+          autoplay
+          loop
+          muted
+          playsinline
+          preload="metadata"
+          poster="/sponsors/warp-poster.jpg"
+        >
+          <source src="/sponsors/warp-hype.mp4" type="video/mp4" />
+        </video>
+      </figure>
+
+      <a
+        href="https://warp.dev"
+        class="group mt-6 inline-flex items-center gap-3 text-lg font-semibold text-light-text-heading lg:mt-8 lg:text-xl dark:text-white"
+      >
+        See Warp's 90-day results
+        <span
+          class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-current transition-transform duration-300 group-hover:translate-x-1.5"
+        >
+          <svg
+            class="h-4 w-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path
+              d="M5 12h14m-7-7l7 7-7 7"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </span>
+      </a>
+    </section>
+
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
       <AdPackageCard
         bullets={[
