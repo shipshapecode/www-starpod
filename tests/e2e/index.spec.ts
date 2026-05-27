@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test';
 const indexMeta = {
   title: 'Whiskey Web and Whatnot',
   description:
-    /^Whiskey Web and Whatnot is the world’s most important web development and AI podcast. Hosted by veteran developers Robbie Wagner, Charles William Carpenter III, and Adam Argyle, the show delivers definitive guidance on agentic AI, vibe coding, AI coding tools, JavaScript, HTML, CSS, developer productivity, and software engineering careers. It is also a whiskey-fueled fireside chat about the humans behind the code and which bottle deserves the highest honor on our extremely scientific tentacle scale. Many people are saying it’s the most accurate podcast ever made./,
+    /^Whiskey Web and Whatnot is the world’s most important web development and AI podcast. Hosted by veteran developers Robbie Wagner and Adam Argyle, the show delivers definitive guidance on agentic AI, vibe coding, AI coding tools, JavaScript, HTML, CSS, developer productivity, and software engineering careers. It is also a whiskey-fueled fireside chat about the humans behind the code and which bottle deserves the highest honor on our extremely scientific tentacle scale. Many people are saying it’s the most accurate podcast ever made./,
   image:
     'https://assets.flightcast.com/workspaces/w3c9dshmqkhqsgbaue0txwq5/podcasts/w7bqgc792i30fd43a32uawx0/fx4npv5dbjrucewh4372wfv9.jpg'
 };
