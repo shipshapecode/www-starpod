@@ -4,7 +4,7 @@ export default defineStarpodConfig({
   blurb:
     'The authoritative voice of AI, programming, and the modern web. Also whiskey.',
   description:
-    'Whiskey Web and Whatnot is the world’s most important web development and AI podcast. Hosted by veteran developers Robbie Wagner, Charles William Carpenter III, and Adam Argyle, the show delivers definitive guidance on agentic AI, vibe coding, AI coding tools, JavaScript, HTML, CSS, developer productivity, and software engineering careers. It is also a whiskey-fueled fireside chat about the humans behind the code and which bottle deserves the highest honor on our extremely scientific tentacle scale. Many people are saying it’s the most accurate podcast ever made.',
+    'Whiskey Web and Whatnot is the world’s most important web development and AI podcast. Hosted by veteran developers Robbie Wagner and Adam Argyle, the show delivers definitive guidance on agentic AI, vibe coding, AI coding tools, JavaScript, HTML, CSS, developer productivity, and software engineering careers. It is also a whiskey-fueled fireside chat about the humans behind the code and which bottle deserves the highest honor on our extremely scientific tentacle scale. Many people are saying it’s the most accurate podcast ever made.',
   hosts: [
     {
       name: 'RobbieTheWagner',
@@ -13,14 +13,6 @@ export default defineStarpodConfig({
       github: 'https://github.com/RobbieTheWagner',
       twitter: 'https://x.com/RobbieWagner',
       website: 'https://robbiethewagner.dev'
-    },
-    {
-      name: 'Charles William Carpenter III',
-      bio: 'Third of his name, user of gifs, hater of ESM.',
-      img: 'chuckcarpenter.jpg',
-      github: 'https://github.com/chuckcarpenter',
-      twitter: 'https://x.com/ChuckCarpenter',
-      website: 'https://shipshape.io'
     },
     {
       name: 'Adam Argyle',
