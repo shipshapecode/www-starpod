@@ -22,7 +22,7 @@ importers:
         version: 0.17.2
       '@polar-sh/astro':
         specifier: ^0.5.0
-        version: 0.5.0(astro@6.0.3(@types/node@24.12.2)(@vercel/functions@3.4.3)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.1)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3))
+        version: 0.5.0(astro@6.3.8(@types/node@24.12.2)(@vercel/functions@3.4.3)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.1)(tsx@4.21.0)(yaml@2.8.3))
       '@preact/signals':
         specifier: ^2.9.0
         version: 2.9.0(preact@10.29.1)
@@ -5149,11 +5149,11 @@ snapshots:
     dependencies:
       '@polar-sh/sdk': 0.40.3
 
-  '@polar-sh/astro@0.5.0(astro@6.0.3(@types/node@24.12.2)(@vercel/functions@3.4.3)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.1)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3))':
+  '@polar-sh/astro@0.5.0(astro@6.3.8(@types/node@24.12.2)(@vercel/functions@3.4.3)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.1)(tsx@4.21.0)(yaml@2.8.3))':
     dependencies:
       '@polar-sh/adapter-utils': 0.3.0
       '@polar-sh/sdk': 0.40.3
-      astro: 6.0.3(@types/node@24.12.2)(@vercel/functions@3.4.3)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.1)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+      astro: 6.3.8(@types/node@24.12.2)(@vercel/functions@3.4.3)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.60.1)(tsx@4.21.0)(yaml@2.8.3)
 
   '@polar-sh/sdk@0.40.3':
     dependencies:
