@@ -216,27 +216,6 @@ const currentYear = new Date().getFullYear();
       </a>
     </section>
 
-    <div class="mb-8 flex flex-col items-start gap-4 lg:mb-12 lg:gap-5">
-      <p
-        class="text-light-text-heading text-5xl leading-[0.95] font-bold tracking-tight text-balance lg:text-7xl dark:text-white"
-      >
-        Pick your pour.
-      </p>
-      <p
-        class="max-w-2xl text-lg text-pretty text-gray-500 lg:text-xl dark:text-gray-400"
-      >
-        Six tiers. Host-read. Baked in. Evergreen.
-      </p>
-      <div
-        class="case-study-cue relative mt-2 h-14 w-px overflow-hidden bg-gray-200 dark:bg-gray-800"
-        aria-hidden="true"
-      >
-        <span
-          class="case-study-cue-spark bg-light-text-heading absolute top-0 left-0 h-4 w-px dark:bg-white"
-        ></span>
-      </div>
-    </div>
-
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
       <AdPackageCard
         bullets={[
@@ -407,34 +386,3 @@ const currentYear = new Date().getFullYear();
     });
   }
 </script>
-
-<style>
-  .case-study-cue-spark {
-    animation: case-study-cue-fall 1.8s cubic-bezier(0.4, 0, 0.8, 1) infinite;
-    will-change: transform, opacity;
-  }
-
-  @keyframes case-study-cue-fall {
-    0% {
-      transform: translateY(-1rem);
-      opacity: 0;
-    }
-    15% {
-      opacity: 1;
-    }
-    85% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(3.5rem);
-      opacity: 0;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .case-study-cue-spark {
-      animation: none;
-      opacity: 0.5;
-    }
-  }
-</style>
