@@ -41,7 +41,7 @@ footer:has(+ #audio-player .player) {
 
   > div {
     content-visibility: auto;
-    contain-intrinsic-block-size: 45vh;
+    contain-intrinsic-block-size: auto 400px;
   }
 
   @media (width >= 1024px) {
