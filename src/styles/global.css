@@ -55,7 +55,6 @@ footer:has(+ #audio-player .player) {
 @keyframes episode-in {
   from {
     opacity: 0;
-    translate: 0 25px;
   }
 }
 
