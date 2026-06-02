@@ -24,7 +24,7 @@ import '../styles/global.css';
 const show = await getShowInfo();
 
 export interface HostOrGuestData {
-  id: number;
+  id: string;
   img: string | null;
   isHost: boolean;
   name: string;
@@ -32,7 +32,7 @@ export interface HostOrGuestData {
 
 export interface EpisodeData {
   description: string;
-  episodeNumber: string | number;
+  episodeNumber?: string | number;
   hostsAndGuests?: HostOrGuestData[];
   image: string;
   published: Date;
