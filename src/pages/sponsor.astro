@@ -4,6 +4,7 @@ import { Image } from 'astro:assets';
 
 import Layout from '../layouts/Layout.astro';
 import AdPackageCard from '../components/AdPackageCard.astro';
+import SponsorLogo, { type Logo } from '../components/SponsorLogo.astro';
 import { getShowInfo } from '../lib/rss';
 const show = await getShowInfo();
 const title = `${show.title}`;
@@ -19,6 +20,67 @@ const countries = [
   { name: 'Germany', flag: 'Germany.png', percentage: 4 },
   { name: 'Australia', flag: 'Australia.png', percentage: 4 }
 ];
+
+// Sponsor logos — the one place to manage both sections. Artwork lives in
+// public/images/sponsors/ and is referenced by filename. To move a brand
+// between "current" and "past", just cut/paste its entry. Each logo can be:
+//   per-theme:  { name, light: 'x-light.svg', dark: 'x-dark.svg' }  (light = shown in light mode)
+//   on a bg:    { name, src: 'x.svg', background: '#faf7f2' }        (1-color logo, needs contrast)
+//   plain:      { name, src: 'x.svg' }                              (full-color logo)
+//   wordmark:   { name, wordmark: 'text-3xl font-bold' }            (text placeholder)
+// Add `href` to any entry to link the logo to the brand's site.
+const sponsors: { current: Logo[]; past: Logo[] } = {
+  current: [
+    {
+      name: 'Denver & Liely',
+      src: 'denver-and-liely.png',
+      background: '#faf7f2',
+      href: 'https://denverandliely.com'
+    },
+    {
+      name: 'GitKraken',
+      src: 'GitKraken.svg',
+      background: '#ffffff',
+      href: 'https://www.gitkraken.com'
+    }
+  ],
+  past: [
+    {
+      name: 'Warp',
+      light: 'warp-dark.svg', // dark-ink art for light mode
+      dark: 'warp-light.svg', // light-ink art for dark mode
+      href: 'https://www.warp.dev'
+    },
+    {
+      name: 'Microsoft',
+      src: 'microsoft.svg',
+      href: 'https://www.microsoft.com'
+    },
+    {
+      name: 'Clerk',
+      src: 'clerk.svg',
+      background: '#faf7f2',
+      href: 'https://clerk.com'
+    },
+    {
+      name: 'CodeRabbit',
+      src: 'coderabbit.jpeg',
+      href: 'https://www.coderabbit.ai'
+    },
+    {
+      name: 'Redwood Empire',
+      src: 'redwood-empire.png',
+      background: '#faf7f2',
+      href: 'https://redwoodempirewhiskey.com'
+    },
+    {
+      name: 'Norlan',
+      src: 'norlan.png',
+      background: '#111111',
+      href: 'https://norlanglass.com'
+    }
+  ]
+};
 
 const currentYear = new Date().getFullYear();
 ---
@@ -53,8 +115,35 @@ const currentYear = new Date().getFullYear();
       most popular channels.
     </p>
 
+    <section aria-labelledby="current-sponsors-heading" class="mt-16 lg:mt-20">
+      <h2
+        id="current-sponsors-heading"
+        class="text-light-text-heading mb-3 text-2xl font-bold lg:mb-4 lg:text-5xl dark:text-white"
+      >
+        Currently sponsored by
+      </h2>
+      <p class="mb-10 text-lg text-pretty lg:mb-12">
+        Brands riding shotgun with us this season.
+      </p>
+
+      <ul
+        class="grid grid-cols-2 items-center gap-x-8 gap-y-12 lg:grid-cols-4 lg:gap-x-12"
+      >
+        {
+          sponsors.current.map((s) => (
+            <li class="group flex min-h-20 items-center justify-center">
+              <SponsorLogo
+                logo={s}
+                class="text-light-text-heading/80 dark:text-white/80 group-hover:text-light-text-heading h-10 w-auto object-contain transition-all duration-500 ease-out group-hover:scale-105 lg:h-12 dark:group-hover:text-white"
+              />
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
     <h2
-      class="text-light-text-heading mt-16 mb-4 text-2xl font-bold lg:mt-20 lg:mb-6 lg:text-5xl dark:text-white"
+      class="text-light-text-heading mt-20 mb-4 text-2xl font-bold lg:mt-28 lg:mb-6 lg:text-5xl dark:text-white"
     >
       Reach
     </h2>
@@ -273,6 +362,33 @@ const currentYear = new Date().getFullYear();
         productId=`${import.meta.env.POLAR_FULLBARREL_PRODUCT_ID || 'YOUR_FULLBARREL_PRODUCT_ID'}`
       />
     </div>
+
+    <section
+      aria-labelledby="past-sponsors-heading"
+      class="dark:border-dark-border mt-20 border-t pt-10 lg:mt-28 lg:pt-14"
+    >
+      <h3
+        id="past-sponsors-heading"
+        class="section-heading mb-10 text-gray-600 lg:mb-12 dark:text-gray-400"
+      >
+        In good company · past partners
+      </h3>
+
+      <ul
+        class="grid grid-cols-2 items-center gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4"
+      >
+        {
+          sponsors.past.map((s) => (
+            <li class="group flex min-h-16 items-center justify-center">
+              <SponsorLogo
+                logo={s}
+                class="group-hover:text-light-text-heading h-7 w-auto object-contain text-gray-500 transition-all duration-300 ease-out lg:h-8 dark:text-gray-500 dark:group-hover:text-white"
+              />
+            </li>
+          ))
+        }
+      </ul>
+    </section>
 
     <div class="mt-20 mb-12 lg:mt-32">
       <p class="text-2xl text-gray-600 lg:text-3xl dark:text-gray-400">
