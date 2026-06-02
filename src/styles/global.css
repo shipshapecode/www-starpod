@@ -35,10 +35,6 @@ footer:has(+ #audio-player .player) {
 }
 
 [aria-label='EpisodeList'] li {
-  animation: episode-in linear both;
-  animation-timeline: view();
-  animation-range: entry 10% cover 25%;
-
   > div {
     content-visibility: auto;
     contain-intrinsic-block-size: auto 400px;
@@ -49,12 +45,6 @@ footer:has(+ #audio-player .player) {
       animation: toggle-vt-names linear both;
       animation-timeline: view();
     }
-  }
-}
-
-@keyframes episode-in {
-  from {
-    opacity: 0;
   }
 }
 
