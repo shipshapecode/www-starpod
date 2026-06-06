@@ -219,43 +219,22 @@ const currentYear = new Date().getFullYear();
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
       <AdPackageCard
         bullets={[
-          'Have a bottle of whiskey or software product reviewed',
-          'Honest, positive mention during Whiskey and/or Whatnot segments'
+          'A baked-in, high-trust host-read ad',
+          '60-seconds, pre- or mid-roll',
+          'Logo & link in the show notes and on the site'
         ]}
-        heading="The Drop"
-        price="$250"
-        productId=`${import.meta.env.POLAR_BOTTLEDROP_PRODUCT_ID || 'YOUR_BOTTLEDROP_PRODUCT_ID'}`
-      />
-      <AdPackageCard
-        bullets={[
-          'Ad on our website or in the show notes',
-          'Placed prominently on main page and show notes',
-          'Consistent exposure outside of the audio feed'
-        ]}
-        heading="The Label"
-        price="$250"
-        productId=`${import.meta.env.POLAR_LABEL_PRODUCT_ID || 'YOUR_LABEL_PRODUCT_ID'}`
-      />
-      <AdPackageCard
-        bullets={['A baked in, high-trust host read pre-roll ad', '30-seconds']}
         heading="The Distiller's Cut"
-        price="$500"
-        productId=`${import.meta.env.POLAR_30SEC_PRODUCT_ID || 'YOUR_30SEC_PRODUCT_ID'}`
-      />
-      <AdPackageCard
-        bullets={['A baked in, high-trust host read pre-roll ad', '60-seconds']}
-        heading="The Spirit Maker's Cut"
-        price="$1k"
+        price="$1,750"
         productId=`${import.meta.env.POLAR_60SEC_PRODUCT_ID || 'YOUR_60SEC_PRODUCT_ID'}`
       />
       <AdPackageCard
         bullets={[
-          '4x 30-second host-read ads',
+          '4x 60-second host-read ads',
           '4x website & show notes placements',
-          'Perfect for consistent monthly presence'
+          'Perfect for a consistent monthly presence'
         ]}
         heading="The Crate"
-        price="$2.4k"
+        price="$4,200"
         period="per month"
         productId=`${import.meta.env.POLAR_CRATE_PRODUCT_ID || 'YOUR_CRATE_PRODUCT_ID'}`
       />
@@ -268,9 +247,22 @@ const currentYear = new Date().getFullYear();
           'Social media mentions for each episode'
         ]}
         heading="The Full Barrel"
-        price="$4k"
+        price="$7,000"
         period="per month"
         productId=`${import.meta.env.POLAR_FULLBARREL_PRODUCT_ID || 'YOUR_FULLBARREL_PRODUCT_ID'}`
+      />
+      <AdPackageCard
+        bullets={[
+          'A co-branded single-barrel whiskey pick, selected on-air',
+          'Custom bottles for your team, your customers, or a listener giveaway',
+          'Audio, video & social rolled around the selection',
+          'Our most unique, most memorable sponsorship'
+        ]}
+        heading="The Single Barrel"
+        price="Custom"
+        period=""
+        ctaLabel="Let's talk"
+        ctaHref="/contact"
       />
     </div>
 

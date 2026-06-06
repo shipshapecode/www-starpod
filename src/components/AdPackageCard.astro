@@ -3,11 +3,21 @@ export interface Props {
   bullets: Array<string>;
   heading: string;
   price: string;
-  productId: string;
+  productId?: string;
   period?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
 }
 
-const { bullets, heading, price, productId, period = 'per episode' } = Astro.props;
+const {
+  bullets,
+  heading,
+  price,
+  productId,
+  period = 'per episode',
+  ctaLabel = 'Become a sponsor',
+  ctaHref = `/api/checkout?products=${productId}`
+} = Astro.props;
 ---
 
 <div
@@ -34,22 +44,26 @@ const { bullets, heading, price, productId, period = 'per episode' } = Astro.pro
       class="text-light-text-heading mt-8 mb-12 flex-1 content-end px-5 text-4xl font-bold tabular-nums dark:text-white"
     >
       {price}
-      <span
-        class="text-light-text-body dark:text-dark-text-body text-3xl font-light"
-      >
-        /
-      </span>
-      <span class="text-light-text-body dark:text-dark-text-body text-lg">
-        {period}
-      </span>
+      {
+        period && (
+          <>
+            <span class="text-light-text-body dark:text-dark-text-body text-3xl font-light">
+              /
+            </span>
+            <span class="text-light-text-body dark:text-dark-text-body text-lg">
+              {period}
+            </span>
+          </>
+        )
+      }
     </h3>
 
     <div class="flex w-full">
-      <a class="btn mb-8 w-full justify-center" href={`/api/checkout?products=${productId}`}>
+      <a class="btn mb-8 w-full justify-center" href={ctaHref}>
         <span
           class="text-light-text-heading rounded-full px-8 py-3 text-center text-sm dark:text-white"
         >
-          Become a sponsor
+          {ctaLabel}
         </span>
       </a>
     </div>
