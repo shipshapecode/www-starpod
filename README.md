@@ -106,6 +106,94 @@ environment variable it should work for you. Of course, feel free to customize
 the code [here](./src/pages/api/contact.ts) to send the data elsewhere as you
 see fit.
 
+#### standard.site (ATProto Federation)
+
+Starpod supports [standard.site](https://standard.site/) — a specification that
+connects your podcast website to [ATProto](https://atproto.com/) (the protocol
+behind Bluesky). Each episode is published as an individual document on the
+federated web. Enabling this allows:
+
+- **Verified ownership** — Cryptographically prove you own your content across
+  the federated web
+- **Cross-platform discovery** — Your podcast appears on ATProto readers like
+  [Leaflet](https://leaflet.pub/) and [Pckt](https://pckt.blog)
+- **Federated engagement** — Comments and interactions from Bluesky and other
+  ATProto apps can connect back to your site
+- **Episode-level publishing** — Each episode is a standalone document in ATProto
+
+This feature is entirely optional. The site works perfectly without it — the
+verification endpoint simply returns a 404 when unconfigured. No changes to
+`astro.config.mjs` are needed.
+
+##### Initial Setup
+
+1. Create an [app password](https://bsky.app/settings/app-passwords) on Bluesky
+2. Create your publication record (run once):
+
+```bash
+ATPROTO_HANDLE=you.bsky.social \
+ATPROTO_APP_PASSWORD=xxxx-xxxx-xxxx-xxxx \
+STANDARD_SITE_URL=https://your-podcast.com \
+pnpm tsx scripts/create-publication.ts
+```
+
+3. Save the output values as environment variables
+
+##### Environment Variables
+
+Set these in your `.env` file for local development and as **GitHub Actions
+secrets** for automated publishing:
+
+| Variable | Description | Where to find it |
+|----------|-------------|------------------|
+| `STANDARD_SITE_DID` | Your ATProto DID (decentralized identifier) | [bsky.app/settings](https://bsky.app/settings) → scroll to "DID" |
+| `STANDARD_SITE_PUBLICATION_RKEY` | Record key for your publication | Returned by `scripts/create-publication.ts` |
+| `ATPROTO_HANDLE` | Your Bluesky handle (e.g., `you.bsky.social`) | Your Bluesky username |
+| `ATPROTO_APP_PASSWORD` | App password for ATProto API access | [bsky.app/settings/app-passwords](https://bsky.app/settings/app-passwords) |
+| `STANDARD_SITE_URL` | Your podcast website URL (e.g., `https://whiskey.fm`) | Your deployed site URL |
+
+##### GitHub Actions Secrets
+
+Add the following secrets to your repository at **Settings → Secrets and
+variables → Actions → New repository secret**:
+
+- `ATPROTO_HANDLE`
+- `ATPROTO_APP_PASSWORD`
+- `STANDARD_SITE_URL`
+- `STANDARD_SITE_PUBLICATION_RKEY`
+- `STANDARD_SITE_DID`
+
+##### Publishing Episodes
+
+Episodes are published to ATProto as individual documents automatically:
+
+- **Automatic** — The `Publish Episodes to ATProto` workflow runs after each
+  daily site rebuild and publishes any new episodes
+- **Manual** — Trigger the workflow manually from the Actions tab
+- **Backfill** — Use the `Backfill Episodes to ATProto` workflow (Actions tab →
+  Run workflow → type "backfill") to publish all existing episodes
+
+You can also publish locally:
+
+```bash
+# Publish only new episodes
+pnpm publish:episodes
+
+# Backfill all episodes
+pnpm publish:episodes:backfill
+```
+
+##### Verification
+
+After deploying, verify the well-known endpoint with:
+
+```bash
+curl https://your-site.com/.well-known/site.standard.publication
+```
+
+For full setup instructions (creating a publication, syncing posts, etc.), see
+the [`@bryanguffey/astro-standard-site` README](https://github.com/musicjunkieg/astro-standard-site#readme).
+
 #### Configuring guests
 
 We use Turso and Astro DB to setup guests per episode. If you would also like to

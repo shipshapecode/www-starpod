@@ -18,6 +18,8 @@
     "lint:fix": "eslint . --fix",
     "preview": "astro preview",
     "start": "astro dev",
+    "publish:episodes": "tsx scripts/publish-episodes.ts",
+    "publish:episodes:backfill": "tsx scripts/publish-episodes.ts --backfill",
     "test": "concurrently \"pnpm:test:*(!fix)\" --names \"test:\"",
     "test:e2e": "pnpm exec playwright test",
     "test:unit": "vitest"
@@ -25,6 +27,7 @@
   "dependencies": {
     "@astrojs/preact": "^5.1.4",
     "@astrojs/vercel": "^10.0.8",
+    "@bryanguffey/astro-standard-site": "^1.0.3",
     "@libsql/client": "^0.17.3",
     "@polar-sh/astro": "^0.5.0",
     "@preact/signals": "^2.9.1",
