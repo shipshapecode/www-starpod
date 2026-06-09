@@ -88,3 +88,13 @@ configured for Preact (`jsxImportSource: "preact"`).
 - `ASTRO_DB_REMOTE_URL` — Turso/libSQL database URL (e.g.,
   `libsql://your-db.turso.io`).
 - `ASTRO_DB_APP_TOKEN` — Authentication token for Turso database.
+- `STANDARD_SITE_DID` — Your ATProto DID for standard.site verification (e.g.,
+  `did:plc:abc123`). Find yours at https://bsky.app/settings.
+- `STANDARD_SITE_PUBLICATION_RKEY` — The publication record key returned when
+  creating a publication via `scripts/create-publication.ts`.
+- `ATPROTO_HANDLE` — Your Bluesky handle (e.g., `you.bsky.social`) for
+  publishing episodes to ATProto.
+- `ATPROTO_APP_PASSWORD` — App password for ATProto API access. Create at
+  https://bsky.app/settings/app-passwords.
+- `STANDARD_SITE_URL` — Your podcast website URL (e.g., `https://whiskey.fm`)
+  used as the publication site when publishing documents.
