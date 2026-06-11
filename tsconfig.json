@@ -10,5 +10,5 @@
     "jsxImportSource": "preact"
   },
   "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist"]
+  "exclude": ["dist", "public/sponsors/warp/**"]
 }
