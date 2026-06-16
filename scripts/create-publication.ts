@@ -15,6 +15,7 @@
 
 import { StandardSitePublisher } from '@bryanguffey/astro-standard-site';
 import starpodConfig from '../starpod.config';
+import { getPublicationMeta, updatePublicationRecord } from './standard-site';
 
 async function main() {
   const identifier = process.env.ATPROTO_HANDLE;
@@ -36,15 +37,24 @@ async function main() {
   await publisher.login();
   console.log(`✅ Logged in as ${publisher.getDid()}`);
 
+  const { name, iconUrl } = await getPublicationMeta();
+
   const result = await publisher.publishPublication({
-    name: starpodConfig.blurb,
+    name,
     url: siteUrl,
     description: starpodConfig.description
   });
 
-  console.log('\n🎉 Publication created!');
+  const rkey = result.uri.split('/').pop()!;
+  console.log(`✅ Publication created: ${result.uri}`);
+
+  // The publisher input has no `icon` field, so attach the brand image directly.
+  console.log(`📤 Uploading brand image: ${iconUrl}`);
+  await updatePublicationRecord(publisher, rkey, { iconUrl });
+
+  console.log('\n🎉 Publication ready!');
   console.log(`AT-URI: ${result.uri}`);
-  console.log(`\nSave this as STANDARD_SITE_PUBLICATION_RKEY: ${result.uri.split('/').pop()}`);
+  console.log(`\nSave this as STANDARD_SITE_PUBLICATION_RKEY: ${rkey}`);
   console.log(`Save this as STANDARD_SITE_DID: ${publisher.getDid()}`);
 }
 
