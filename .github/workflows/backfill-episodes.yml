@@ -9,11 +9,35 @@ on:
         type: string
 
 jobs:
+  # Skip backfill entirely if standard.site/ATProto secrets aren't configured,
+  # so forks without standard.site set up don't fail this workflow.
+  check:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.confirm == 'backfill' }}
+    outputs:
+      configured: ${{ steps.config.outputs.configured }}
+    steps:
+      - name: Check ATProto configuration
+        id: config
+        env:
+          ATPROTO_HANDLE: ${{ secrets.ATPROTO_HANDLE }}
+          ATPROTO_APP_PASSWORD: ${{ secrets.ATPROTO_APP_PASSWORD }}
+          STANDARD_SITE_URL: ${{ secrets.STANDARD_SITE_URL }}
+          STANDARD_SITE_PUBLICATION_RKEY: ${{ secrets.STANDARD_SITE_PUBLICATION_RKEY }}
+        run: |
+          if [ -n "$ATPROTO_HANDLE" ] && [ -n "$ATPROTO_APP_PASSWORD" ] && [ -n "$STANDARD_SITE_URL" ] && [ -n "$STANDARD_SITE_PUBLICATION_RKEY" ]; then
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::standard.site/ATProto secrets not set — skipping episode backfill."
+          fi
+
   backfill:
+    needs: check
+    if: ${{ needs.check.outputs.configured == 'true' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    if: ${{ github.event.inputs.confirm == 'backfill' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

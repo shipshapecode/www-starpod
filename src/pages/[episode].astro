@@ -19,8 +19,11 @@ import Sponsors from '../components/episode/Sponsors.astro';
 import PlayButton from '../components/player/PlayButton';
 import FullPlayButton from '../components/FullPlayButton';
 import UFOIllustration from '../components/illustrations/UFOIllustration.astro';
+import { generateDocumentLinkTag } from '@bryanguffey/astro-standard-site';
+
 import Layout from '../layouts/Layout.astro';
 import { getAllEpisodes, getShowInfo } from '../lib/rss';
+import { getDocumentRkeys } from '../lib/standardSite';
 import { dasherize } from '../utils/dasherize';
 
 const show = await getShowInfo();
@@ -89,6 +92,15 @@ const sponsors = await db
   .where(eq(DbEpisode.episodeSlug, episode.episodeSlug));
 
 const title = `${episode.title} - ${show.title} - Episode ${episode.episodeNumber}`;
+
+// standard.site document verification: link this page to its published ATProto
+// `site.standard.document` record so shared links can be verified as ours.
+const standardSiteDid = import.meta.env.STANDARD_SITE_DID;
+const documentRkey = (await getDocumentRkeys()).get(`/${episode.episodeSlug}`);
+const documentLinkTag =
+  standardSiteDid && documentRkey
+    ? generateDocumentLinkTag({ did: standardSiteDid, documentRkey })
+    : null;
 ---
 
 <Layout
@@ -121,6 +133,8 @@ const title = `${episode.title} - ${show.title} - Episode ${episode.episodeNumbe
       }
     }}
   />
+
+  {documentLinkTag && <Fragment slot="head" set:html={documentLinkTag} />}
 
   <!-- Enhanced Open Graph tags -->
   <meta slot="head" property="og:audio" content={episode.audio?.src} />
