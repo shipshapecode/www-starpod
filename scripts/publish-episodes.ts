@@ -8,7 +8,6 @@
  * Required environment variables:
  *   ATPROTO_HANDLE - Your Bluesky handle (e.g., your-handle.bsky.social)
  *   ATPROTO_APP_PASSWORD - An app password from bsky.app/settings/app-passwords
- *   STANDARD_SITE_URL - Your podcast site URL (e.g., https://whiskey.fm)
  *   STANDARD_SITE_PUBLICATION_RKEY - The publication record key
  *
  * Usage:
@@ -22,6 +21,7 @@ import { array, number, object, optional, parse, string } from 'valibot';
 
 import {
   StandardSitePublisher,
+  getPublicationAtUri,
   type PublishDocumentInput
 } from '@bryanguffey/astro-standard-site';
 
@@ -55,13 +55,12 @@ const FeedSchema = object({
 async function main() {
   const identifier = process.env.ATPROTO_HANDLE;
   const password = process.env.ATPROTO_APP_PASSWORD;
-  const siteUrl = process.env.STANDARD_SITE_URL;
   const publicationRkey = process.env.STANDARD_SITE_PUBLICATION_RKEY;
 
-  if (!identifier || !password || !siteUrl || !publicationRkey) {
+  if (!identifier || !password || !publicationRkey) {
     console.log(
       'ℹ️  standard.site/ATProto not configured — skipping episode publishing.\n' +
-        '   To enable, set: ATPROTO_HANDLE, ATPROTO_APP_PASSWORD, STANDARD_SITE_URL, STANDARD_SITE_PUBLICATION_RKEY'
+        '   To enable, set: ATPROTO_HANDLE, ATPROTO_APP_PASSWORD, STANDARD_SITE_PUBLICATION_RKEY'
     );
     return;
   }
@@ -87,6 +86,16 @@ async function main() {
 
   await publisher.login();
   console.log(`✅ Logged in as ${publisher.getDid()}`);
+
+  // A document is tied to its publication via the `site` field pointing at the
+  // publication's AT-URI (not the https site URL). Bluesky resolves
+  // document.site -> publication record to attach the publication ref that
+  // gives shared links their "publication" badge. The page URL is reconstructed
+  // from the publication record's `url` + the document `path`.
+  const publicationUri = getPublicationAtUri(
+    publisher.getDid(),
+    publicationRkey
+  );
 
   // Get existing documents to avoid duplicates
   const existingPaths = new Set<string>();
@@ -133,7 +142,7 @@ async function main() {
       : description;
 
     const input: PublishDocumentInput = {
-      site: siteUrl,
+      site: publicationUri,
       path,
       title: episode.title,
       description,
