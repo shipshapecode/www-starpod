@@ -22,6 +22,7 @@ import { array, number, object, optional, parse, string } from 'valibot';
 
 import {
   StandardSitePublisher,
+  getPublicationAtUri,
   type PublishDocumentInput
 } from '@bryanguffey/astro-standard-site';
 
@@ -88,6 +89,16 @@ async function main() {
   await publisher.login();
   console.log(`✅ Logged in as ${publisher.getDid()}`);
 
+  // A document is tied to its publication via the `site` field pointing at the
+  // publication's AT-URI (not the https site URL). Bluesky resolves
+  // document.site -> publication record to attach the publication ref that
+  // gives shared links their "publication" badge. The page URL is reconstructed
+  // from the publication record's `url` + the document `path`.
+  const publicationUri = getPublicationAtUri(
+    publisher.getDid(),
+    publicationRkey
+  );
+
   // Get existing documents to avoid duplicates
   const existingPaths = new Set<string>();
   let cursor: string | undefined;
@@ -133,7 +144,7 @@ async function main() {
       : description;
 
     const input: PublishDocumentInput = {
-      site: siteUrl,
+      site: publicationUri,
       path,
       title: episode.title,
       description,
