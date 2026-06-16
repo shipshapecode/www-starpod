@@ -59,10 +59,11 @@ async function main() {
   const publicationRkey = process.env.STANDARD_SITE_PUBLICATION_RKEY;
 
   if (!identifier || !password || !siteUrl || !publicationRkey) {
-    console.error(
-      'Missing required environment variables. Need: ATPROTO_HANDLE, ATPROTO_APP_PASSWORD, STANDARD_SITE_URL, STANDARD_SITE_PUBLICATION_RKEY'
+    console.log(
+      'ℹ️  standard.site/ATProto not configured — skipping episode publishing.\n' +
+        '   To enable, set: ATPROTO_HANDLE, ATPROTO_APP_PASSWORD, STANDARD_SITE_URL, STANDARD_SITE_PUBLICATION_RKEY'
     );
-    process.exit(1);
+    return;
   }
 
   console.log(
