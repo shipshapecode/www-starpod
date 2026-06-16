@@ -8,7 +8,6 @@
  * Required environment variables:
  *   ATPROTO_HANDLE - Your Bluesky handle (e.g., your-handle.bsky.social)
  *   ATPROTO_APP_PASSWORD - An app password from bsky.app/settings/app-passwords
- *   STANDARD_SITE_URL - Your podcast site URL (e.g., https://whiskey.fm)
  *   STANDARD_SITE_PUBLICATION_RKEY - The publication record key
  *
  * Usage:
@@ -56,13 +55,12 @@ const FeedSchema = object({
 async function main() {
   const identifier = process.env.ATPROTO_HANDLE;
   const password = process.env.ATPROTO_APP_PASSWORD;
-  const siteUrl = process.env.STANDARD_SITE_URL;
   const publicationRkey = process.env.STANDARD_SITE_PUBLICATION_RKEY;
 
-  if (!identifier || !password || !siteUrl || !publicationRkey) {
+  if (!identifier || !password || !publicationRkey) {
     console.log(
       'ℹ️  standard.site/ATProto not configured — skipping episode publishing.\n' +
-        '   To enable, set: ATPROTO_HANDLE, ATPROTO_APP_PASSWORD, STANDARD_SITE_URL, STANDARD_SITE_PUBLICATION_RKEY'
+        '   To enable, set: ATPROTO_HANDLE, ATPROTO_APP_PASSWORD, STANDARD_SITE_PUBLICATION_RKEY'
     );
     return;
   }
