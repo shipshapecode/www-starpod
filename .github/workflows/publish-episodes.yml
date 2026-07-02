@@ -1,10 +1,11 @@
 name: Publish Episodes to ATProto
 
 on:
-  # Run after the daily site rebuild to catch new episodes
-  workflow_run:
-    workflows: ["Rebuild Astro Site"]
-    types: [completed]
+  # Poll the RSS feed for new episodes. The publish script is idempotent
+  # (it skips episodes that already have a document record), so frequent
+  # runs are safe and cheap (~30s when there's nothing new).
+  schedule:
+    - cron: "*/30 * * * *"
   # Allow manual trigger
   workflow_dispatch:
 
@@ -13,8 +14,6 @@ jobs:
   # so forks without standard.site set up don't fail this workflow.
   check:
     runs-on: ubuntu-latest
-    # Only run if the triggering workflow succeeded (or manual dispatch)
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     outputs:
       configured: ${{ steps.config.outputs.configured }}
     steps:
