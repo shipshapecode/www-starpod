@@ -1,0 +1,480 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+import Layout from '../../layouts/Layout.astro';
+import AdPackageCard from '../../components/AdPackageCard.astro';
+import XPostCard from '../../components/sponsor/XPostCard.astro';
+import PartnerCard from '../../components/sponsor/PartnerCard.astro';
+import CaseStudyVideo from '../../components/sponsor/CaseStudyVideo.astro';
+import {
+  adPackages,
+  hostProfiles,
+  partners,
+  xPosts
+} from 'src/data/sponsor';
+
+import heroPhoto from '../../img/events/hosts-cascadiajs-bottle.jpg';
+import robbiePhoto from '../../img/events/robbie-cascadiajs-talk.jpg';
+import adamPhoto from '../../img/events/adam-cascadiajs-keynote.jpg';
+import reachPhoto from '../../img/events/cascadiajs-crowd-from-stage.jpg';
+import closePhoto from '../../img/events/cascadiajs-crowd-hands.jpg';
+
+const hostPhotos: Record<string, ImageMetadata> = {
+  RobbieWagner: robbiePhoto,
+  argyleink: adamPhoto
+};
+
+const countries = [
+  { name: 'US', percentage: 52 },
+  { name: 'UK', percentage: 7 },
+  { name: 'Canada', percentage: 5 },
+  { name: 'Germany', percentage: 4 },
+  { name: 'Australia', percentage: 4 }
+];
+---
+
+<Layout title="Sponsor — The Live Set">
+  <meta slot="head" name="robots" content="noindex" />
+
+  <div class="live-set relative z-10 mb-2 px-8 pb-8 lg:px-18 lg:pb-16">
+    <!--
+    THESIS: The pitch performs the way the hosts perform: one slide per scroll,
+    one photo, one claim, one number. Refuses the media-kit wall of stats.
+    OWN-WORLD: The site's own light/dark oklch system, Inter, purple #8A63FF /
+    cyan #42C8F3 gradient accents; full-bleed CascadiaJS stage photography;
+    monumental tabular numerals; scroll-driven reveals.
+    STORY: A sponsor lands on the two hosts holding a bottle on a conference
+    stage, learns they are backing two known people with real reach, sees the
+    proof (numbers, posts, Warp film, partners), and checks out self-serve.
+    FIRST VIEWPORT: Full-bleed stage photo; display headline "You're not
+    buying ad slots. You're backing us." lower-left; two actions: See the
+    packages (primary), Talk to us.
+    FORM: Full-viewport pitch-deck scroller; candidate 6 of 7; seed 153ac46c.
+    FINISH: unreviewed and undocumented is unfinished; this build ends with
+    the finish review, the verdict, DESIGN.md, and every shipping raster
+    carrying its provenance.
+    -->
+
+    <section class="slide relative -mx-8 flex min-h-[85svh] flex-col justify-end overflow-hidden rounded-2xl lg:-mx-18">
+      <Image
+        class="absolute inset-0 h-full w-full object-cover object-[62%_center] md:object-center"
+        src={heroPhoto}
+        alt="Adam Argyle raising a bottle of bourbon next to Robbie Wagner on stage at CascadiaJS 2026"
+        widths={[640, 960, 1440, 1920]}
+        sizes="(min-width: 1024px) 56rem, 100vw"
+        loading="eager"
+      />
+      <div
+        class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent"
+      >
+      </div>
+
+      <div class="relative p-6 pb-8 lg:p-12 lg:pb-14">
+        <h1
+          class="hero-line max-w-2xl text-4xl leading-[1.05] font-extrabold text-white lg:text-6xl"
+        >
+          You're not buying ad&nbsp;slots.
+          <span class="hero-line-2 block text-[#D8CCFF] dark:text-[#B6EDFF]"
+            >You're backing us.</span
+          >
+        </h1>
+        <p class="hero-sub mt-4 max-w-xl text-lg text-white/85 lg:text-xl">
+          Whiskey Web and Whatnot is two developers your audience already
+          follows — on stage, on X, and in their headphones every week.
+        </p>
+        <div class="hero-sub mt-7 flex flex-wrap items-center gap-4">
+          <a class="btn" href="#packages">
+            <span
+              class="text-light-text-heading rounded-full bg-white px-8 py-3 text-center text-sm dark:bg-transparent dark:text-white"
+            >
+              See the packages
+            </span>
+          </a>
+          <a
+            href="/contact"
+            class="text-sm font-semibold text-white underline decoration-white/40 underline-offset-4 transition-colors hover:decoration-white"
+          >
+            Talk to us instead
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="slide -mx-8 flex min-h-[85svh] flex-col justify-center bg-white px-8 py-16 lg:-mx-18 lg:px-18 dark:bg-dark-background"
+    >
+      <h2
+        class="text-light-text-heading text-3xl font-bold text-balance lg:text-5xl dark:text-white"
+      >
+        Two hosts. Not a faceless feed.
+      </h2>
+
+      <div class="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
+        {
+          hostProfiles.map((host) => (
+            <article class="reveal dark:border-dark-border dark:bg-dark-background overflow-hidden rounded-2xl border border-gray-200 bg-white">
+              <div class="relative aspect-[4/3] overflow-hidden">
+                <Image
+                  class="h-full w-full object-cover transition-transform duration-700 hover:scale-[1.03]"
+                  src={hostPhotos[host.handle]}
+                  alt={`${host.name} speaking on stage at CascadiaJS 2026`}
+                  widths={[480, 768, 1080]}
+                  sizes="(min-width: 768px) 28rem, 100vw"
+                />
+                <p class="absolute right-3 bottom-3 rounded-full bg-black/70 px-3 py-1 text-sm font-bold text-white tabular-nums">
+                  {host.followers} followers on X
+                </p>
+              </div>
+              <div class="p-6">
+                <h3 class="text-light-text-heading text-xl font-bold dark:text-white">
+                  <a href={host.url} target="_blank" rel="noopener">
+                    {host.name}
+                  </a>
+                </h3>
+                <p class="mt-1 text-sm font-semibold">{host.role}</p>
+                <ul class="mt-4 space-y-2 text-[15px]">
+                  {host.creds.map((cred) => (
+                    <li class="flex gap-2.5">
+                      <svg
+                        class="mt-1.5 h-2 w-2 shrink-0 text-[#8A63FF] dark:text-[#42C8F3]"
+                        viewBox="0 0 8 8"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <circle cx="4" cy="4" r="4" />
+                      </svg>
+                      {cred}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section
+      class="slide relative -mx-8 flex min-h-[85svh] flex-col justify-center overflow-hidden lg:-mx-18"
+    >
+      <Image
+        class="absolute inset-0 h-full w-full object-cover"
+        src={reachPhoto}
+        alt=""
+        widths={[640, 960, 1440]}
+        sizes="(min-width: 1024px) 56rem, 100vw"
+      />
+      <div class="absolute inset-0 bg-black/75"></div>
+
+      <div class="relative px-8 py-16 lg:px-18">
+        <h2 class="text-3xl font-bold text-balance text-white lg:text-5xl">
+          The reach you're borrowing
+        </h2>
+
+        <figure class="reveal mt-10">
+          <span
+            class="block text-[6rem] leading-none font-extrabold tracking-tight text-white tabular-nums lg:text-[9rem]"
+          >
+            <span data-count-up-target="100">0</span>K+
+          </span>
+          <figcaption class="mt-3 text-lg font-semibold text-white/90 lg:text-xl">
+            monthly impressions across audio, video, and social
+          </figcaption>
+        </figure>
+
+        <div
+          class="mt-12 grid grid-cols-1 gap-6 border-t border-white/25 pt-7 text-white sm:grid-cols-3"
+        >
+          <p>
+            <span class="block text-3xl font-extrabold tabular-nums">76K+</span>
+            <span class="mt-1 block text-sm text-white/80"
+              >combined X followers</span
+            >
+          </p>
+          <p>
+            <span class="block text-3xl font-extrabold tabular-nums">10.9K</span>
+            <span class="mt-1 block text-sm text-white/80"
+              >YouTube subscribers, 339 videos</span
+            >
+          </p>
+          <p>
+            <span class="block text-3xl font-extrabold tabular-nums">3–10K</span>
+            <span class="mt-1 block text-sm text-white/80"
+              >downloads per episode</span
+            >
+          </p>
+        </div>
+
+        <p class="mt-10 text-sm text-white/70">
+          Engineering managers, architects, and senior devs listening from
+          {
+            countries.map((c, i) => (
+              <span class="font-semibold text-white tabular-nums">
+                {c.name} {c.percentage}%{i < countries.length - 1 ? ' · ' : ''}
+              </span>
+            ))
+          }
+          — a <a
+            href="https://www.buzzsprout.com/stats#:~:text=Top%2010%25,441"
+            class="text-white underline decoration-white/40 underline-offset-4 hover:decoration-white"
+            >top 10% podcast</a
+          > audience.
+        </p>
+      </div>
+    </section>
+
+    <section class="slide flex min-h-[85svh] flex-col justify-center py-16">
+      <h2
+        class="text-light-text-heading text-3xl font-bold text-balance lg:text-5xl dark:text-white"
+      >
+        When we post, developers see it
+      </h2>
+      <p class="mt-3 max-w-2xl text-lg">
+        Sponsorships ride along on the social channels, not just the audio
+        feed.
+      </p>
+
+      <div class="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2">
+        {xPosts.map((post) => <XPostCard post={post} class="reveal" />)}
+      </div>
+    </section>
+
+    <section
+      class="slide -mx-8 flex min-h-[85svh] flex-col justify-center bg-white px-8 py-16 lg:-mx-18 lg:px-18 dark:bg-dark-background"
+    >
+      <h2
+        class="text-light-text-heading text-3xl font-bold text-balance lg:text-5xl dark:text-white"
+      >
+        Warp ran 90 days with us
+      </h2>
+      <p class="mt-3 max-w-2xl text-lg">
+        A host-read campaign, baked into the feed forever — audio, video, and
+        social.
+      </p>
+
+      <CaseStudyVideo
+        class="reveal dark:border-dark-border mt-8 rounded-2xl border border-gray-200"
+      />
+
+      <a
+        href="/sponsors/warp"
+        class="group text-light-text-heading mt-6 inline-flex items-center gap-3 text-lg font-semibold dark:text-white"
+      >
+        See Warp's 90-day results
+        <span
+          class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-current transition-transform duration-300 group-hover:translate-x-1.5"
+        >
+          <svg
+            class="h-4 w-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path
+              d="M5 12h14m-7-7l7 7-7 7"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </span>
+      </a>
+    </section>
+
+    <section class="slide flex min-h-[85svh] flex-col justify-center py-16">
+      <h2
+        class="text-light-text-heading text-3xl font-bold text-balance lg:text-5xl dark:text-white"
+      >
+        Brands that got it
+      </h2>
+      <p class="mt-3 max-w-2xl text-lg">
+        We partner with companies doing cool things for developers — and the
+        occasional excellent glass.
+      </p>
+
+      <div class="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2">
+        {
+          partners.map((partner, i) => (
+            <PartnerCard
+              partner={partner}
+              class={i === 0 ? 'reveal md:col-span-2' : 'reveal'}
+            />
+          ))
+        }
+      </div>
+    </section>
+
+    <section id="packages" class="slide scroll-mt-8 py-16">
+      <h2
+        class="text-light-text-heading text-3xl font-bold text-balance lg:text-5xl dark:text-white"
+      >
+        Pick your barrel
+      </h2>
+      <p class="mt-3 max-w-2xl text-lg">
+        Self-serve checkout. Host-read, baked in, evergreen.
+      </p>
+
+      <div class="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2">
+        {
+          adPackages.map((pkg) => (
+            <AdPackageCard
+              bullets={pkg.bullets}
+              heading={pkg.heading}
+              price={pkg.price}
+              period={pkg.period}
+              productId={import.meta.env[pkg.envKey] || `YOUR_${pkg.envKey}`}
+            />
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="slide relative -mx-8 mt-8 overflow-hidden rounded-2xl lg:-mx-18">
+      <Image
+        class="absolute inset-0 h-full w-full object-cover"
+        src={closePhoto}
+        alt="The CascadiaJS audience raising their hands during the hosts' session"
+        widths={[640, 960, 1440]}
+        sizes="(min-width: 1024px) 56rem, 100vw"
+      />
+      <div
+        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/55 to-black/45"
+      >
+      </div>
+
+      <div class="relative p-8 py-20 text-center lg:py-28">
+        <p class="text-2xl font-bold text-white lg:text-4xl">
+          Or… maybe you have an idea?
+        </p>
+        <p class="mt-3 text-lg text-white/85">
+          We're down to chat about it.
+        </p>
+        <a class="btn mx-auto mt-8 inline-flex" href="/contact">
+          <span
+            class="text-light-text-heading rounded-full bg-white px-8 py-3 text-center text-sm dark:bg-transparent dark:text-white"
+          >
+            Start the conversation
+          </span>
+        </a>
+        <p class="mt-10 text-sm font-semibold text-white/70">
+          — Robbie &amp; Adam, Whiskey Web and Whatnot
+        </p>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .live-set .slide {
+    scroll-snap-align: start;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-line,
+    .hero-sub {
+      animation: hero-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .hero-line-2 {
+      display: block;
+      animation: hero-rise 0.9s 0.15s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .hero-sub {
+      animation-delay: 0.3s;
+    }
+
+    @supports (animation-timeline: view()) {
+      .reveal {
+        animation: slide-rise linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 40%;
+      }
+    }
+  }
+
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(1.25rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slide-rise {
+    from {
+      opacity: 0.2;
+      transform: translateY(1.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<style is:global>
+  @media (prefers-reduced-motion: no-preference) {
+    html:has(.live-set) {
+      scroll-snap-type: y proximity;
+    }
+  }
+</style>
+
+<script>
+  const animationDuration = 1800;
+  const easeOutQuart = (x: number) => 1 - Math.pow(1 - x, 4);
+
+  const animate = (el: Element) => {
+    const target = parseFloat(el.getAttribute('data-count-up-target') || '0');
+    const decimals = target % 1 === 0 ? 0 : 1;
+    const startTime = performance.now();
+
+    const update = (currentTime: number) => {
+      const progress = Math.min(
+        (currentTime - startTime) / animationDuration,
+        1
+      );
+      el.textContent = (easeOutQuart(progress) * target).toFixed(decimals);
+      if (progress < 1) requestAnimationFrame(update);
+    };
+
+    requestAnimationFrame(update);
+  };
+
+  const init = () => {
+    const els = document.querySelectorAll('[data-count-up-target]');
+    if (!els.length) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      els.forEach((el) => {
+        const target = parseFloat(
+          el.getAttribute('data-count-up-target') || '0'
+        );
+        el.textContent = target.toString();
+      });
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animate(entry.target);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    els.forEach((el) => observer.observe(el));
+  };
+
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>
