@@ -1,0 +1,547 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+import Layout from '../../layouts/Layout.astro';
+import AdPackageCard from '../../components/AdPackageCard.astro';
+import XPostCard from '../../components/sponsor/XPostCard.astro';
+import PartnerCard from '../../components/sponsor/PartnerCard.astro';
+import CaseStudyVideo from '../../components/sponsor/CaseStudyVideo.astro';
+import {
+  adPackages,
+  hostProfiles,
+  partners,
+  reachStats,
+  xPosts
+} from 'src/data/sponsor';
+
+import bottlePhoto from '../../img/events/hosts-cascadiajs-bottle.jpg';
+import robbieStage from '../../img/events/robbie-cascadiajs-stage.jpg';
+import adamShaundai from '../../img/events/adam-live-shaundai.jpg';
+import crowdHands from '../../img/events/cascadiajs-crowd-hands.jpg';
+import adamAward from '../../img/events/adam-warp-award.jpg';
+import thatConf from '../../img/events/live-that-conf.jpg';
+import liveBdougie from '../../img/events/live-bdougie.jpg';
+import widePhoto from '../../img/events/hosts-cascadiajs-wide.jpg';
+import robbiePortrait from '../../img/events/robbie-cascadiajs-talk.jpg';
+import adamPortrait from '../../img/events/adam-cascadiajs-podium.jpg';
+
+const hostPhotos: Record<string, ImageMetadata> = {
+  RobbieWagner: robbiePortrait,
+  argyleink: adamPortrait
+};
+
+const railStops = [
+  { id: 'the-two-of-us', label: 'The two of us' },
+  { id: 'reach', label: 'Reach' },
+  { id: 'case-study', label: 'Proof it works' },
+  { id: 'partners', label: 'Past partners' },
+  { id: 'packages', label: 'Packages' }
+];
+---
+
+<Layout title="Sponsor — The Green Room Wall">
+  <meta slot="head" name="robots" content="noindex" />
+
+  <div class="green-room relative z-10 mb-2 px-8 pb-8 lg:px-18 lg:pb-16">
+    <!--
+    THESIS: The proof IS the hero — a dense wall of real artifacts (stage
+    photos, X posts, live frames, stat passes) a sponsor can rummage through.
+    Refuses the tidy hero-plus-sections pitch page.
+    OWN-WORLD: The site's light/dark oklch system, Inter, purple/cyan accents;
+    collage grammar raised from the Merz hand — scraps repack rather than
+    scale, tiny alternating tilts, press lifts a scrap forward; laminate-pass
+    stat chips with gradient edges.
+    STORY: A sponsor lands in the mess of real evidence, believes it because
+    nothing looks templated, then follows the rail: people, reach, case,
+    partners, packages.
+    FIRST VIEWPORT: Masonry wall of 10+ artifacts, biggest scrap the bottle
+    photo; claim plate overlapping the wall: "This is what sponsoring us
+    actually looks like." with two actions.
+    FORM: Evidence collage with narrative rail; candidate 4 of 7; seed 153ac46c.
+    FINISH: unreviewed and undocumented is unfinished; this build ends with
+    the finish review, the verdict, DESIGN.md, and every shipping raster
+    carrying its provenance.
+    -->
+
+    <section class="relative">
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <figure class="scrap relative m-0 overflow-hidden rounded-xl md:col-span-2">
+          <Image
+            class="aspect-[3/2] h-full w-full object-cover"
+            src={bottlePhoto}
+            alt="Adam Argyle raising a bottle of bourbon next to Robbie Wagner on stage at CascadiaJS 2026"
+            widths={[640, 960, 1440]}
+            sizes="(min-width: 768px) 38rem, 100vw"
+            loading="eager"
+          />
+          <figcaption class="scrap-caption">CascadiaJS 2026, mainstage</figcaption>
+        </figure>
+
+        <div
+          class="claim-plate dark:bg-dark-background relative z-20 self-start rounded-2xl bg-white p-6 shadow-2xl md:-mb-10 lg:p-7"
+        >
+          <h1
+            class="text-light-text-heading text-2xl leading-tight font-extrabold text-balance lg:text-3xl dark:text-white"
+          >
+            This is what sponsoring us actually looks like.
+          </h1>
+          <p class="mt-3">
+            Real stages, real posts, real people. You're not buying a slot —
+            you're backing Robbie and Adam.
+          </p>
+          <div class="mt-5 flex flex-wrap items-center gap-4">
+            <a class="btn" href="#packages">
+              <span
+                class="text-light-text-heading rounded-full px-6 py-3 text-center text-sm dark:text-white"
+              >
+                See the packages
+              </span>
+            </a>
+            <a
+              href="/contact"
+              class="text-light-text-heading text-sm font-semibold underline decoration-[#8A63FF]/50 underline-offset-4 hover:decoration-[#8A63FF] dark:text-white dark:decoration-[#42C8F3]/50 dark:hover:decoration-[#42C8F3]"
+            >
+              Talk to us
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="wall mt-4 columns-2 gap-4 md:columns-3">
+        <p class="scrap pass">
+          <span class="pass-value">58.5K</span>
+          <span class="pass-label">X followers, @argyleink alone</span>
+        </p>
+
+        <figure class="scrap hidden md:block">
+          <Image
+            class="w-full rounded-xl object-cover"
+            src={robbieStage}
+            alt="Robbie Wagner speaking on stage at CascadiaJS 2026"
+            widths={[480, 768]}
+            sizes="19rem"
+          />
+          <figcaption class="scrap-caption">Robbie, on the mic</figcaption>
+        </figure>
+
+        <XPostCard post={xPosts[0]} class="scrap" />
+
+        <figure class="scrap">
+          <Image
+            class="w-full rounded-xl object-cover"
+            src={thatConf}
+            alt="The hosts recording a live episode on stage at THAT Conference"
+            widths={[480, 768]}
+            sizes="(min-width: 768px) 19rem, 50vw"
+          />
+          <figcaption class="scrap-caption">
+            Live from THAT Conference, with James Quick
+          </figcaption>
+        </figure>
+
+        <p class="scrap pass">
+          <span class="pass-value">Top 10%</span>
+          <span class="pass-label">podcast worldwide by downloads</span>
+        </p>
+
+        <figure class="scrap hidden md:block">
+          <Image
+            class="w-full rounded-xl object-cover"
+            src={adamShaundai}
+            alt="Adam Argyle recording live with Shaundai Person"
+            widths={[480, 768]}
+            sizes="19rem"
+          />
+          <figcaption class="scrap-caption">
+            Recording live with Shaundai Person
+          </figcaption>
+        </figure>
+
+        <p class="scrap pass">
+          <span class="pass-value">100K+</span>
+          <span class="pass-label">monthly impressions, audio + video + social</span>
+        </p>
+
+        <figure class="scrap">
+          <Image
+            class="w-full rounded-xl object-cover"
+            src={crowdHands}
+            alt="The CascadiaJS audience raising hands during the hosts' session"
+            widths={[480, 768]}
+            sizes="(min-width: 768px) 19rem, 50vw"
+          />
+          <figcaption class="scrap-caption">Hands up if you deploy on Fridays</figcaption>
+        </figure>
+
+        <XPostCard post={xPosts[1]} class="scrap hidden md:block" />
+
+        <figure class="scrap hidden md:block">
+          <Image
+            class="w-full rounded-xl object-cover"
+            src={liveBdougie}
+            alt="The hosts recording a live episode with bdougie in front of a bourbon backdrop"
+            widths={[480, 768]}
+            sizes="19rem"
+          />
+          <figcaption class="scrap-caption">On the road with bdougie</figcaption>
+        </figure>
+
+        <figure class="scrap">
+          <Image
+            class="w-full rounded-xl object-cover"
+            src={adamAward}
+            alt="Adam Argyle hamming it up at the Warp-sponsored welcome reception"
+            widths={[480, 768]}
+            sizes="(min-width: 768px) 19rem, 50vw"
+          />
+          <figcaption class="scrap-caption">
+            Warp-sponsored reception. Dignity optional.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <div class="mt-16 lg:grid lg:grid-cols-[10rem_1fr] lg:gap-10">
+      <nav
+        aria-label="Page sections"
+        class="rail sticky top-8 hidden self-start lg:block"
+      >
+        <ul class="space-y-3 text-sm">
+          {
+            railStops.map((stop) => (
+              <li>
+                <a
+                  href={`#${stop.id}`}
+                  class="rail-link flex items-center gap-2.5 font-medium transition-colors hover:text-[#8A63FF] dark:hover:text-[#42C8F3]"
+                >
+                  <span class="rail-dot h-1.5 w-1.5 rounded-full bg-current opacity-40 transition-opacity" />
+                  {stop.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="min-w-0">
+        <section id="the-two-of-us" class="scroll-mt-8">
+          <h2
+            class="text-light-text-heading text-3xl font-bold text-balance lg:text-4xl dark:text-white"
+          >
+            The two of us
+          </h2>
+
+          <div class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
+            {
+              hostProfiles.map((host) => (
+                <article class="dark:border-dark-border dark:bg-dark-background overflow-hidden rounded-2xl border border-gray-200 bg-white">
+                  <div class="relative aspect-[4/3] overflow-hidden">
+                    <Image
+                      class="h-full w-full object-cover"
+                      src={hostPhotos[host.handle]}
+                      alt={`${host.name} on stage at CascadiaJS 2026`}
+                      widths={[480, 768, 1080]}
+                      sizes="(min-width: 768px) 22rem, 100vw"
+                    />
+                    <p class="absolute right-3 bottom-3 rounded-full bg-black/70 px-3 py-1 text-sm font-bold text-white tabular-nums">
+                      {host.followers} on X
+                    </p>
+                  </div>
+                  <div class="p-6">
+                    <h3 class="text-light-text-heading text-xl font-bold dark:text-white">
+                      <a href={host.url} target="_blank" rel="noopener">
+                        {host.name}
+                      </a>
+                    </h3>
+                    <p class="mt-1 text-sm font-semibold">{host.role}</p>
+                    <ul class="mt-4 space-y-2 text-[15px]">
+                      {host.creds.map((cred) => (
+                        <li class="flex gap-2.5">
+                          <svg
+                            class="mt-1.5 h-2 w-2 shrink-0 text-[#8A63FF] dark:text-[#42C8F3]"
+                            viewBox="0 0 8 8"
+                            fill="currentColor"
+                            aria-hidden="true"
+                          >
+                            <circle cx="4" cy="4" r="4" />
+                          </svg>
+                          {cred}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              ))
+            }
+          </div>
+        </section>
+
+        <section id="reach" class="mt-16 scroll-mt-8">
+          <h2
+            class="text-light-text-heading text-3xl font-bold text-balance lg:text-4xl dark:text-white"
+          >
+            And the numbers the wall didn't fit
+          </h2>
+
+          <div class="mt-8">
+            {
+              reachStats.slice(1).map((stat) => (
+                <div class="dark:border-dark-border flex flex-col gap-1 border-t border-gray-200 py-5 sm:flex-row sm:items-baseline sm:gap-6">
+                  <span class="text-light-text-heading w-32 shrink-0 text-4xl font-extrabold tracking-tight tabular-nums dark:text-white">
+                    {stat.value}
+                  </span>
+                  <p>
+                    <span class="text-light-text-heading font-bold dark:text-white">
+                      {stat.label}
+                    </span>
+                    <span class="block text-sm">{stat.detail}</span>
+                  </p>
+                </div>
+              ))
+            }
+          </div>
+        </section>
+
+        <section id="case-study" class="mt-16 scroll-mt-8">
+          <h2
+            class="text-light-text-heading text-3xl font-bold text-balance lg:text-4xl dark:text-white"
+          >
+            Proof it works: Warp's 90 days
+          </h2>
+          <p class="mt-3 max-w-2xl text-lg">
+            A host-read campaign across audio, video, and social — still
+            converting long after the episodes aired.
+          </p>
+
+          <CaseStudyVideo
+            class="dark:border-dark-border mt-6 rounded-2xl border border-gray-200"
+          />
+
+          <a
+            href="/sponsors/warp"
+            class="group text-light-text-heading mt-6 inline-flex items-center gap-3 text-lg font-semibold dark:text-white"
+          >
+            See Warp's 90-day results
+            <svg
+              class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14m-7-7l7 7-7 7"></path>
+            </svg>
+          </a>
+        </section>
+
+        <section id="partners" class="mt-16 scroll-mt-8">
+          <h2
+            class="text-light-text-heading text-3xl font-bold text-balance lg:text-4xl dark:text-white"
+          >
+            Brands that have been on the wall
+          </h2>
+
+          <div class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
+            {
+              partners.map((partner, i) => (
+                <PartnerCard
+                  partner={partner}
+                  class={i === 0 ? 'md:col-span-2' : undefined}
+                />
+              ))
+            }
+          </div>
+        </section>
+
+        <section id="packages" class="mt-16 scroll-mt-8">
+          <h2
+            class="text-light-text-heading text-3xl font-bold text-balance lg:text-4xl dark:text-white"
+          >
+            Pick your barrel
+          </h2>
+          <p class="mt-3 max-w-2xl text-lg">
+            Self-serve checkout. Host-read, baked in, evergreen.
+          </p>
+
+          <div class="mt-8 grid grid-cols-1 gap-6 xl:grid-cols-2">
+            {
+              adPackages.map((pkg) => (
+                <AdPackageCard
+                  bullets={pkg.bullets}
+                  heading={pkg.heading}
+                  price={pkg.price}
+                  period={pkg.period}
+                  productId={import.meta.env[pkg.envKey] || `YOUR_${pkg.envKey}`}
+                />
+              ))
+            }
+          </div>
+        </section>
+
+        <section class="relative mt-16 overflow-hidden rounded-2xl">
+          <Image
+            class="absolute inset-0 h-full w-full object-cover"
+            src={widePhoto}
+            alt="Robbie and Adam at the CascadiaJS podium in a grand hall"
+            widths={[640, 960, 1440]}
+            sizes="(min-width: 1024px) 44rem, 100vw"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/55 to-black/45"
+          >
+          </div>
+          <div class="relative p-8 py-16 lg:p-12">
+            <p class="max-w-xl text-2xl font-bold text-balance text-white lg:text-3xl">
+              Or… maybe you have an idea?
+            </p>
+            <p class="mt-3 max-w-xl text-lg text-white/85">
+              The weird ones are usually our favorites.
+            </p>
+            <a class="btn mt-7 inline-flex" href="/contact">
+              <span
+                class="text-light-text-heading rounded-full bg-white px-8 py-3 text-center text-sm dark:bg-transparent dark:text-white"
+              >
+                Start the conversation
+              </span>
+            </a>
+            <p class="mt-10 text-sm font-semibold text-white/70">
+              — Robbie &amp; Adam, Whiskey Web and Whatnot
+            </p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .scrap {
+    position: relative;
+    display: block;
+    break-inside: avoid;
+    margin-bottom: 1rem;
+    transition:
+      transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .scrap:nth-child(odd) {
+    rotate: -0.6deg;
+  }
+
+  .scrap:nth-child(even) {
+    rotate: 0.5deg;
+  }
+
+  .scrap:nth-child(3n) {
+    rotate: 0.9deg;
+  }
+
+  .scrap:hover,
+  .scrap:active {
+    z-index: 10;
+    transform: translateY(-4px) scale(1.015);
+    rotate: 0deg;
+    box-shadow: 0 20px 40px -18px rgb(0 0 0 / 0.45);
+  }
+
+  .scrap-caption {
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    left: 0.5rem;
+    border-radius: 0.5rem;
+    background: rgb(0 0 0 / 0.65);
+    padding: 0.375rem 0.625rem;
+    font-size: 0.75rem;
+    line-height: 1.3;
+    color: white;
+  }
+
+  .pass {
+    border-radius: 0.75rem;
+    border: 1px solid transparent;
+    background:
+      linear-gradient(
+          light-dark(white, var(--color-dark-background)),
+          light-dark(white, var(--color-dark-background))
+        )
+        padding-box,
+      linear-gradient(135deg, #d8ccff, #8a63ff) border-box;
+    padding: 1.25rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .pass {
+      background:
+        linear-gradient(
+            var(--color-dark-background),
+            var(--color-dark-background)
+          )
+          padding-box,
+        linear-gradient(135deg, #42c8f3, #b6edff) border-box;
+    }
+  }
+
+  .pass-value {
+    display: block;
+    font-size: 2.25rem;
+    line-height: 1.1;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+    color: light-dark(var(--color-light-text-heading), white);
+  }
+
+  .pass-label {
+    display: block;
+    margin-top: 0.375rem;
+    font-size: 0.875rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scrap,
+    .scrap:hover {
+      transform: none;
+      rotate: 0deg;
+    }
+  }
+</style>
+
+<script>
+  const init = () => {
+    const links = document.querySelectorAll('.rail-link');
+    if (!links.length) return;
+
+    const sections = Array.from(links)
+      .map((link) => {
+        const id = link.getAttribute('href')?.slice(1);
+        return id ? document.getElementById(id) : null;
+      })
+      .filter((el): el is HTMLElement => el !== null);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const link = document.querySelector(
+            `.rail-link[href="#${entry.target.id}"] .rail-dot`
+          );
+          if (link) {
+            link.classList.toggle('opacity-100', entry.isIntersecting);
+            link.classList.toggle('opacity-40', !entry.isIntersecting);
+          }
+        });
+      },
+      { rootMargin: '-20% 0px -60% 0px' }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+  };
+
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>
