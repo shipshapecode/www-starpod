@@ -22,6 +22,42 @@ export interface XPost {
 
 export const xPosts: Array<XPost> = [
   {
+    author: 'Whiskey Web and Whatnot',
+    handle: 'whiskeywebfm',
+    avatar: null,
+    date: 'Dec 29, 2023',
+    text: 'Are you team inferred types or team explicit types? @kenwheeler knows where he stands.',
+    replies: '6',
+    reposts: '12',
+    likes: '178',
+    views: '284.8K',
+    url: 'https://x.com/whiskeywebfm/status/1740841143670280596'
+  },
+  {
+    author: 'Whiskey Web and Whatnot',
+    handle: 'whiskeywebfm',
+    avatar: null,
+    date: 'Feb 20, 2024',
+    text: "Is there anything Microsoft doesn't own these days? We discuss the powerful reach of our Microsoft overlords with @chriscoyier on the latest WWW episode.",
+    replies: '9',
+    reposts: '7',
+    likes: '201',
+    views: '148.9K',
+    url: 'https://x.com/whiskeywebfm/status/1760098830463148485'
+  },
+  {
+    author: 'Robbie Wagner',
+    handle: 'RobbieWagner',
+    avatar: 'robbiethewagner.jpg',
+    date: 'Sep 27, 2023',
+    text: 'React was a mistake',
+    replies: '122',
+    reposts: '38',
+    likes: '483',
+    views: '127.4K',
+    url: 'https://x.com/RobbieWagner/status/1707128750746243477'
+  },
+  {
     author: 'Adam Argyle',
     handle: 'argyleink',
     avatar: 'argyleink.jpg',
@@ -33,41 +69,6 @@ export const xPosts: Array<XPost> = [
     views: '100K',
     url: 'https://x.com/argyleink/status/2018737944622944378'
   },
-  {
-    author: 'Whiskey Web and Whatnot',
-    handle: 'whiskeywebfm',
-    avatar: null,
-    date: 'Aug 5, 2026',
-    text: "The Future Called. It's Using CSS2.",
-    replies: '2',
-    reposts: '2',
-    likes: '7',
-    views: '1.8K',
-    url: 'https://x.com/whiskeywebfm'
-  },
-  {
-    author: 'Adam Argyle',
-    handle: 'argyleink',
-    avatar: 'argyleink.jpg',
-    date: 'Aug 20, 2026',
-    text: 'Few minutes til we’re live on @whiskeywebfm',
-    replies: '2',
-    reposts: '1',
-    likes: '14',
-    views: '1.7K',
-    url: 'https://x.com/argyleink'
-  },
-  {
-    author: 'Robbie Wagner',
-    handle: 'RobbieWagner',
-    avatar: 'robbiethewagner.jpg',
-    date: 'Aug 5, 2026',
-    text: "The Future Called. It's Using CSS2.",
-    likes: '4',
-    reposts: '4',
-    views: '803',
-    url: 'https://x.com/RobbieWagner'
-  }
 ];
 
 export interface ReachStat {
