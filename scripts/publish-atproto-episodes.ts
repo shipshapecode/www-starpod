@@ -15,8 +15,8 @@
  *     used to poll for rebuilt episode pages when WAIT_FOR_SITE is set
  *
  * Usage:
- *   pnpm publish:episodes          # publish new episodes only
- *   pnpm publish:episodes:backfill # publish all episodes (backfill)
+ *   pnpm publish:atproto          # publish new episodes only
+ *   pnpm publish:atproto:backfill # publish all episodes (backfill)
  */
 
 import { htmlToText } from 'html-to-text';
@@ -66,24 +66,17 @@ async function waitForPage(url: string) {
   }
 }
 
+// Only validate the fields this script actually uses — requiring unused
+// fields makes publishing break whenever the feed host changes something
+// irrelevant (e.g. Flightcast's image enclosures have no `type`).
 const FeedSchema = object({
   items: array(
     object({
-      id: string(),
       title: string(),
       published: number(),
       description: string(),
       content_encoded: optional(string()),
-      itunes_duration: number(),
-      itunes_episode: optional(number()),
-      itunes_episodeType: optional(string()),
-      itunes_image: optional(object({ href: optional(string()) })),
-      enclosures: array(
-        object({
-          url: string(),
-          type: string()
-        })
-      )
+      itunes_episodeType: optional(string())
     })
   )
 });
