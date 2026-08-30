@@ -35,7 +35,7 @@
     "drizzle-orm": "^0.45.2",
     "html-to-text": "^9.0.5",
     "rss-to-json": "^2.1.1",
-    "starpod": "^1.0.0",
+    "starpod": "^1.0.1",
     "valibot": "^1.4.1"
   },
   "devDependencies": {
