@@ -3,6 +3,13 @@ import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
+  // starpod ships .tsx sources that resolve inside node_modules, where the
+  // tsconfig-based JSX detection doesn't apply — configure the Preact JSX
+  // transform explicitly.
+  esbuild: {
+    jsx: 'automatic',
+    jsxImportSource: 'preact'
+  },
   test: {
     environment: 'jsdom',
     setupFiles: ['./tests/unit/test-setup.ts'],
