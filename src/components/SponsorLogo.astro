@@ -1,0 +1,94 @@
+---
+// A sponsor logo, supplied in whichever way keeps it legible against the page.
+// Files live in public/images/sponsors/ and are referenced by filename. Pass an
+// optional `href` to link the logo to the brand's site (opens in a new tab).
+export type Logo = { href?: string } & (
+  | {
+      // Separate artwork per theme. `light` is shown in light mode, `dark` in
+      // dark mode — matching the repo's -light/-dark asset convention.
+      name: string;
+      light: string;
+      dark: string;
+    }
+  | {
+      // A single image. Pass `background` (any CSS color) for a one-color logo
+      // that needs a fixed backdrop to stay legible in both themes; omit it for
+      // a full-color logo that already reads on light and dark.
+      name: string;
+      src: string;
+      background?: string;
+    }
+  | {
+      // Styled text placeholder until real artwork is supplied. `wordmark` is
+      // the utility-class string for the text treatment.
+      name: string;
+      wordmark: string;
+    }
+);
+
+interface Props {
+  logo: Logo;
+  /** Size / color / hover treatment supplied by the caller. */
+  class?: string;
+}
+
+const { logo, class: className } = Astro.props;
+const src = (file: string) =>
+  file.startsWith('/') ? file : `/images/sponsors/${file}`;
+const imgBase = 'max-w-full object-contain';
+
+const Wrapper = logo.href ? 'a' : Fragment;
+const wrapperProps = logo.href
+  ? {
+      href: logo.href,
+      target: '_blank',
+      rel: 'noopener noreferrer',
+      title: logo.name,
+      class: 'inline-flex items-center justify-center'
+    }
+  : {};
+---
+
+<Wrapper {...wrapperProps}>
+  {
+    'light' in logo ? (
+      <Fragment>
+        <img
+          src={src(logo.light)}
+          alt={logo.name}
+          loading="lazy"
+          class:list={[imgBase, 'block dark:hidden', className]}
+        />
+        <img
+          src={src(logo.dark)}
+          alt={logo.name}
+          loading="lazy"
+          class:list={[imgBase, 'hidden dark:block', className]}
+        />
+      </Fragment>
+    ) : 'src' in logo ? (
+      logo.background ? (
+        <span
+          class="inline-flex max-w-full items-center justify-center rounded-xl px-4 py-3"
+          style={`background-color:${logo.background}`}
+        >
+          <img
+            src={src(logo.src)}
+            alt={logo.name}
+            loading="lazy"
+            class:list={[imgBase, className]}
+          />
+        </span>
+      ) : (
+        <img
+          src={src(logo.src)}
+          alt={logo.name}
+          loading="lazy"
+          class:list={[imgBase, className]}
+        />
+      )
+    ) : (
+      <span class:list={[logo.wordmark, className]}>{logo.name}</span>
+    )
+  }
+</Wrapper>
