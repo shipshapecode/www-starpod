@@ -3,19 +3,21 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with
 code in this repository.
 
-## What is Starpod?
+## What is this repo?
 
-Starpod is an open-source Astro-based podcast website generator. It creates a
-full podcast site from an RSS feed and a `starpod.config.ts` configuration file.
-The reference deployment is [whiskey.fm](https://whiskey.fm) (Whiskey Web and
-Whatnot podcast).
+The [whiskey.fm](https://whiskey.fm) website (Whiskey Web and Whatnot podcast).
+It consumes the [`starpod`](https://github.com/shipshapecode/starpod) npm
+package — an Astro integration that generates the entire core podcast site
+(episode pages, player, search, transcripts, LLM endpoints) from the RSS feed
+configured in `starpod.config.ts`. This repo holds only whiskey.fm-specific
+content, pages, and overrides.
 
 ## Commands
 
 - **Dev server:** `pnpm dev` (runs on localhost:4321)
-- **Build:** `pnpm build` (runs `astro check`, `astro build`, then
-  `scripts/vercel-md-negotiation.mjs`, which injects `Accept: text/markdown`
-  content-negotiation routes into the Vercel build output)
+- **Build:** `pnpm build` (runs `astro check` then `astro build`; the starpod
+  integration injects the `Accept: text/markdown` content-negotiation routes
+  into the Vercel build output during the build)
 - **Lint:** `pnpm lint` (ESLint with caching)
 - **Lint fix:** `pnpm lint:fix`
 - **All tests:** `pnpm test` (runs unit + e2e concurrently)
@@ -25,89 +27,78 @@ Whatnot podcast).
 - **Seed remote DB:** `pnpm db:seed`
 - **Push schema to DB:** `pnpm db:push`
 - **Drizzle Studio:** `pnpm db:studio`
+- **Publish episodes to ATProto:** `pnpm publish:atproto` (or
+  `publish:atproto:backfill`)
 
 ## Architecture
 
-### Framework Stack
+### The starpod integration
 
-- **Astro 5** with static output, deployed to Vercel
-- **Preact** for interactive components (player, search, contact form)
-- **Tailwind CSS v4** via Vite plugin
-- **Drizzle ORM** with Turso/libSQL for episode guests and sponsors
-- **Valibot** for config validation
+`astro.config.mjs` registers `starpod(starpodConfig, options)`. The
+integration injects all core routes (home, `[episode]`, about, contact, 404,
+llms.txt, openapi.json, markdown twins, JSON API) and brings its own Preact,
+sitemap, Tailwind, and font setup. Options used here:
 
-### Key Configuration
+- `database: true` — per-episode guests/sponsors from Turso via Drizzle.
+- `components` — replaces built-in components; this site overrides `InfoCard`
+  (`src/components/InfoCard.astro`) to add Collections/Store/Sponsor nav
+  links. Other overridable components: Dots, EpisodeList, Hosts,
+  LargePlatforms, NotFoundContent, Platforms, ShowArtwork.
+- `customCss` — `src/styles/custom.css` loads after the package styles.
 
-- `starpod.config.ts` — podcast metadata (hosts, platforms, RSS feed URL,
-  description). Uses `defineStarpodConfig()` from `src/utils/config.ts` for type
-  safety and validation.
-- `astro.config.mjs` — Astro config with Vercel adapter, Preact, and sitemap
-  integrations.
-- `drizzle.config.ts` — Drizzle Kit config for schema push, migrations, and
-  studio.
+Package internals are importable as `starpod/src/*` (mapped in
+`tsconfig.json` to `./node_modules/starpod/src/*`, and aliased the same way in
+`vitest.config.ts`). Stable exports: `starpod`, `starpod/config`,
+`starpod/content`, `starpod/db`, `starpod/db/schema`, `starpod/layout`,
+`starpod/components/AdPackageCard`, `starpod/rss`.
 
-### Data Flow
+Outside Astro (tsx scripts, tests) the `virtual:starpod/config` module doesn't
+exist, so standalone code passes the config explicitly, e.g.
+`getAllEpisodes(starpodConfig)` in `db/seed.ts` and
+`scripts/analyze-transcripts.ts`.
 
-Episodes are fetched from the RSS feed at build time via `src/lib/rss.ts`.
-Guest/sponsor data lives in `db/data/` as TypeScript files and is seeded to
-Turso via `db/seed.ts`. The DB schema is in `db/schema.ts` (Drizzle ORM) with
-tables: Episode, Person, HostOrGuest, Sponsor, SponsorForEpisode. The DB
-connection is configured in `db/index.ts`.
+### Site-specific code (this repo)
 
-### Source Structure
-
-- `src/pages/` — Astro pages and API routes. Dynamic episode pages use
-  `[episode].astro`. LLM-friendly `.html.md.ts` endpoints generate markdown
-  versions. `openapi.json.ts` publishes an OpenAPI spec for the JSON API.
-  `[...notFound].astro` is an on-demand (prerender=false) catch-all that
-  returns agent-friendly 404s: JSON errors for `/api/*`, a markdown body for
-  `Accept: text/markdown` clients, and the styled 404 page otherwise. API
-  routes return structured JSON errors via `src/lib/api-errors.ts`.
-- `src/components/` — Mix of `.astro` (static) and `.tsx` (Preact interactive)
-  components. The audio player (`src/components/player/`) and search dialog are
-  Preact.
-- `src/components/state.ts` — Preact signals for shared player state.
-- `src/lib/` — Core utilities: RSS fetching, image optimization, LLM content
-  generation.
-- `src/content/transcripts/` — Markdown transcript files named by episode
-  number. When one is absent, the site falls back to the transcript referenced
-  by the feed's `<podcast:transcript>` tag (fetched/parsed in
-  `src/lib/transcript.ts`). Both sources render with clickable timestamps that
-  seek the player: RSS paragraphs via the `episode/Transcript` island, and
-  markdown `[HH:MM:SS]` timestamps via the `rehype-transcript-timestamps`
-  plugin (registered in `astro.config.mjs`) plus the `episode/MarkdownTranscript`
-  island. Note: changing that rehype plugin needs a dev server restart to take
-  effect, since Astro's content render cache doesn't reload it on hot-reload.
-- `src/layouts/Layout.astro` — Single shared layout.
-- `db/` — Database schema (`schema.ts`), connection (`index.ts`), seed script
-  (`seed.ts`), and static data files (`data/`).
+- `starpod.config.ts` — show metadata: hosts, platforms, RSS feed, blurb,
+  description.
+- `src/pages/sponsor.astro` — sponsorship pitch page; uses the local
+  `src/components/AdPackageCard.astro` (adds Polar `productId` checkout links)
+  rather than the package's card. `src/pages/sponsor/success.astro` is the
+  post-checkout page and `src/pages/api/checkout.ts` is the Polar checkout
+  redirect (needs `POLAR_ACCESS_TOKEN` plus the `POLAR_*_PRODUCT_ID` vars).
+- `src/pages/collections/` — curated episode collections, driven by
+  `src/data/collections.ts` (static definitions), `src/lib/collections.ts`
+  (episode/transcript matching), and `src/lib/topic-keywords.ts`.
+- `src/content/transcripts/` — markdown transcripts named by episode number
+  (`src/content.config.ts` wires them to the package's `transcriptsLoader`).
+  `[HH:MM:SS]` timestamps become clickable seek links.
+- `src/img/people/`, `src/img/sponsors/`, `src/img/countries/` — images the
+  package (and sponsor page) resolves by filename via root-absolute globs.
+- `db/` — seed script and static guest/sponsor data; the schema lives in the
+  package (`drizzle.config.ts` points at
+  `node_modules/starpod/src/db/schema.ts`).
+- `scripts/` — ATProto/standard.site publishing (`publish-atproto-episodes`,
+  `create-publication`, `set-publication-icon`, shared helpers in
+  `standard-site.ts`) and `analyze-transcripts.ts` for collection keyword
+  tuning.
 
 ### Testing
 
 - **Unit tests** (`tests/unit/`): Vitest + jsdom + @testing-library/preact.
-  Setup file at `tests/unit/test-setup.ts`.
-- **E2E tests** (`tests/e2e/`): Playwright testing against chromium, firefox,
-  and webkit.
-
-### TypeScript
-
-Strict mode with `baseUrl: "."` allowing bare `src/...` imports. JSX is
-configured for Preact (`jsxImportSource: "preact"`).
+  These exercise the package internals via the `starpod/src/*` alias. Setup
+  file at `tests/unit/test-setup.ts`.
+- **E2E tests** (`tests/e2e/`): Playwright against chromium, firefox, webkit.
 
 ## Environment Variables
 
-- `DISCORD_WEBHOOK` — Used by the contact form API route
-  (`src/pages/api/contact.ts`) to post to Discord.
-- `ASTRO_DB_REMOTE_URL` — Turso/libSQL database URL (e.g.,
-  `libsql://your-db.turso.io`).
-- `ASTRO_DB_APP_TOKEN` — Authentication token for Turso database.
-- `STANDARD_SITE_DID` — Your ATProto DID for standard.site verification (e.g.,
-  `did:plc:abc123`). Find yours at https://bsky.app/settings.
-- `STANDARD_SITE_PUBLICATION_RKEY` — The publication record key returned when
-  creating a publication via `scripts/create-publication.ts`.
-- `ATPROTO_HANDLE` — Your Bluesky handle (e.g., `you.bsky.social`) for
-  publishing episodes to ATProto.
-- `ATPROTO_APP_PASSWORD` — App password for ATProto API access. Create at
-  https://bsky.app/settings/app-passwords.
-- `STANDARD_SITE_URL` — Your podcast website URL (e.g., `https://whiskey.fm`)
-  used as the publication site when publishing documents.
+- `DISCORD_WEBHOOK` — contact form submissions (package API route).
+- `ASTRO_DB_REMOTE_URL` / `ASTRO_DB_APP_TOKEN` — Turso database.
+- `POLAR_ACCESS_TOKEN` and `POLAR_BOTTLEDROP_PRODUCT_ID`,
+  `POLAR_LABEL_PRODUCT_ID`, `POLAR_30SEC_PRODUCT_ID`,
+  `POLAR_60SEC_PRODUCT_ID` — Polar sponsor checkout.
+- `STANDARD_SITE_DID` — ATProto DID for standard.site verification.
+- `STANDARD_SITE_PUBLICATION_RKEY` — publication record key from
+  `scripts/create-publication.ts`.
+- `ATPROTO_HANDLE` / `ATPROTO_APP_PASSWORD` — Bluesky credentials for
+  publishing episodes.
+- `STANDARD_SITE_URL` — the site URL used when publishing documents.

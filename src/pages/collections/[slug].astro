@@ -1,9 +1,9 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import Layout from 'starpod/layout';
 import { Schema } from 'astro-seo-schema';
-import EpisodeList from '../../components/EpisodeList.astro';
+import EpisodeList from 'starpod/src/components/EpisodeList.astro';
 import { getComputedCollections } from '../../lib/collections';
-import { getAllEpisodes, getShowInfo } from '../../lib/rss';
+import { getAllEpisodes, getShowInfo } from 'starpod/rss';
 
 const show = await getShowInfo();
 

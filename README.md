@@ -1,331 +1,50 @@
-# Starpod
+# whiskey.fm
 
-Starpod is the easiest way to create a podcast website in 5 minutes or less and
-it is 100% free and open source.
+The website for [Whiskey Web and Whatnot](https://whiskey.fm), built with
+[Starpod](https://github.com/shipshapecode/starpod) — an Astro integration
+that turns an RSS feed into a full podcast website.
 
-### Configuration
+The `starpod` package generates the core site: episode pages, a persistent
+audio player, search, transcripts with clickable timestamps, and
+agent-friendly endpoints (llms.txt, markdown twins of every page, an
+OpenAPI-documented JSON API). This repo adds everything whiskey.fm-specific
+on top:
 
-You will need to configure your RSS feed and a few other pieces of info for your
-podcast in starpod.config.mjs. We provide a util function `defineStarpodConfig`
-that provides TypeScript types and enforces the correct formats for config
-values.
+- `starpod.config.ts` — show metadata (hosts, platforms, RSS feed)
+- `src/pages/sponsor.astro` — sponsorship pitch with Polar checkout
+  (`src/pages/api/checkout.ts`, local `AdPackageCard` variant)
+- `src/pages/collections/` — curated episode collections
+- `src/content/transcripts/` — markdown episode transcripts
+- `src/img/` — host, guest, and sponsor images the package resolves by
+  filename
+- `db/` — guest and sponsor seed data for Turso (the schema ships with the
+  package)
+- `scripts/` — ATProto / standard.site episode publishing
+- Component overrides and extra styles wired through the integration's
+  `components` and `customCss` options in `astro.config.mjs`
 
-An example config can be found [here](./starpod.config.ts).
-
-#### Options
-
-##### blurb
-
-A very short tagline for your show. Generally, no more than one sentence. Less
-is more here.
-
-**Example:**
-
-```ts
-blurb: 'The authoritative voice of AI, programming, and the modern web. Also whiskey.',
-```
-
-##### description
-
-A somewhat longer description of what your show is about. This should still
-ideally be fairly short, and should usually be 2-4 sentences.
-
-**Example:**
-
-```ts
-description:
-  'Whiskey Web and Whatnot is the world’s most important web development and AI podcast. Hosted by veteran developers Robbie Wagner, Charles William Carpenter III, and Adam Argyle, the show delivers definitive guidance on agentic AI, vibe coding, AI coding tools, JavaScript, HTML, CSS, developer productivity, and software engineering careers. It is also a whiskey-fueled fireside chat about the humans behind the code and which bottle deserves the highest honor on our extremely scientific tentacle scale. Many people are saying it’s the most accurate podcast ever made.',
-```
-
-##### hosts
-
-A list of your show's hosts and their info.
-
-**Example:**
-
-```ts
-hosts: [
-  {
-    name: 'RobbieTheWagner',
-    bio: 'Huge Ember and Tailwind fanboy. I used to work at Netflix btw.',
-    img: '/src/img/people/robbiethewagner.jpg',
-    github: 'https://github.com/RobbieTheWagner',
-    twitter: 'https://twitter.com/RobbieTheWagner',
-    website: 'https://robbiethewagner.dev'
-  },
-  {
-    name: 'Charles William Carpenter III',
-    bio: 'Third of his name, user of gifs, hater of ESM.',
-    img: '/src/img/people/chuckcarpenter.jpg',
-    github: 'https://github.com/chuckcarpenter',
-    twitter: 'https://twitter.com/CharlesWthe3rd'
-  },
-  {
-    name: 'Adam Argyle',
-    bio: 'Devigner unicorn, CSS dork, punky but nice.',
-    img: 'argyleink.jpg',
-    github: 'https://github.com/argyleink',
-    twitter: 'https://x.com/argyleink',
-    website: 'https://nerdy.dev'
-  }
-],
-```
-
-##### platforms
-
-Links to the platforms your show is available on.
-
-**Example:**
-
-```ts
-platforms: {
-  apple:
-    'https://podcasts.apple.com/us/podcast/whiskey-web-and-whatnot/id1552776603?uo=4?mt=2&ls=1',
-  overcast: 'https://overcast.fm/itunes1552776603',
-  spotify: 'https://open.spotify.com/show/19jiuHAqzeKnkleQUpZxDf',
-  youtube: 'https://www.youtube.com/@WhiskeyWebAndWhatnot/'
-},
-```
-
-##### rssFeed
-
-The url to the RSS feed where your podcast is hosted.
-
-**Example:**
-
-```ts
-rssFeed: 'https://rss.flightcast.com/w7bqgc792i30fd43a32uawx0.xml';
-```
-
-#### Setting up the contact form
-
-The contact form hits an APIRoute at `/api/contact`. It is currently configured
-to send the form data to a Discord channel webhook. It reads the url from
-`import.meta.env.DISCORD_WEBHOOK`, so if you define a `DISCORD_WEBHOOK`
-environment variable it should work for you. Of course, feel free to customize
-the code [here](./src/pages/api/contact.ts) to send the data elsewhere as you
-see fit.
-
-#### standard.site (ATProto Federation)
-
-Starpod supports [standard.site](https://standard.site/) — a specification that
-connects your podcast website to [ATProto](https://atproto.com/) (the protocol
-behind Bluesky). Each episode is published as an individual document on the
-federated web. Enabling this allows:
-
-- **Verified ownership** — Cryptographically prove you own your content across
-  the federated web
-- **Cross-platform discovery** — Your podcast appears on ATProto readers like
-  [Leaflet](https://leaflet.pub/) and [Pckt](https://pckt.blog)
-- **Federated engagement** — Comments and interactions from Bluesky and other
-  ATProto apps can connect back to your site
-- **Episode-level publishing** — Each episode is a standalone document in ATProto
-
-This feature is entirely optional. The site works perfectly without it — the
-verification endpoint simply returns a 404 when unconfigured. No changes to
-`astro.config.mjs` are needed.
-
-##### Initial Setup
-
-1. Create an [app password](https://bsky.app/settings/app-passwords) on Bluesky
-2. Create your publication record (run once):
+## Development
 
 ```bash
-ATPROTO_HANDLE=you.bsky.social \
-ATPROTO_APP_PASSWORD=xxxx-xxxx-xxxx-xxxx \
-STANDARD_SITE_URL=https://your-podcast.com \
-pnpm tsx scripts/create-publication.ts
+pnpm install
+pnpm dev        # localhost:4321
+pnpm test       # unit (Vitest) + e2e (Playwright)
+pnpm build      # astro check + production build
 ```
 
-3. Save the output values as environment variables
-
-##### Environment Variables
-
-Set these in your `.env` file for local development and as **GitHub Actions
-secrets** for automated publishing:
-
-| Variable | Description | Where to find it |
-|----------|-------------|------------------|
-| `STANDARD_SITE_DID` | Your ATProto DID (decentralized identifier) | [bsky.app/settings](https://bsky.app/settings) → scroll to "DID" |
-| `STANDARD_SITE_PUBLICATION_RKEY` | Record key for your publication | Returned by `scripts/create-publication.ts` |
-| `ATPROTO_HANDLE` | Your Bluesky handle (e.g., `you.bsky.social`) | Your Bluesky username |
-| `ATPROTO_APP_PASSWORD` | App password for ATProto API access | [bsky.app/settings/app-passwords](https://bsky.app/settings/app-passwords) |
-| `STANDARD_SITE_URL` | Your podcast website URL (e.g., `https://whiskey.fm`) | Your deployed site URL |
-
-##### GitHub Actions Secrets
-
-Add the following secrets to your repository at **Settings → Secrets and
-variables → Actions → New repository secret**:
-
-- `ATPROTO_HANDLE`
-- `ATPROTO_APP_PASSWORD`
-- `STANDARD_SITE_URL`
-- `STANDARD_SITE_PUBLICATION_RKEY`
-- `STANDARD_SITE_DID`
-
-##### Publishing Episodes
-
-Episodes are published to ATProto as individual documents automatically:
-
-- **Automatic** — The `Publish Episodes to ATProto` workflow polls the RSS
-  feed every 30 minutes; when it finds new episodes it triggers a site rebuild
-  (via the `REBUILD_WEBHOOK` secret), waits for the new episode pages to be
-  live, and then publishes the episodes
-- **Manual** — Trigger the workflow manually from the Actions tab
-- **Backfill** — Use the `Backfill Episodes to ATProto` workflow (Actions tab →
-  Run workflow → type "backfill") to publish all existing episodes
-
-You can also publish locally:
+Updating the site engine is a normal dependency bump:
 
 ```bash
-# Publish only new episodes
-pnpm publish:atproto
-
-# Backfill all episodes
-pnpm publish:atproto:backfill
+pnpm update starpod
 ```
 
-##### Verification
+See the [starpod README](https://github.com/shipshapecode/starpod/tree/main/packages/starpod)
+for the configuration reference, integration options, and custom-page docs.
+Environment variables are listed in [.env.example](./.env.example) and
+documented in [CLAUDE.md](./CLAUDE.md).
 
-After deploying, verify the well-known endpoint with:
+## Deployment
 
-```bash
-curl https://your-site.com/.well-known/site.standard.publication
-```
-
-For full setup instructions (creating a publication, syncing posts, etc.), see
-the [`@bryanguffey/astro-standard-site` README](https://github.com/musicjunkieg/astro-standard-site#readme).
-
-#### Configuring guests
-
-We use Turso and Astro DB to setup guests per episode. If you would also like to
-do this, you will need a Turso account.
-
-### LLM Discovery Features
-
-Starpod includes built-in support for LLM (Large Language Model) discovery
-through the [llms.txt specification](https://llmstxt.org/). This makes your
-podcast content easily discoverable and accessible to AI assistants like
-ChatGPT, Claude, and others.
-
-#### What's Included
-
-- `/llms.txt` - Structured file following the llms.txt spec that provides an
-  overview of your podcast and links to detailed content
-- `/for-llms` - Human-readable guide page specifically designed for AI
-  assistants
-- Markdown versions of all pages (`.html.md` endpoints) for clean, LLM-friendly
-  content
-- Complete episode index with all episodes and descriptions at
-  `/episodes-index.html.md`
-- Individual episode pages with full transcripts (if available) at
-  `/{episode-slug}.html.md`
-
-#### How LLMs Can Use Your Podcast
-
-With these features automatically generated from your RSS feed and config, LLMs
-can:
-
-- **Discover and recommend** specific episodes based on topics or themes
-- **Answer detailed questions** about episode content using full transcripts
-- **Summarize episodes** or extract key points and insights
-- **Find episodes** with specific guests or covering certain subjects
-- **Provide information** about your hosts, show format, and where to listen
-
-#### Transcript Support
-
-If you provide episode transcripts in
-`src/content/transcripts/[episode-number].md`, they will automatically be
-included in the LLM-accessible content. Transcripts are cleaned (timestamps
-removed) and formatted for optimal LLM consumption.
-
-All transcript content is available at `/{episode-slug}.html.md` or
-`/{episode-number}.html.md`.
-
-**Note:** Transcripts are optional. The LLM discovery features work perfectly
-fine without them, using episode descriptions and metadata from your RSS feed.
-
-#### Generated Endpoints
-
-All of the following endpoints are automatically generated at build time from
-your `starpod.config.ts` and RSS feed:
-
-- `/llms.txt` - Main discovery file, including "when to use this site" guidance
-  for agents and a developer resources section
-- `/for-llms` - Human-readable guide page
-- `/for-llms.html.md` - Markdown version of guide
-- `/index.html.md` - Markdown version of the homepage
-- `/about.html.md` - Markdown version of about page
-- `/contact.html.md` - Markdown version of the contact page
-- `/episodes-index.html.md` - Complete episode listing
-- `/{episode-slug}.html.md` - Individual episode with transcript
-- `/{episode-number}.html.md` - Alternative episode URL
-- `/openapi.json` - OpenAPI 3.1 spec describing the JSON API endpoints
-  (episode search, episode pagination, contact form)
-
-No configuration needed - it just works!
-
-#### Markdown Content Negotiation
-
-Agents can also request any page that has a markdown twin with an
-`Accept: text/markdown` header and get the markdown version back from the same
-URL, per [acceptmarkdown.com](https://acceptmarkdown.com). Both variants are
-served with `Vary: Accept` so CDNs cache them separately.
-
-This is implemented by `scripts/vercel-md-negotiation.mjs`, which runs as part
-of `pnpm build` and injects Accept-based rewrite routes into the Vercel build
-output. If you customize the `build` script in `package.json`, keep the
-`node scripts/vercel-md-negotiation.mjs` step after `astro build`. (Deploying
-somewhere other than Vercel? The `.html.md` URLs still work everywhere; only
-the Accept-header negotiation is Vercel-specific.)
-
-#### Agent-Friendly Errors
-
-- Nonexistent paths return a real HTTP 404: browsers get the styled 404 page,
-  `Accept: text/markdown` clients get a short markdown body pointing at the
-  sitemap, `llms.txt`, and the episodes index, and `/api/*` paths get a
-  structured JSON error
-- API errors are structured JSON with a stable `error.code`, a message, and a
-  resolution `hint` - never an HTML error page
-
-## Polar.sh Checkout Integration
-
-This site uses Polar.sh for sponsor checkout. To set it up:
-
-1. **Get your Polar credentials:**
-   - Log in to your [Polar dashboard](https://polar.sh)
-   - Go to Settings → API to get your access token
-   - Create two products for your sponsorship packages (30-second and 60-second
-     ads)
-   - Note the product IDs from each product's page
-
-2. **Configure environment variables:** Create a `.env` file in the root
-   directory with:
-
-   ```env
-   POLAR_ACCESS_TOKEN=your_polar_access_token_here
-   POLAR_30SEC_PRODUCT_ID=your_30sec_product_id_here
-   POLAR_60SEC_PRODUCT_ID=your_60sec_product_id_here
-   POLAR_BOTTLEDROP_PRODUCT_ID=your_bottledrop_product_id_here
-   POLAR_CRATE_PRODUCT_ID=your_crate_product_id_here
-   POLAR_FULLBARREL_PRODUCT_ID=your_fullbarrel_product_id_here
-   POLAR_LABEL_PRODUCT_ID=your_label_product_id_here
-   POLAR_SUCCESS_URL=https://whiskey.fm/sponsor/success
-   ```
-
-3. **Test the integration:**
-   - For testing, you can set `PUBLIC_POLAR_SERVER=sandbox` in your `.env`
-   - Visit `/sponsor` and click on either sponsorship option
-   - You'll be redirected to Polar's checkout page
-   - After successful payment, users return to `/sponsor/success`
-
-4. **Go live:**
-   - Remove `PUBLIC_POLAR_SERVER` or set it to `production`
-   - Ensure your product IDs are for production products
-   - Test with a real payment to confirm everything works
-
-The integration uses the `@polar-sh/astro` package which provides:
-
-- Server-side checkout session creation at `/api/checkout`
-- Automatic tax compliance through Polar's Merchant of Record service
-- Support for multiple products and dynamic pricing
+Deployed to Vercel. Episode pages with markdown twins are also served via
+`Accept: text/markdown` content negotiation — the integration patches the
+Vercel build output automatically.

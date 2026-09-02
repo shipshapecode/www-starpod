@@ -1,7 +1,7 @@
 import { existsSync, readdirSync, readFileSync } from 'fs';
 import { join } from 'path';
 import { collections as staticCollections } from '../data/collections';
-import { getAllEpisodes } from './rss';
+import { getAllEpisodes } from 'starpod/rss';
 import { LLM_KEYWORDS, scoreLLMRelevance, scoreTopicRelevance, topicKeywords } from './topic-keywords';
 
 export interface CollectionRuleConfig {
