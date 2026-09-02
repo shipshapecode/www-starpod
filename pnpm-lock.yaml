@@ -39,8 +39,8 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       starpod:
-        specifier: ^1.0.1
-        version: 1.0.1(@astrojs/preact@5.1.4(@babel/core@7.29.7)(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(preact@10.29.2)(rollup@4.60.4)(tsx@4.22.4)(yaml@2.9.0))(astro@6.4.2(@types/node@24.12.4)(@vercel/functions@3.6.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(tsx@4.22.4)(yaml@2.9.0))(preact@10.29.2)(react@19.0.0)(typescript@5.9.3)(vite@7.3.3(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.22.4)(yaml@2.9.0))
+        specifier: ^1.1.0
+        version: 1.1.0(@astrojs/preact@5.1.4(@babel/core@7.29.7)(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(preact@10.29.2)(rollup@4.60.4)(tsx@4.22.4)(yaml@2.9.0))(astro@6.4.2(@types/node@24.12.4)(@vercel/functions@3.6.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(tsx@4.22.4)(yaml@2.9.0))(preact@10.29.2)(react@19.0.0)(typescript@5.9.3)(vite@7.3.3(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.22.4)(yaml@2.9.0))
       valibot:
         specifier: ^1.4.1
         version: 1.4.1(typescript@5.9.3)
@@ -3825,8 +3825,8 @@ packages:
   standardwebhooks@1.0.0:
     resolution: {integrity: sha512-BbHGOQK9olHPMvQNHWul6MYlrRTAOKn03rOe4A8O3CLWhNf4YHBqq2HJKKC+sfqpxiBY52pNeesD6jIiLDz8jg==}
 
-  starpod@1.0.1:
-    resolution: {integrity: sha512-oxEXl23+yIiFww/xnFbJMBTWR9P+hJwW8E4kMoukPG9IoFx787oALo0aHgQ2OZbaTY+Wvvkfn6kTy3EqG2auhg==}
+  starpod@1.1.0:
+    resolution: {integrity: sha512-o1khSIO8RpqPnJcAed2rNpW46hHhJ7OlwHIPtHvSe3pzbdP1/JydOu/X8Y+C5MbySGs9Pf0mmiMxdVm5pJoL8w==}
     engines: {node: ^22.0.0}
     hasBin: true
     peerDependencies:
@@ -8316,7 +8316,7 @@ snapshots:
       '@stablelib/base64': 1.0.1
       fast-sha256: 1.3.0
 
-  starpod@1.0.1(@astrojs/preact@5.1.4(@babel/core@7.29.7)(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(preact@10.29.2)(rollup@4.60.4)(tsx@4.22.4)(yaml@2.9.0))(astro@6.4.2(@types/node@24.12.4)(@vercel/functions@3.6.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(tsx@4.22.4)(yaml@2.9.0))(preact@10.29.2)(react@19.0.0)(typescript@5.9.3)(vite@7.3.3(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.22.4)(yaml@2.9.0)):
+  starpod@1.1.0(@astrojs/preact@5.1.4(@babel/core@7.29.7)(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(preact@10.29.2)(rollup@4.60.4)(tsx@4.22.4)(yaml@2.9.0))(astro@6.4.2(@types/node@24.12.4)(@vercel/functions@3.6.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(tsx@4.22.4)(yaml@2.9.0))(preact@10.29.2)(react@19.0.0)(typescript@5.9.3)(vite@7.3.3(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.22.4)(yaml@2.9.0)):
     dependencies:
       '@astrojs/preact': 5.1.4(@babel/core@7.29.7)(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(preact@10.29.2)(rollup@4.60.4)(tsx@4.22.4)(yaml@2.9.0)
       '@astrojs/sitemap': 3.7.3
