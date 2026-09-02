@@ -1,0 +1,242 @@
+/**
+ * Publish podcast episodes to ATProto via standard.site
+ *
+ * Each episode is published as an individual document record.
+ * Supports both incremental publishing (new episodes only) and
+ * full backfill (all episodes).
+ *
+ * Required environment variables:
+ *   ATPROTO_HANDLE - Your Bluesky handle (e.g., your-handle.bsky.social)
+ *   ATPROTO_APP_PASSWORD - An app password from bsky.app/settings/app-passwords
+ *   STANDARD_SITE_PUBLICATION_RKEY - The publication record key
+ *
+ * Optional environment variables:
+ *   STANDARD_SITE_URL - Your podcast site URL (e.g., https://whiskey.fm),
+ *     used to poll for rebuilt episode pages when WAIT_FOR_SITE is set
+ *
+ * Usage:
+ *   pnpm publish:atproto          # publish new episodes only
+ *   pnpm publish:atproto:backfill # publish all episodes (backfill)
+ */
+
+import { htmlToText } from 'html-to-text';
+import parseFeed from 'rss-to-json';
+import { array, number, object, optional, parse, string } from 'valibot';
+
+import {
+  StandardSitePublisher,
+  getPublicationAtUri,
+  type PublishDocumentInput
+} from '@bryanguffey/astro-standard-site';
+
+import starpodConfig from '../starpod.config';
+import { dasherize } from 'starpod/src/utils/dasherize';
+
+const BACKFILL = process.argv.includes('--backfill');
+// Set by the GitHub workflow when it has just triggered a site rebuild:
+// published documents link to episode pages, so wait for the rebuilt site to
+// serve them before publishing.
+const WAIT_FOR_SITE = process.env.WAIT_FOR_SITE === 'true';
+
+const PAGE_WAIT_TIMEOUT_MS = 10 * 60 * 1000;
+const PAGE_WAIT_INTERVAL_MS = 15 * 1000;
+
+async function waitForPage(url: string) {
+  const deadline = Date.now() + PAGE_WAIT_TIMEOUT_MS;
+
+  for (;;) {
+    try {
+      const response = await fetch(url, { method: 'HEAD' });
+      if (response.ok) {
+        return;
+      }
+      console.log(`  ⏳ ${url} → ${response.status}, waiting for rebuild...`);
+    } catch (err) {
+      console.log(`  ⏳ ${url} unreachable, waiting for rebuild... (${err})`);
+    }
+
+    if (Date.now() >= deadline) {
+      throw new Error(
+        `Timed out waiting for ${url} — site rebuild may have failed. ` +
+          'Episodes will be retried on the next scheduled run.'
+      );
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, PAGE_WAIT_INTERVAL_MS));
+  }
+}
+
+// Only validate the fields this script actually uses — requiring unused
+// fields makes publishing break whenever the feed host changes something
+// irrelevant (e.g. Flightcast's image enclosures have no `type`).
+const FeedSchema = object({
+  items: array(
+    object({
+      title: string(),
+      published: number(),
+      description: string(),
+      content_encoded: optional(string()),
+      itunes_episodeType: optional(string())
+    })
+  )
+});
+
+async function main() {
+  const identifier = process.env.ATPROTO_HANDLE;
+  const password = process.env.ATPROTO_APP_PASSWORD;
+  const publicationRkey = process.env.STANDARD_SITE_PUBLICATION_RKEY;
+  // Only needed to poll the rebuilt site before publishing (WAIT_FOR_SITE);
+  // the published documents themselves reference the publication AT-URI.
+  const siteUrl = process.env.STANDARD_SITE_URL;
+
+  if (!identifier || !password || !publicationRkey) {
+    console.log(
+      'ℹ️  standard.site/ATProto not configured — skipping episode publishing.\n' +
+        '   To enable, set: ATPROTO_HANDLE, ATPROTO_APP_PASSWORD, STANDARD_SITE_PUBLICATION_RKEY'
+    );
+    return;
+  }
+
+  console.log(
+    BACKFILL ? '📚 Backfilling all episodes...' : '🆕 Publishing new episodes...'
+  );
+
+  // Fetch episodes from RSS
+  // @ts-expect-error rss-to-json types don't match runtime API
+  const feed = await parseFeed.parse(starpodConfig.rssFeed);
+  const { items } = parse(FeedSchema, feed);
+
+  const episodes = items.filter(
+    (item) => item.itunes_episodeType !== 'trailer'
+  );
+
+  // Initialize publisher
+  const publisher = new StandardSitePublisher({
+    identifier,
+    password
+  });
+
+  await publisher.login();
+  console.log(`✅ Logged in as ${publisher.getDid()}`);
+
+  // A document is tied to its publication via the `site` field pointing at the
+  // publication's AT-URI (not the https site URL). Bluesky resolves
+  // document.site -> publication record to attach the publication ref that
+  // gives shared links their "publication" badge. The page URL is reconstructed
+  // from the publication record's `url` + the document `path`.
+  const publicationUri = getPublicationAtUri(
+    publisher.getDid(),
+    publicationRkey
+  );
+
+  // Get existing documents to avoid duplicates
+  const existingPaths = new Set<string>();
+  let cursor: string | undefined;
+
+  // Paginate through all existing documents (ATProto caps at 100 per request)
+  do {
+    const agent = publisher.getAtpAgent();
+    const response = await agent.com.atproto.repo.listRecords({
+      repo: publisher.getDid(),
+      collection: 'site.standard.document',
+      limit: 100,
+      cursor
+    });
+
+    for (const record of response.data.records) {
+      const doc = record.value as { path?: string };
+      if (doc.path) {
+        existingPaths.add(doc.path);
+      }
+    }
+
+    cursor = response.data.cursor;
+  } while (cursor);
+
+  // Vercel deploys are atomic, so new pages go live together — but wait on
+  // every unpublished page so publishing can't outrun the rebuild regardless
+  // of feed ordering or previously failed publishes.
+  if (WAIT_FOR_SITE && !BACKFILL && !siteUrl) {
+    console.log(
+      '⚠️  WAIT_FOR_SITE is set but STANDARD_SITE_URL is not — skipping the site rebuild wait.'
+    );
+  }
+  if (WAIT_FOR_SITE && !BACKFILL && siteUrl) {
+    const pendingUrls = episodes
+      .filter((episode) => !existingPaths.has(`/${dasherize(episode.title)}`))
+      .map(
+        (episode) => `${siteUrl.replace(/\/$/, '')}/${dasherize(episode.title)}`
+      );
+    if (pendingUrls.length > 0) {
+      console.log(
+        `⏳ Waiting for rebuilt site to serve ${pendingUrls.length} new episode page(s)...`
+      );
+      await Promise.all(pendingUrls.map((url) => waitForPage(url)));
+      console.log('✅ Site rebuild is live.');
+    }
+  }
+
+  let published = 0;
+  let skipped = 0;
+  let failed = 0;
+
+  for (const episode of episodes) {
+    const slug = dasherize(episode.title);
+    const path = `/${slug}`;
+
+    if (!BACKFILL && existingPaths.has(path)) {
+      skipped++;
+      continue;
+    }
+
+    const description = htmlToText(episode.description, {
+      wordwrap: false
+    }).slice(0, 300);
+
+    const textContent = episode.content_encoded
+      ? htmlToText(episode.content_encoded, { wordwrap: false })
+      : description;
+
+    const input: PublishDocumentInput = {
+      site: publicationUri,
+      path,
+      title: episode.title,
+      description,
+      publishedAt: new Date(episode.published).toISOString(),
+      textContent,
+      tags: ['podcast']
+    };
+
+    try {
+      const result = await publisher.publishDocument(input);
+      console.log(`  ✅ ${episode.title}`);
+      console.log(`     → ${result.uri}`);
+      published++;
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      // Skip duplicates gracefully during backfill
+      if (message.includes('already exists') || message.includes('duplicate')) {
+        console.log(`  ⏭️  ${episode.title} (already exists)`);
+        skipped++;
+      } else {
+        console.error(`  ❌ ${episode.title}: ${message}`);
+        failed++;
+      }
+    }
+  }
+
+  console.log(
+    `\n🎉 Done! Published: ${published}, Skipped: ${skipped}, Failed: ${failed}, Total episodes: ${episodes.length}`
+  );
+
+  // Exit nonzero so the workflow doesn't record the feed hash and the failed
+  // episodes are retried on the next scheduled run.
+  if (failed > 0) {
+    throw new Error(`${failed} episode(s) failed to publish.`);
+  }
+}
+
+main().catch((err) => {
+  console.error('Fatal error:', err);
+  process.exit(1);
+});

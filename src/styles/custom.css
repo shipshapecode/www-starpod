@@ -1,0 +1,8 @@
+/* Site-specific styles loaded after starpod's built-in styles via the
+   integration's `customCss` option. */
+
+@supports (grid-template-rows: subgrid) {
+  .collections-grid {
+    grid-auto-rows: minmax(0, auto);
+  }
+}

@@ -1,7 +1,7 @@
 import { defineConfig } from 'drizzle-kit';
 
 export default defineConfig({
-  schema: './db/schema.ts',
+  schema: './node_modules/starpod/src/db/schema.ts',
   out: './drizzle',
   dialect: 'turso',
   dbCredentials: {

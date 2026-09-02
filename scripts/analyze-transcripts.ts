@@ -1,6 +1,7 @@
 import { readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
-import { getAllEpisodes } from '../src/lib/rss';
+import { getAllEpisodes } from 'starpod/rss';
+import starpodConfig from '../starpod.config';
 import { LLM_KEYWORDS, scoreLLMRelevance, scoreTopicRelevance, topicKeywords } from '../src/lib/topic-keywords';
 
 // Common stopwords to filter out
@@ -192,7 +193,7 @@ async function main() {
   console.log('Analyzing transcripts...\n');
 
   // Get all episodes
-  const allEpisodes = await getAllEpisodes();
+  const allEpisodes = await getAllEpisodes(starpodConfig);
   console.log(`Found ${allEpisodes.length} episodes\n`);
 
   // Create a map of episode number to episode data
