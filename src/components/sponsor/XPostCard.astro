@@ -2,8 +2,8 @@
 import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
 
-import type { XPost } from 'src/data/sponsor';
-import { getShowInfo } from 'src/lib/rss';
+import type { XPost } from '../../data/sponsor';
+import { getShowInfo } from 'starpod/rss';
 
 export interface Props {
   post: XPost;
