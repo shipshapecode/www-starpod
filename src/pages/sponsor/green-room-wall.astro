@@ -17,7 +17,7 @@ import {
 
 import bottlePhoto from '../../img/events/hosts-cascadiajs-bottle.jpg';
 import robbieStage from '../../img/events/robbie-cascadiajs-stage.jpg';
-import adamShaundai from '../../img/events/adam-live-shaundai.jpg';
+import warpReception from '../../img/events/adam-warp-reception.jpg';
 import crowdHands from '../../img/events/cascadiajs-crowd-hands.jpg';
 import adamAward from '../../img/events/adam-warp-award.jpg';
 import thatConf from '../../img/events/live-that-conf.jpg';
@@ -108,96 +108,110 @@ const railStops = [
         </div>
       </div>
 
-      <div class="wall mt-4 columns-2 gap-4 md:columns-3">
-        <p class="scrap pass">
-          <span class="pass-value">58.5K</span>
-          <span class="pass-label">X followers, @argyleink alone</span>
-        </p>
-
-        <figure class="scrap hidden md:block">
+      <div class="wall mt-4 grid grid-cols-2 gap-4 md:grid-cols-6">
+        <figure
+          class="scrap relative col-span-2 m-0 overflow-hidden rounded-xl md:col-span-4"
+        >
           <Image
-            class="w-full rounded-xl object-cover"
+            class="aspect-[16/10] w-full object-cover"
             src={robbieStage}
             alt="Robbie Wagner speaking on stage at CascadiaJS 2026"
-            widths={[480, 768]}
-            sizes="19rem"
+            widths={[640, 960, 1440]}
+            sizes="(min-width: 768px) 31rem, 100vw"
           />
           <figcaption class="scrap-caption">Robbie, on the mic</figcaption>
         </figure>
 
-        <XPostCard post={xPosts[0]} class="scrap" />
+        <div class="col-span-2 grid grid-cols-2 gap-4 md:col-span-2 md:grid-cols-1">
+          <p class="scrap pass">
+            <span class="pass-value">58.5K</span>
+            <span class="pass-label">X followers, @argyleink alone</span>
+          </p>
+          <p class="scrap pass">
+            <span class="pass-value">Top 10%</span>
+            <span class="pass-label">podcast worldwide by downloads</span>
+          </p>
+        </div>
 
-        <figure class="scrap">
+        <XPostCard post={xPosts[0]} class="scrap col-span-2 md:col-span-3" />
+
+        <figure
+          class="scrap relative col-span-2 m-0 overflow-hidden rounded-xl md:col-span-3"
+        >
           <Image
-            class="w-full rounded-xl object-cover"
+            class="aspect-[16/10] h-full w-full object-cover"
             src={thatConf}
             alt="The hosts recording a live episode on stage at THAT Conference"
-            widths={[480, 768]}
-            sizes="(min-width: 768px) 19rem, 50vw"
+            widths={[640, 960]}
+            sizes="(min-width: 768px) 23rem, 100vw"
           />
           <figcaption class="scrap-caption">
             Live from THAT Conference, with James Quick
           </figcaption>
         </figure>
 
-        <p class="scrap pass">
-          <span class="pass-value">Top 10%</span>
-          <span class="pass-label">podcast worldwide by downloads</span>
-        </p>
-
-        <figure class="scrap hidden md:block">
+        <figure
+          class="scrap relative m-0 hidden overflow-hidden rounded-xl md:col-span-2 md:block"
+        >
           <Image
-            class="w-full rounded-xl object-cover"
-            src={adamShaundai}
-            alt="Adam Argyle recording live with Shaundai Person"
+            class="h-full w-full object-cover"
+            src={adamAward}
+            alt="Adam Argyle handing out a prize at Warp's welcome reception, CascadiaJS 2026"
             widths={[480, 768]}
-            sizes="19rem"
+            sizes="15rem"
           />
           <figcaption class="scrap-caption">
-            Recording live with Shaundai Person
+            Warp's welcome reception. Dignity optional.
           </figcaption>
         </figure>
 
-        <p class="scrap pass">
-          <span class="pass-value">100K+</span>
-          <span class="pass-label">monthly impressions, audio + video + social</span>
-        </p>
-
-        <figure class="scrap">
+        <figure
+          class="scrap relative col-span-2 m-0 overflow-hidden rounded-xl md:col-span-4"
+        >
           <Image
-            class="w-full rounded-xl object-cover"
+            class="aspect-[16/10] h-full w-full object-cover"
             src={crowdHands}
             alt="The CascadiaJS audience raising hands during the hosts' session"
-            widths={[480, 768]}
-            sizes="(min-width: 768px) 19rem, 50vw"
+            widths={[640, 960, 1440]}
+            sizes="(min-width: 768px) 31rem, 100vw"
           />
           <figcaption class="scrap-caption">Hands up if you deploy on Fridays</figcaption>
         </figure>
 
-        <XPostCard post={xPosts[2]} class="scrap hidden md:block" />
-
-        <figure class="scrap hidden md:block">
+        <figure
+          class="scrap relative m-0 hidden overflow-hidden rounded-xl md:col-span-3 md:block"
+        >
           <Image
-            class="w-full rounded-xl object-cover"
-            src={liveBdougie}
-            alt="The hosts recording a live episode with bdougie in front of a bourbon backdrop"
-            widths={[480, 768]}
-            sizes="19rem"
-          />
-          <figcaption class="scrap-caption">On the road with bdougie</figcaption>
-        </figure>
-
-        <figure class="scrap">
-          <Image
-            class="w-full rounded-xl object-cover"
-            src={adamAward}
-            alt="Adam Argyle hamming it up at the Warp-sponsored welcome reception"
-            widths={[480, 768]}
-            sizes="(min-width: 768px) 19rem, 50vw"
+            class="aspect-[16/10] h-full w-full object-cover"
+            src={warpReception}
+            alt="Adam Argyle on the mic helping run Warp's welcome reception at CascadiaJS 2026"
+            widths={[640, 960]}
+            sizes="23rem"
           />
           <figcaption class="scrap-caption">
-            Warp-sponsored reception. Dignity optional.
+            Adam emceeing the Warp event at CascadiaJS
           </figcaption>
+        </figure>
+
+        <div class="col-span-2 grid gap-4 md:col-span-3">
+          <p class="scrap pass">
+            <span class="pass-value">100K+</span>
+            <span class="pass-label">monthly impressions, audio + video + social</span>
+          </p>
+          <XPostCard post={xPosts[2]} class="scrap hidden md:flex" />
+        </div>
+
+        <figure
+          class="scrap relative col-span-2 m-0 hidden overflow-hidden rounded-xl md:col-span-6 md:block"
+        >
+          <Image
+            class="aspect-[21/9] w-full object-cover"
+            src={liveBdougie}
+            alt="The hosts recording a live episode with bdougie in front of a bourbon backdrop"
+            widths={[768, 1280]}
+            sizes="47rem"
+          />
+          <figcaption class="scrap-caption">On the road with bdougie</figcaption>
         </figure>
       </div>
     </section>
@@ -421,9 +435,6 @@ const railStops = [
 <style>
   .scrap {
     position: relative;
-    display: block;
-    break-inside: avoid;
-    margin-bottom: 1rem;
     transition:
       transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
       box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);

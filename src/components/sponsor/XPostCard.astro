@@ -74,12 +74,14 @@ const show = await getShowInfo();
   </div>
 
   <p
-    class="text-light-text-heading mt-3 text-[15px] leading-relaxed text-pretty dark:text-gray-200"
+    class="text-light-text-heading mt-3 text-[15px] leading-relaxed break-words text-pretty dark:text-gray-200"
   >
     {post.text}
   </p>
 
-  <div class="mt-auto flex items-center gap-5 pt-4 text-sm tabular-nums">
+  <div
+    class="mt-auto flex flex-wrap items-center gap-x-4 gap-y-1.5 pt-4 text-sm tabular-nums"
+  >
     {
       post.replies && (
         <span class="flex items-center gap-1.5">
@@ -141,7 +143,7 @@ const show = await getShowInfo();
       )
     }
     <span
-      class="text-light-text-heading ml-auto flex items-center gap-1.5 font-semibold dark:text-white"
+      class="text-light-text-heading ml-auto flex shrink-0 items-center gap-1.5 font-semibold whitespace-nowrap dark:text-white"
     >
       <svg
         class="h-3.5 w-3.5"
