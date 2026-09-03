@@ -31,13 +31,6 @@ const hostPhotos: Record<string, ImageMetadata> = {
   argyleink: adamPortrait
 };
 
-const railStops = [
-  { id: 'the-two-of-us', label: 'The two of us' },
-  { id: 'reach', label: 'Reach' },
-  { id: 'case-study', label: 'Proof it works' },
-  { id: 'partners', label: 'Past partners' },
-  { id: 'packages', label: 'Packages' }
-];
 ---
 
 <Layout title="Sponsor — The Green Room Wall">
@@ -53,12 +46,12 @@ const railStops = [
     scale, tiny alternating tilts, press lifts a scrap forward; laminate-pass
     stat chips with gradient edges.
     STORY: A sponsor lands in the mess of real evidence, believes it because
-    nothing looks templated, then follows the rail: people, reach, case,
-    partners, packages.
+    nothing looks templated, then reads straight through: people, reach,
+    case, partners, packages.
     FIRST VIEWPORT: Masonry wall of 10+ artifacts, biggest scrap the bottle
     photo; claim plate overlapping the wall: "This is what sponsoring us
     actually looks like." with two actions.
-    FORM: Evidence collage with narrative rail; candidate 4 of 7; seed 153ac46c.
+    FORM: Evidence collage; candidate 4 of 7; seed 153ac46c.
     FINISH: unreviewed and undocumented is unfinished; this build ends with
     the finish review, the verdict, DESIGN.md, and every shipping raster
     carrying its provenance.
@@ -216,29 +209,7 @@ const railStops = [
       </div>
     </section>
 
-    <div class="mt-16 lg:grid lg:grid-cols-[10rem_1fr] lg:gap-10">
-      <nav
-        aria-label="Page sections"
-        class="rail sticky top-8 hidden self-start lg:block"
-      >
-        <ul class="space-y-3 text-sm">
-          {
-            railStops.map((stop) => (
-              <li>
-                <a
-                  href={`#${stop.id}`}
-                  class="rail-link flex items-center gap-2.5 font-medium transition-colors hover:text-[#8A63FF] dark:hover:text-[#42C8F3]"
-                >
-                  <span class="rail-dot h-1.5 w-1.5 rounded-full bg-current opacity-40 transition-opacity" />
-                  {stop.label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
-
-      <div class="min-w-0">
+    <div class="mt-16">
         <section id="the-two-of-us" class="scroll-mt-8">
           <h2
             class="text-light-text-heading text-3xl font-bold text-balance lg:text-4xl dark:text-white"
@@ -427,7 +398,6 @@ const railStops = [
             </p>
           </div>
         </section>
-      </div>
     </div>
   </div>
 </Layout>
@@ -523,36 +493,3 @@ const railStops = [
   }
 </style>
 
-<script>
-  const init = () => {
-    const links = document.querySelectorAll('.rail-link');
-    if (!links.length) return;
-
-    const sections = Array.from(links)
-      .map((link) => {
-        const id = link.getAttribute('href')?.slice(1);
-        return id ? document.getElementById(id) : null;
-      })
-      .filter((el): el is HTMLElement => el !== null);
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const link = document.querySelector(
-            `.rail-link[href="#${entry.target.id}"] .rail-dot`
-          );
-          if (link) {
-            link.classList.toggle('opacity-100', entry.isIntersecting);
-            link.classList.toggle('opacity-40', !entry.isIntersecting);
-          }
-        });
-      },
-      { rootMargin: '-20% 0px -60% 0px' }
-    );
-
-    sections.forEach((section) => observer.observe(section));
-  };
-
-  init();
-  document.addEventListener('astro:page-load', init);
-</script>
