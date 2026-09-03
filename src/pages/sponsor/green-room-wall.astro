@@ -1,0 +1,1012 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+import Layout from 'starpod/layout';
+import AdPackageCard from '../../components/AdPackageCard.astro';
+import XPostCard from '../../components/sponsor/XPostCard.astro';
+import PartnerCard from '../../components/sponsor/PartnerCard.astro';
+import CaseStudyVideo from '../../components/sponsor/CaseStudyVideo.astro';
+import {
+  adPackages,
+  hostProfiles,
+  partners,
+  reachStats,
+  xPosts
+} from '../../data/sponsor';
+
+import bottlePhoto from '../../img/events/hosts-cascadiajs-bottle.jpg';
+import robbieStage from '../../img/events/robbie-cascadiajs-stage.jpg';
+import warpReception from '../../img/events/adam-warp-reception.jpg';
+import crowdHands from '../../img/events/cascadiajs-crowd-hands.jpg';
+import adamAward from '../../img/events/adam-warp-award.jpg';
+import thatConf from '../../img/events/live-that-conf.jpg';
+import reactMiami from '../../img/events/live-ken-wheeler.jpg';
+import liveBdougie from '../../img/events/live-bdougie.jpg';
+import widePhoto from '../../img/events/hosts-cascadiajs-wide.jpg';
+import robbiePortrait from '../../img/events/robbie-cascadiajs-talk.jpg';
+import adamPortrait from '../../img/events/adam-cascadiajs-podium.jpg';
+
+const hostPhotos: Record<string, ImageMetadata> = {
+  RobbieWagner: robbiePortrait,
+  argyleink: adamPortrait
+};
+
+const claim = 'This is what sponsoring us actually looks like.'.split(' ');
+---
+
+<Layout title="Sponsor — The Green Room Wall">
+  <meta slot="head" name="robots" content="noindex" />
+
+  <div
+    class="green-room wall-motion relative z-10 mb-2 px-8 pb-8 lg:px-18 lg:pb-16"
+    data-wall-motion
+  >
+    <!--
+    THESIS: The proof IS the hero — a dense wall of real artifacts (stage
+    photos, X posts, live frames, stat passes) a sponsor can rummage through.
+    Refuses the tidy hero-plus-sections pitch page.
+    OWN-WORLD: The site's light/dark oklch system, Inter, purple/cyan accents;
+    evidence-wall grammar — scraps repack rather than scale across
+    breakpoints, hover lifts a scrap forward; laminate-pass stat chips with
+    gradient edges.
+    STORY: A sponsor lands in the mess of real evidence, believes it because
+    nothing looks templated, then reads straight through: people, reach,
+    case, partners, packages.
+    FIRST VIEWPORT: Masonry wall of 10+ artifacts, biggest scrap the bottle
+    photo; claim plate overlapping the wall: "This is what sponsoring us
+    actually looks like." with two actions.
+    MOTION: The motion explains the world. On load the scraps get pinned to
+    the wall (the one authored moment), the wall drifts with scroll like a
+    layered surface, and every section below earns one motion that carries
+    meaning: a ledger that rules itself, a plate that settles, a list that
+    arrives as a list, a card whose ring completes when you reach for it.
+    FORM: Evidence collage; candidate 4 of 7; seed 153ac46c.
+    FINISH: unreviewed and undocumented is unfinished; this build ends with
+    the finish review, the verdict, DESIGN.md, and every shipping raster
+    carrying its provenance.
+    -->
+
+    <section class="relative" data-hero>
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <figure
+          class="scrap relative m-0 overflow-hidden rounded-xl md:col-span-2"
+          style="--i: 0; --depth: 0.35"
+        >
+          <Image
+            class="aspect-[3/2] h-full w-full object-cover"
+            src={bottlePhoto}
+            alt="Adam Argyle raising a bottle of bourbon next to Robbie Wagner on stage at CascadiaJS 2026"
+            widths={[640, 960, 1440]}
+            sizes="(min-width: 768px) 38rem, 100vw"
+            loading="eager"
+          />
+          <figcaption class="scrap-caption">
+            CascadiaJS 2026, mainstage
+          </figcaption>
+        </figure>
+
+        <div
+          class="claim-plate dark:bg-dark-background relative flex flex-col justify-center rounded-2xl bg-white p-6 shadow-2xl lg:p-7"
+          style="--i: 1; --depth: 0.5"
+        >
+          <h1
+            class="text-light-text-heading text-2xl leading-tight font-extrabold text-balance lg:text-3xl dark:text-white"
+          >
+            {
+              claim.map((word, i) => (
+                <>
+                  <span class="w">
+                    <span class="wi" style={`--w: ${i}`}>
+                      {word}
+                    </span>
+                  </span>{' '}
+                </>
+              ))
+            }
+          </h1>
+          <p class="mt-3">
+            Real stages, real posts, real people. You're not buying a slot —
+            you're backing Robbie and Adam.
+          </p>
+          <div class="mt-5 flex flex-wrap items-center gap-4">
+            <a class="btn" href="#packages">
+              <span
+                class="text-light-text-heading rounded-full px-6 py-3 text-center text-sm dark:text-white"
+              >
+                See the packages
+              </span>
+            </a>
+            <a
+              href="/contact"
+              class="text-light-text-heading text-sm font-semibold underline decoration-[#8A63FF]/50 underline-offset-4 hover:decoration-[#8A63FF] dark:text-white dark:decoration-[#42C8F3]/50 dark:hover:decoration-[#42C8F3]"
+            >
+              Talk to us
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="wall mt-4 grid grid-cols-2 gap-4 md:grid-cols-6">
+        <figure
+          class="scrap relative col-span-2 m-0 overflow-hidden rounded-xl md:col-span-4"
+          style="--i: 2; --depth: 0.35"
+        >
+          <Image
+            class="aspect-[16/10] w-full object-cover"
+            src={robbieStage}
+            alt="Robbie Wagner speaking on stage at CascadiaJS 2026"
+            widths={[640, 960, 1440]}
+            sizes="(min-width: 768px) 31rem, 100vw"
+          />
+          <figcaption class="scrap-caption">Robbie, on the mic</figcaption>
+        </figure>
+
+        <div
+          class="col-span-2 grid grid-cols-2 gap-4 md:col-span-2 md:grid-cols-1"
+        >
+          <p class="scrap pass" style="--i: 3; --depth: 1">
+            <span
+              class="pass-value"
+              data-count="58.5"
+              data-decimals="1"
+              data-suffix="K">58.5K</span
+            >
+            <span class="pass-label">X followers, @argyleink alone</span>
+          </p>
+          <p class="scrap pass" style="--i: 4; --depth: 1">
+            <span class="pass-value">Top 10%</span>
+            <span class="pass-label">podcast worldwide by downloads</span>
+          </p>
+        </div>
+
+        <div
+          class="scrap col-span-2 grid rounded-xl md:col-span-3"
+          style="--i: 5; --depth: 0.8"
+        >
+          <XPostCard post={xPosts[0]} />
+        </div>
+
+        <figure
+          class="scrap relative col-span-2 m-0 overflow-hidden rounded-xl md:col-span-3"
+          style="--i: 6; --depth: 0.35"
+        >
+          <Image
+            class="aspect-[16/10] h-full w-full object-cover"
+            src={reactMiami}
+            alt="The hosts recording live with Ken Wheeler in beach chairs at React Miami"
+            widths={[640, 960]}
+            sizes="(min-width: 768px) 23rem, 100vw"
+          />
+          <figcaption class="scrap-caption">
+            That post, being recorded — live at React Miami with Ken Wheeler
+          </figcaption>
+        </figure>
+
+        <figure
+          class="scrap relative m-0 hidden overflow-hidden rounded-xl md:col-span-2 md:block"
+          style="--i: 7; --depth: 0.5"
+        >
+          <Image
+            class="h-full w-full object-cover"
+            src={adamAward}
+            alt="Adam Argyle handing out a prize at Warp's welcome reception, CascadiaJS 2026"
+            widths={[480, 768]}
+            sizes="15rem"
+          />
+          <figcaption class="scrap-caption">
+            Warp's welcome reception. Dignity optional.
+          </figcaption>
+        </figure>
+
+        <figure
+          class="scrap relative col-span-2 m-0 overflow-hidden rounded-xl md:col-span-4"
+          style="--i: 8; --depth: 0.35"
+        >
+          <Image
+            class="aspect-[16/10] h-full w-full object-cover"
+            src={crowdHands}
+            alt="The CascadiaJS audience raising hands during the hosts' session"
+            widths={[640, 960, 1440]}
+            sizes="(min-width: 768px) 31rem, 100vw"
+          />
+          <figcaption class="scrap-caption">
+            Hands up if you deploy on Fridays
+          </figcaption>
+        </figure>
+
+        <figure
+          class="scrap relative m-0 hidden overflow-hidden rounded-xl md:col-span-3 md:block"
+          style="--i: 9; --depth: 0.5"
+        >
+          <Image
+            class="aspect-[16/10] h-full w-full object-cover"
+            src={warpReception}
+            alt="Adam Argyle on the mic helping run Warp's welcome reception at CascadiaJS 2026"
+            widths={[640, 960]}
+            sizes="23rem"
+          />
+          <figcaption class="scrap-caption">
+            Adam emceeing the Warp event at CascadiaJS
+          </figcaption>
+        </figure>
+
+        <div class="col-span-2 grid gap-4 md:col-span-3">
+          <p class="scrap pass" style="--i: 10; --depth: 1">
+            <span
+              class="pass-value"
+              data-count="100"
+              data-decimals="0"
+              data-suffix="K+">100K+</span
+            >
+            <span class="pass-label"
+              >monthly impressions, audio + video + social</span
+            >
+          </p>
+          <div
+            class="scrap hidden rounded-xl md:grid"
+            style="--i: 11; --depth: 0.8"
+          >
+            <XPostCard post={xPosts[2]} />
+          </div>
+        </div>
+
+        <figure
+          class="scrap relative m-0 hidden overflow-hidden rounded-xl md:col-span-3 md:block"
+          style="--i: 12; --depth: 0.5"
+        >
+          <Image
+            class="aspect-[16/10] h-full w-full object-cover"
+            src={thatConf}
+            alt="The hosts recording a live episode on stage at THAT Conference"
+            widths={[640, 960]}
+            sizes="23rem"
+          />
+          <figcaption class="scrap-caption">
+            Live from THAT Conference, with James Quick
+          </figcaption>
+        </figure>
+
+        <figure
+          class="scrap relative m-0 hidden overflow-hidden rounded-xl md:col-span-3 md:block"
+          style="--i: 13; --depth: 0.5"
+        >
+          <Image
+            class="aspect-[16/10] h-full w-full object-cover"
+            src={liveBdougie}
+            alt="The hosts recording a live episode with bdougie in front of a bourbon backdrop"
+            widths={[640, 960]}
+            sizes="23rem"
+          />
+          <figcaption class="scrap-caption">
+            On the road with bdougie
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <div class="mt-16">
+      <div class="mid relative">
+        <section id="the-two-of-us" class="scroll-mt-8">
+          <h2
+            class="text-light-text-heading text-3xl font-bold text-balance lg:text-4xl dark:text-white"
+          >
+            The two of us
+          </h2>
+
+          <div class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
+            {
+              hostProfiles.map((host) => (
+                <article class="host-card dark:border-dark-border dark:bg-dark-background overflow-clip rounded-2xl border border-gray-200 bg-white">
+                  <div class="relative aspect-[4/3] overflow-hidden">
+                    <Image
+                      class="h-full w-full object-cover"
+                      src={hostPhotos[host.handle]}
+                      alt={`${host.name} on stage at CascadiaJS 2026`}
+                      widths={[480, 768, 1080]}
+                      sizes="(min-width: 768px) 22rem, 100vw"
+                    />
+                    <p class="absolute right-3 bottom-3 rounded-full bg-black/70 px-3 py-1 text-sm font-bold text-white tabular-nums">
+                      {host.followers} on X
+                    </p>
+                  </div>
+                  <div class="p-6">
+                    <h3 class="text-light-text-heading text-xl font-bold dark:text-white">
+                      <a href={host.url} target="_blank" rel="noopener">
+                        {host.name}
+                      </a>
+                    </h3>
+                    <p class="mt-1 text-sm font-semibold">{host.role}</p>
+                    <ul class="mt-4 space-y-2 text-[15px]">
+                      {host.creds.map((cred) => (
+                        <li class="cred flex gap-2.5">
+                          <svg
+                            class="mt-1.5 h-2 w-2 shrink-0 text-[#8A63FF] dark:text-[#42C8F3]"
+                            viewBox="0 0 8 8"
+                            fill="currentColor"
+                            aria-hidden="true"
+                          >
+                            <circle cx="4" cy="4" r="4" />
+                          </svg>
+                          {cred}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              ))
+            }
+          </div>
+        </section>
+
+        <section id="reach" class="mt-16 scroll-mt-8">
+          <h2
+            class="text-light-text-heading text-3xl font-bold text-balance lg:text-4xl dark:text-white"
+          >
+            And the numbers the wall didn't fit
+          </h2>
+
+          <div class="mt-8">
+            {
+              reachStats.slice(1).map((stat) => (
+                <div class="reach-row flex flex-col gap-1 py-5 sm:flex-row sm:items-baseline sm:gap-6">
+                  <span
+                    class="text-light-text-heading w-32 shrink-0 text-4xl font-extrabold tracking-tight tabular-nums dark:text-white"
+                    data-count={stat.target}
+                    data-decimals={Number.isInteger(stat.target) ? 0 : 1}
+                    data-suffix={stat.suffix}
+                  >
+                    {stat.value}
+                  </span>
+                  <p>
+                    <span class="text-light-text-heading font-bold dark:text-white">
+                      {stat.label}
+                    </span>
+                    <span class="block text-sm">{stat.detail}</span>
+                  </p>
+                </div>
+              ))
+            }
+          </div>
+        </section>
+
+        <section id="case-study" class="mt-16 scroll-mt-8">
+          <h2
+            class="text-light-text-heading text-3xl font-bold text-balance lg:text-4xl dark:text-white"
+          >
+            Proof it works: Warp's 90 days
+          </h2>
+          <p class="mt-3 max-w-2xl text-lg">
+            A host-read campaign across audio, video, and social — still
+            converting long after the episodes aired.
+          </p>
+
+          <CaseStudyVideo
+            class="plate dark:border-dark-border mt-6 rounded-2xl border border-gray-200"
+          />
+
+          <a
+            href="/sponsors/warp"
+            class="group text-light-text-heading mt-6 inline-flex items-center gap-3 text-lg font-semibold dark:text-white"
+          >
+            See Warp's 90-day results
+            <svg
+              class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14m-7-7l7 7-7 7"></path>
+            </svg>
+          </a>
+        </section>
+
+        <section id="partners" class="mt-16 scroll-mt-8">
+          <h2
+            class="text-light-text-heading text-3xl font-bold text-balance lg:text-4xl dark:text-white"
+          >
+            Brands that have been on the wall
+          </h2>
+
+          <div class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
+            {
+              partners.map((partner, i) => (
+                <PartnerCard
+                  partner={partner}
+                  class={i === 0 ? 'md:col-span-2' : undefined}
+                />
+              ))
+            }
+          </div>
+        </section>
+
+        <div class="pill-dock">
+          <a class="btn pill" href="#packages" data-pill>
+            <span
+              class="text-light-text-heading inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm dark:text-white"
+            >
+              Packages from $250
+              <svg
+                class="h-3.5 w-3.5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.25"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M12 5v14m-7-7l7 7 7-7"></path>
+              </svg>
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <section id="packages" class="mt-16 scroll-mt-8">
+        <h2
+          class="text-light-text-heading text-3xl font-bold text-balance lg:text-4xl dark:text-white"
+        >
+          Pick your barrel
+        </h2>
+        <p class="mt-3 max-w-2xl text-lg">
+          Self-serve checkout. Host-read, baked in, evergreen.
+        </p>
+
+        <div class="mt-8 grid grid-cols-1 gap-6 xl:grid-cols-2">
+          {
+            adPackages.map((pkg) => (
+              <div class="pkg">
+                <AdPackageCard
+                  bullets={pkg.bullets}
+                  heading={pkg.heading}
+                  price={pkg.price}
+                  period={pkg.period}
+                  productId={
+                    import.meta.env[pkg.envKey] || `YOUR_${pkg.envKey}`
+                  }
+                />
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="cta relative mt-16 overflow-hidden rounded-2xl">
+        <Image
+          class="cta-img absolute inset-0 h-full w-full object-cover"
+          src={widePhoto}
+          alt="Robbie and Adam at the CascadiaJS podium in a grand hall"
+          widths={[640, 960, 1440]}
+          sizes="(min-width: 1024px) 44rem, 100vw"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/55 to-black/45"
+        >
+        </div>
+        <div class="relative p-8 py-16 lg:p-12">
+          <div class="cta-clip">
+            <p
+              class="cta-rise max-w-xl text-2xl font-bold text-balance text-white lg:text-3xl"
+            >
+              Or… maybe you have an idea?
+            </p>
+          </div>
+          <div class="cta-clip mt-3">
+            <p class="cta-rise d1 max-w-xl text-lg text-white/85">
+              The weird ones are usually our favorites.
+            </p>
+          </div>
+          <div class="cta-clip mt-7">
+            <a class="btn cta-rise d2 inline-flex w-fit" href="/contact">
+              <span
+                class="text-light-text-heading rounded-full bg-white px-8 py-3 text-center text-sm"
+              >
+                Start the conversation
+              </span>
+            </a>
+          </div>
+          <p class="mt-10 text-sm font-semibold text-white/70">
+            — Robbie &amp; Adam, Whiskey Web and Whatnot
+          </p>
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>
+
+<style is:global>
+  /* Browser surfaces belong to the page too. */
+  .wall-motion ::selection {
+    background: light-dark(#8a63ff, #42c8f3);
+    color: light-dark(#fff, #0b0b12);
+  }
+
+  .wall-motion :focus-visible {
+    outline: 2px solid light-dark(#8a63ff, #42c8f3);
+    outline-offset: 3px;
+  }
+
+  /* The wrapper carries the lift; the card only warms its border. */
+  .wall-motion .x-post-card:hover {
+    translate: none;
+  }
+</style>
+
+<style>
+  /* ---------- The wall: pinned on load, layered on scroll ---------- */
+
+  .scrap {
+    position: relative;
+    transition:
+      transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .scrap:hover,
+  .scrap:active {
+    z-index: 10;
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -18px rgb(0 0 0 / 0.45);
+  }
+
+  figure.scrap > :global(img) {
+    transition: scale 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  figure.scrap:hover > :global(img) {
+    scale: 1.04;
+  }
+
+  .scrap,
+  .claim-plate {
+    animation: wm-pin-in 700ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    animation-delay: calc(var(--i, 0) * 45ms);
+  }
+
+  @keyframes wm-pin-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.96);
+      filter: blur(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+  }
+
+  .scrap-caption {
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    left: 0.5rem;
+    border-radius: 0.5rem;
+    background: rgb(0 0 0 / 0.65);
+    padding: 0.375rem 0.625rem;
+    font-size: 0.75rem;
+    line-height: 1.3;
+    color: white;
+    transition:
+      translate 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+      background-color 0.35s;
+  }
+
+  .scrap:hover .scrap-caption {
+    translate: 0 -2px;
+    background: rgb(0 0 0 / 0.8);
+  }
+
+  /* Claim: the words arrive after the plate lands. */
+  .w {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+  }
+
+  .wi {
+    display: inline-block;
+    animation: wm-word-up 600ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    animation-delay: calc(380ms + var(--w, 0) * 40ms);
+  }
+
+  @keyframes wm-word-up {
+    from {
+      transform: translateY(110%);
+    }
+  }
+
+  .pass {
+    border-radius: 0.75rem;
+    border: 1px solid transparent;
+    background:
+      linear-gradient(
+          light-dark(white, var(--color-dark-background)),
+          light-dark(white, var(--color-dark-background))
+        )
+        padding-box,
+      linear-gradient(135deg, #d8ccff, #8a63ff) border-box;
+    padding: 1.25rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .pass {
+      background:
+        linear-gradient(
+            var(--color-dark-background),
+            var(--color-dark-background)
+          )
+          padding-box,
+        linear-gradient(135deg, #42c8f3, #b6edff) border-box;
+    }
+  }
+
+  .pass-value {
+    display: block;
+    font-size: 2.25rem;
+    line-height: 1.1;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+    color: light-dark(var(--color-light-text-heading), white);
+  }
+
+  .pass-label {
+    display: block;
+    margin-top: 0.375rem;
+    font-size: 0.875rem;
+  }
+
+  /* ---------- The read: one motion per section ---------- */
+
+  .reach-row {
+    position: relative;
+  }
+
+  .reach-row::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 1px;
+    background: light-dark(oklch(92.8% 0.006 264.5), var(--color-dark-border));
+    transform-origin: left;
+  }
+
+  /* Each wrapper spans a heading row and a body row of the package grid and
+     hands those rows down to the card, so headings and bodies line up across
+     a row and the card's price and button settle to a shared baseline. Without
+     subgrid the wrapper is still a grid, so the card stretches to full height. */
+  .pkg {
+    display: grid;
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .pkg > :global(div) {
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+  }
+
+  .pkg:hover {
+    transform: translateY(-3px);
+  }
+
+  .pkg:hover :global(.btn) {
+    --complete: 100;
+  }
+
+  .cta {
+    view-timeline: --cta block;
+  }
+
+  .cta-clip {
+    overflow: hidden;
+    padding: 2px;
+    margin: -2px;
+  }
+
+  .cta-clip.mt-3 {
+    margin-top: calc(0.75rem - 2px);
+  }
+
+  .cta-clip.mt-7 {
+    margin-top: calc(1.75rem - 2px);
+  }
+
+  /* ---------- The pill: rides with the read, leaves at the packages ---------- */
+
+  .pill-dock {
+    position: sticky;
+    bottom: 1.25rem;
+    z-index: 30;
+    height: 0;
+  }
+
+  .pill-dock .pill {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    translate: 0 12px;
+    pointer-events: none;
+    box-shadow: 0 12px 32px -12px rgb(0 0 0 / 0.4);
+    transition:
+      opacity 0.3s,
+      translate 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .pill-dock .pill.is-on {
+    opacity: 1;
+    translate: 0 0;
+    pointer-events: auto;
+  }
+
+  /* ---------- Scroll-driven, with the default state visible ---------- */
+
+  @supports (animation-timeline: view()) {
+    .scrap,
+    .claim-plate {
+      animation:
+        wm-pin-in 700ms cubic-bezier(0.16, 1, 0.3, 1) backwards,
+        wm-drift linear both;
+      animation-delay: calc(var(--i, 0) * 45ms), 0s;
+      animation-timeline: auto, view();
+      animation-range:
+        normal,
+        entry 0% exit 100%;
+    }
+
+    .cred {
+      animation: wm-rise linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 14%;
+    }
+
+    .reach-row {
+      view-timeline: --row block;
+    }
+
+    .reach-row::before {
+      animation: wm-draw-line linear both;
+      animation-timeline: --row;
+      animation-range: entry 0% cover 35%;
+    }
+
+    :global(.plate) {
+      animation: wm-settle linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 80%;
+    }
+
+    .pkg {
+      animation: wm-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+
+    .pkg:nth-child(even) {
+      animation-range: entry 12% entry 52%;
+    }
+
+    :global(.cta-img) {
+      animation: wm-kenburns linear both;
+      animation-timeline: --cta;
+      animation-range: entry 0% entry 100%;
+    }
+
+    .cta-rise {
+      animation: wm-mask-up linear both;
+      animation-timeline: --cta;
+      animation-range: entry 20% entry 75%;
+    }
+
+    .cta-rise.d1 {
+      animation-range: entry 30% entry 85%;
+    }
+
+    .cta-rise.d2 {
+      animation-range: entry 40% entry 95%;
+    }
+  }
+
+  @keyframes wm-drift {
+    from {
+      translate: 0 calc(var(--depth, 0.5) * 16px);
+    }
+    to {
+      translate: 0 calc(var(--depth, 0.5) * -16px);
+    }
+  }
+
+  @keyframes wm-rise {
+    from {
+      opacity: 0;
+      translate: 0 18px;
+    }
+  }
+
+  @keyframes wm-draw-line {
+    from {
+      scale: 0 1;
+    }
+  }
+
+  @keyframes wm-settle {
+    from {
+      opacity: 0.4;
+      scale: 0.94;
+    }
+  }
+
+  @keyframes wm-kenburns {
+    from {
+      scale: 1.08;
+    }
+  }
+
+  @keyframes wm-mask-up {
+    from {
+      opacity: 0;
+      translate: 0 110%;
+    }
+  }
+
+  /* ---------- Reduced motion: the state, without the travel ---------- */
+
+  @media (prefers-reduced-motion: reduce) {
+    .scrap,
+    .claim-plate,
+    .wi,
+    .cred,
+    .reach-row::before,
+    :global(.plate),
+    .pkg,
+    :global(.cta-img),
+    .cta-rise {
+      animation: none;
+    }
+
+    .scrap,
+    .scrap:hover,
+    .pkg:hover {
+      transform: none;
+    }
+
+    figure.scrap:hover > :global(img) {
+      scale: 1;
+    }
+
+    .scrap:hover .scrap-caption {
+      translate: none;
+    }
+
+    .pill-dock .pill {
+      translate: none;
+      transition: opacity 0.2s;
+    }
+  }
+</style>
+
+<script>
+  const reduced = () =>
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const easeOutQuart = (x: number) => 1 - Math.pow(1 - x, 4);
+
+  const countUp = (el: HTMLElement) => {
+    const target = parseFloat(el.dataset.count || '0');
+    const decimals = parseInt(el.dataset.decimals || '0', 10);
+    const suffix = el.dataset.suffix || '';
+    const duration = 1400;
+    const start = performance.now();
+
+    const tick = (now: number) => {
+      const progress = Math.min((now - start) / duration, 1);
+      el.textContent =
+        (easeOutQuart(progress) * target).toFixed(decimals) + suffix;
+      if (progress < 1) requestAnimationFrame(tick);
+    };
+
+    requestAnimationFrame(tick);
+  };
+
+  const init = () => {
+    const root = document.querySelector<HTMLElement>('[data-wall-motion]');
+    if (!root || root.dataset.ready) return;
+    root.dataset.ready = 'true';
+
+    // Numbers count up when they are read, not before.
+    if (!reduced()) {
+      const counter = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            countUp(entry.target as HTMLElement);
+            counter.unobserve(entry.target);
+          });
+        },
+        { threshold: 0.5 }
+      );
+      root
+        .querySelectorAll<HTMLElement>('[data-count]')
+        .forEach((el) => counter.observe(el));
+    }
+
+    // The case-study video only plays while it is on screen.
+    const video = root.querySelector<HTMLVideoElement>(
+      'video[data-sponsor-autoplay]'
+    );
+    if (video) {
+      let pausedByUs = false;
+      let pausedByUser = false;
+      video.addEventListener('pause', () => {
+        if (pausedByUs) {
+          pausedByUs = false;
+          return;
+        }
+        pausedByUser = true;
+      });
+      video.addEventListener('play', () => {
+        pausedByUser = false;
+      });
+      new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            if (!pausedByUser && !reduced()) video.play().catch(() => {});
+          } else if (!video.paused) {
+            pausedByUs = true;
+            video.pause();
+          }
+        },
+        { threshold: 0.25 }
+      ).observe(video);
+    }
+
+    // The pill shows once the wall is behind you and hides at the packages.
+    const pill = root.querySelector<HTMLElement>('[data-pill]');
+    // Watch the claim plate, not the whole wall: the pill stands in for the
+    // plate's own "See the packages" button once that has scrolled away.
+    const hero = root.querySelector<HTMLElement>('.claim-plate');
+    const packages = root.querySelector<HTMLElement>('#packages');
+    if (pill && hero && packages) {
+      let wallBehind = false;
+      let packagesInView = false;
+      const update = () =>
+        pill.classList.toggle('is-on', wallBehind && !packagesInView);
+      new IntersectionObserver(([entry]) => {
+        wallBehind =
+          !entry.isIntersecting && entry.boundingClientRect.bottom < 0;
+        update();
+      }).observe(hero);
+      new IntersectionObserver(([entry]) => {
+        packagesInView = entry.isIntersecting;
+        update();
+      }).observe(packages);
+    }
+
+    // Jumping to the packages is a scroll, not a cut.
+    root
+      .querySelectorAll<HTMLAnchorElement>('a[href="#packages"]')
+      .forEach((link) => {
+        link.addEventListener('click', (event) => {
+          if (!packages) return;
+          event.preventDefault();
+          packages.scrollIntoView({
+            behavior: reduced() ? 'auto' : 'smooth',
+            block: 'start'
+          });
+          history.replaceState(null, '', '#packages');
+        });
+      });
+  };
+
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>

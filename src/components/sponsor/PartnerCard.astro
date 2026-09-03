@@ -1,0 +1,62 @@
+---
+import type { Partner } from '../../data/sponsor';
+
+export interface Props {
+  partner: Partner;
+  class?: string;
+}
+
+const { partner, class: className } = Astro.props;
+
+const svgs = import.meta.glob('/src/img/sponsors/*.svg', {
+  query: '?raw',
+  import: 'default'
+});
+---
+
+<div
+  class:list={[
+    'dark:border-dark-border dark:bg-dark-background group relative flex flex-col rounded-xl border border-gray-200 bg-white p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#8A63FF]/40 hover:shadow-lg hover:shadow-[#8A63FF]/10 dark:hover:border-[#42C8F3]/40 dark:hover:shadow-[#42C8F3]/10',
+    className
+  ]}
+>
+  <div class="flex items-center gap-4">
+    <div
+      class="h-11 w-11 shrink-0 rounded-lg [&>svg]:h-full [&>svg]:w-full"
+    >
+      <Fragment set:html={svgs[`/src/img/sponsors/${partner.img}`]()} />
+    </div>
+    <p class="text-light-text-heading text-lg font-bold dark:text-white">
+      <a href={partner.url} target="_blank" rel="noopener" class="after:absolute after:inset-0">
+        {partner.name}
+      </a>
+    </p>
+  </div>
+
+  <p class="mt-4 flex-1 text-[15px] leading-relaxed text-pretty">
+    {partner.blurb}
+  </p>
+
+  {
+    partner.caseStudy && (
+      <a
+        href={partner.caseStudy}
+        class="text-light-text-heading relative z-10 mt-4 inline-flex items-center gap-2 text-sm font-semibold dark:text-white"
+      >
+        See the 90-day results
+        <svg
+          class="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14m-7-7l7 7-7 7" />
+        </svg>
+      </a>
+    )
+  }
+</div>
