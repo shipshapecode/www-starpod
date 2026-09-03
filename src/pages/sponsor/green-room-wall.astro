@@ -21,6 +21,7 @@ import warpReception from '../../img/events/adam-warp-reception.jpg';
 import crowdHands from '../../img/events/cascadiajs-crowd-hands.jpg';
 import adamAward from '../../img/events/adam-warp-award.jpg';
 import thatConf from '../../img/events/live-that-conf.jpg';
+import reactMiami from '../../img/events/live-ken-wheeler.jpg';
 import liveBdougie from '../../img/events/live-bdougie.jpg';
 import widePhoto from '../../img/events/hosts-cascadiajs-wide.jpg';
 import robbiePortrait from '../../img/events/robbie-cascadiajs-talk.jpg';
@@ -42,9 +43,9 @@ const hostPhotos: Record<string, ImageMetadata> = {
     photos, X posts, live frames, stat passes) a sponsor can rummage through.
     Refuses the tidy hero-plus-sections pitch page.
     OWN-WORLD: The site's light/dark oklch system, Inter, purple/cyan accents;
-    collage grammar raised from the Merz hand — scraps repack rather than
-    scale, tiny alternating tilts, press lifts a scrap forward; laminate-pass
-    stat chips with gradient edges.
+    evidence-wall grammar — scraps repack rather than scale across
+    breakpoints, hover lifts a scrap forward; laminate-pass stat chips with
+    gradient edges.
     STORY: A sponsor lands in the mess of real evidence, believes it because
     nothing looks templated, then reads straight through: people, reach,
     case, partners, packages.
@@ -72,7 +73,7 @@ const hostPhotos: Record<string, ImageMetadata> = {
         </figure>
 
         <div
-          class="claim-plate dark:bg-dark-background relative z-20 self-start rounded-2xl bg-white p-6 shadow-2xl md:-mb-10 lg:p-7"
+          class="claim-plate dark:bg-dark-background relative flex flex-col justify-center rounded-2xl bg-white p-6 shadow-2xl lg:p-7"
         >
           <h1
             class="text-light-text-heading text-2xl leading-tight font-extrabold text-balance lg:text-3xl dark:text-white"
@@ -133,13 +134,13 @@ const hostPhotos: Record<string, ImageMetadata> = {
         >
           <Image
             class="aspect-[16/10] h-full w-full object-cover"
-            src={thatConf}
-            alt="The hosts recording a live episode on stage at THAT Conference"
+            src={reactMiami}
+            alt="The hosts recording live with Ken Wheeler in beach chairs at React Miami"
             widths={[640, 960]}
             sizes="(min-width: 768px) 23rem, 100vw"
           />
           <figcaption class="scrap-caption">
-            Live from THAT Conference, with James Quick
+            That post, being recorded — live at React Miami with Ken Wheeler
           </figcaption>
         </figure>
 
@@ -195,14 +196,29 @@ const hostPhotos: Record<string, ImageMetadata> = {
         </div>
 
         <figure
-          class="scrap relative col-span-2 m-0 hidden overflow-hidden rounded-xl md:col-span-6 md:block"
+          class="scrap relative m-0 hidden overflow-hidden rounded-xl md:col-span-3 md:block"
         >
           <Image
-            class="aspect-[21/9] w-full object-cover"
+            class="aspect-[16/10] h-full w-full object-cover"
+            src={thatConf}
+            alt="The hosts recording a live episode on stage at THAT Conference"
+            widths={[640, 960]}
+            sizes="23rem"
+          />
+          <figcaption class="scrap-caption">
+            Live from THAT Conference, with James Quick
+          </figcaption>
+        </figure>
+
+        <figure
+          class="scrap relative m-0 hidden overflow-hidden rounded-xl md:col-span-3 md:block"
+        >
+          <Image
+            class="aspect-[16/10] h-full w-full object-cover"
             src={liveBdougie}
             alt="The hosts recording a live episode with bdougie in front of a bourbon backdrop"
-            widths={[768, 1280]}
-            sizes="47rem"
+            widths={[640, 960]}
+            sizes="23rem"
           />
           <figcaption class="scrap-caption">On the road with bdougie</figcaption>
         </figure>
@@ -410,23 +426,10 @@ const hostPhotos: Record<string, ImageMetadata> = {
       box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .scrap:nth-child(odd) {
-    rotate: -0.6deg;
-  }
-
-  .scrap:nth-child(even) {
-    rotate: 0.5deg;
-  }
-
-  .scrap:nth-child(3n) {
-    rotate: 0.9deg;
-  }
-
   .scrap:hover,
   .scrap:active {
     z-index: 10;
-    transform: translateY(-4px) scale(1.015);
-    rotate: 0deg;
+    transform: translateY(-4px);
     box-shadow: 0 20px 40px -18px rgb(0 0 0 / 0.45);
   }
 
@@ -488,7 +491,6 @@ const hostPhotos: Record<string, ImageMetadata> = {
     .scrap,
     .scrap:hover {
       transform: none;
-      rotate: 0deg;
     }
   }
 </style>
