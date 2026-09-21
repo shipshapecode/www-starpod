@@ -191,6 +191,14 @@ export const partners: Array<Partner> = [
     blurb: 'Design-forward whiskey glassware. Literally the glass on our table.'
   },
   {
+    id: 'denver-liely',
+    name: 'Denver & Liely',
+    img: 'denver-liely.svg',
+    url: 'https://denverandliely.com/',
+    blurb:
+      'Hand-blown, lead-free crystal drinking vessels from Australia, built to get the most out of a good pour.'
+  },
+  {
     id: 'cascadiajs',
     name: 'CascadiaJS',
     img: 'cascadiajs.svg',
