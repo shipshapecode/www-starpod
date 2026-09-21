@@ -423,25 +423,27 @@ const claim = 'This is what sponsoring us actually looks like.'.split(' ');
         </section>
 
         <div class="pill-dock">
-          <a class="btn pill" href="#packages" data-pill>
-            <span
-              class="text-light-text-heading inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm dark:text-white"
-            >
-              Packages from $250
-              <svg
-                class="h-3.5 w-3.5"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.25"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
+          <div class="pill" data-pill>
+            <a class="btn pill-btn" href="#packages">
+              <span
+                class="text-light-text-heading inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm dark:text-white"
               >
-                <path d="M12 5v14m-7-7l7 7 7-7"></path>
-              </svg>
-            </span>
-          </a>
+                Packages from $250
+                <svg
+                  class="h-3.5 w-3.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.25"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M12 5v14m-7-7l7 7 7-7"></path>
+                </svg>
+              </span>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -727,6 +729,9 @@ const claim = 'This is what sponsoring us actually looks like.'.split(' ');
     height: 0;
   }
 
+  /* Motion lives on a wrapper, never on the .btn itself: opacity or
+     translate would make the .btn a stacking context and paint its
+     gradient ::after over the whole button instead of just the ring. */
   .pill-dock .pill {
     position: absolute;
     right: 0;
@@ -734,13 +739,17 @@ const claim = 'This is what sponsoring us actually looks like.'.split(' ');
     opacity: 0;
     translate: 0 12px;
     pointer-events: none;
-    box-shadow: 0 12px 32px -12px rgb(0 0 0 / 0.4);
     transition:
       opacity 0.3s,
       translate 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .pill-dock .pill.is-on {
+  .pill-dock .pill-btn {
+    box-shadow: 0 12px 32px -12px rgb(0 0 0 / 0.4);
+  }
+
+  .pill-dock .pill.is-on,
+  .pill-dock .pill:focus-within {
     opacity: 1;
     translate: 0 0;
     pointer-events: auto;
