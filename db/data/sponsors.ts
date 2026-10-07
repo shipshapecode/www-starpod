@@ -24,6 +24,12 @@ export default [
     url: 'https://norlanglass.com/'
   },
   {
+    id: 'pirsch',
+    name: 'Pirsch',
+    img: 'pirsch.svg',
+    url: 'https://pirsch.io/?utm_source=whiskey.fm&utm_medium=podcast'
+  },
+  {
     id: 'warp',
     name: 'Warp',
     img: 'warp.svg',
