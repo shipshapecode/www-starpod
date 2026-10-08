@@ -417,7 +417,12 @@ const claim = 'This is what sponsoring us actually looks like.'.split(' ');
 
           <div class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
             {
-              partners.map((partner) => <PartnerCard partner={partner} />)
+              partners.map((partner) => (
+                <PartnerCard
+                  partner={partner}
+                  class={partner.caseStudy && 'md:col-span-2'}
+                />
+              ))
             }
           </div>
         </section>

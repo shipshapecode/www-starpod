@@ -170,6 +170,21 @@ export const partners: Array<Partner> = [
     caseStudy: '/sponsors/warp'
   },
   {
+    id: 'pirsch',
+    name: 'Pirsch',
+    img: 'pirsch.svg',
+    url: 'https://pirsch.io/?utm_source=whiskey.fm&utm_medium=podcast',
+    blurb: 'Privacy-friendly, cookie-free web analytics, made in Germany.'
+  },
+  {
+    id: 'denver-and-liely',
+    name: 'Denver & Liely',
+    img: 'denver-and-liely.svg',
+    url: 'https://denverandliely.com/?utm_source=whiskey.fm&utm_medium=podcast',
+    blurb:
+      'Hand-blown, lead-free crystal drinking vessels from Australia, built to get the most out of a good pour.'
+  },
+  {
     id: 'code-rabbit',
     name: 'CodeRabbit',
     img: 'code-rabbit.svg',
@@ -189,14 +204,6 @@ export const partners: Array<Partner> = [
     img: 'norlan.svg',
     url: 'https://norlanglass.com/',
     blurb: 'Design-forward whiskey glassware. Literally the glass on our table.'
-  },
-  {
-    id: 'denver-liely',
-    name: 'Denver & Liely',
-    img: 'denver-liely.svg',
-    url: 'https://denverandliely.com/',
-    blurb:
-      'Hand-blown, lead-free crystal drinking vessels from Australia, built to get the most out of a good pour.'
   },
   {
     id: 'cascadiajs',
