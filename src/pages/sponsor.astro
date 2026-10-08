@@ -6,6 +6,7 @@
 import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
 
+import sponsors from '../../db/data/sponsors';
 import AdPackageCard from '../components/AdPackageCard.astro';
 import Layout from 'starpod/layout';
 import { getShowInfo } from 'starpod/rss';
@@ -26,6 +27,19 @@ const countries = [
 ];
 
 const currentYear = new Date().getFullYear();
+
+const currentSponsorIds = ['pirsch', 'denver-and-liely'];
+const currentSponsors = currentSponsorIds.map(
+  (id) => sponsors.find((sponsor) => sponsor.id === id)!
+);
+const pastSponsors = sponsors.filter(
+  (sponsor) => !currentSponsorIds.includes(sponsor.id)
+);
+
+const sponsorLogos = import.meta.glob('/src/img/sponsors/*.svg', {
+  query: '?raw',
+  import: 'default'
+});
 ---
 
 <Layout title="Sponsor">
@@ -57,6 +71,58 @@ const currentYear = new Date().getFullYear();
       We're offering shared access to a {currentYear} tech audience through all the
       most popular channels.
     </p>
+
+    <section id="sponsors" class="mt-12 lg:mt-16">
+      <h2 class="section-heading">Currently sponsored by</h2>
+
+      <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {
+          currentSponsors.map((sponsor) => (
+            <a
+              href={sponsor.url}
+              target="_blank"
+              rel="noopener"
+              class="dark:border-dark-border flex items-center gap-4 rounded-xl border border-gray-200 p-5 transition-colors hover:border-[#8A63FF]/40 dark:hover:border-[#42C8F3]/40"
+            >
+              <span class="h-14 w-14 shrink-0 [&>svg]:h-full [&>svg]:w-full">
+                <Fragment
+                  set:html={sponsorLogos[`/src/img/sponsors/${sponsor.img}`]()}
+                />
+              </span>
+              <span class="text-light-text-heading text-xl font-bold dark:text-white">
+                {sponsor.name}
+              </span>
+            </a>
+          ))
+        }
+      </div>
+
+      <h3 class="section-heading mt-10">Past partners</h3>
+
+      <ul class="mt-6 flex flex-wrap gap-x-8 gap-y-6">
+        {
+          pastSponsors.map((sponsor) => (
+            <li>
+              <a
+                href={sponsor.url}
+                target="_blank"
+                rel="noopener"
+                class="text-light-text-heading flex items-center gap-3 font-semibold opacity-80 transition-opacity hover:opacity-100 dark:text-white"
+              >
+                <span class="h-9 w-9 shrink-0 [&>svg]:h-full [&>svg]:w-full">
+                  <Fragment
+                    set:html={sponsorLogos[
+                      `/src/img/sponsors/${sponsor.img}`
+                    ]()}
+                  />
+                </span>
+                {sponsor.name}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
 
     <h2
       class="text-light-text-heading mt-16 mb-4 text-2xl font-bold lg:mt-20 lg:mb-6 lg:text-5xl dark:text-white"
