@@ -15,7 +15,7 @@ export default [
     id: 'denver-and-liely',
     name: 'Denver & Liely',
     img: 'denver-and-liely.svg',
-    url: 'https://denverandliely.com/?utm_source=whiskey.fm&utm_medium=podcast'
+    url: 'https://us.denverandliely.com?sca_ref=11380845.Q6g3OQSQfE33QcHH'
   },
   {
     id: 'gitkraken',
